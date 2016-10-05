@@ -149,6 +149,10 @@ blockquote{
       font-size:18px;
 }
 
+audio{
+      width:100%;
+}
+
 footer{
        width:100%;
        float:left;
