@@ -3,7 +3,7 @@ body {
      margin:auto;
      font-family: 'Raleway', sans-serif;
      max-width:100%;
-     overflow-x:hidden;
+     width:1024px;
 }
 
 a,a:visited{
@@ -52,17 +52,17 @@ td{
 
 .quote1{
       background:lightgreen url('../img/quote.png') no-repeat bottom left 10px;
-      background-size:70px;
+      background-size:50px;
 }
 
 .quote2{
       background:lightblue url('../img/quote.png') no-repeat bottom left 10px;
-      background-size:70px;
+      background-size:50px;
 }
 
 .quote3{
       background:lightpink url('../img/quote.png') no-repeat bottom left 10px;
-      background-size:70px;
+      background-size:50px;
 }
 
 .quote-writer{
@@ -161,5 +161,42 @@ video{
 footer{
        width:100%;
        float:left;
-       padding:30px;
+}
+
+
+
+@media only screen and (max-width:900px){
+       
+       .quote1,.quote2,.quote3{
+             margin:10px 0;
+             background-image:none;
+       }
+       
+}
+
+@media only screen and (max-width:630px){
+       
+       
+       aside{
+             float:none;
+             width:100%;
+       }
+       
+       article{
+               float:none;
+             width:100%;
+       }
+       
+       section{
+               margin:10px 0;
+       }
+       
+       article{
+               padding-left:0;
+       }
+       
+}
+
+@media only screen and (max-width:480px){
+       
 }
