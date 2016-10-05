@@ -26,6 +26,16 @@ h4{
    margin-bottom:0;
 }
 
+table{
+      width:100%;
+      border-collapse:collapse;
+}
+
+td{
+      border-bottom:1px dashed black;
+      padding:10px;
+}
+
 .quote1{
       background:lightgreen;
 }
