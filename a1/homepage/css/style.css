@@ -18,7 +18,7 @@ p{
 
 h3,h4{
      font-family: 'Oswald', sans-serif;
-   color:salmon;
+   color:grey;
 }
 
 h4{
@@ -41,6 +41,8 @@ h4{
 .quote-writer{
      text-align:right;
      margin:20px;
+     color:rgba(0,0,0,0.4);
+     font-size:16px;
 }
 
 .title{
@@ -63,9 +65,22 @@ nav{
 
 section{
       margin:10px;
-      padding:15px;
-      background:rgba(0,0,0,0.1);
+      padding:0 0 5px 0;
+      background:rgba(0,0,0,0.05);
       border-radius:5px;
+}
+
+section h4{
+      text-align:center;
+      margin-top:0;
+      line-height:50px;
+      width:100%;
+      background:lightblue;
+      border-radius:5px 5px 0 0;
+}
+
+section p{
+      margin:20px;
 }
 
 article{
@@ -84,7 +99,11 @@ aside img{
 }
 
 blockquote{
+     font-family: 'Oswald', sans-serif;
       padding:20px;
+      color:rgba(0,0,0,0.5);
+      font-size:18px;
+      background:url('../img/quote.png') no-repeat bottom right;
 }
 
 footer{
