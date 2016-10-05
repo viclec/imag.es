@@ -51,15 +51,18 @@ td{
 }
 
 .quote1{
-      background:lightgreen;
+      background:lightgreen url('../img/quote.png') no-repeat bottom left 10px;
+      background-size:70px;
 }
 
 .quote2{
-      background:lightblue;
+      background:lightblue url('../img/quote.png') no-repeat bottom left 10px;
+      background-size:70px;
 }
 
 .quote3{
-      background:lightpink;
+      background:lightpink url('../img/quote.png') no-repeat bottom left 10px;
+      background-size:70px;
 }
 
 .quote-writer{
@@ -113,6 +116,17 @@ section p{
       margin:20px;
 }
 
+figure{
+       font-style:italic;
+       text-align:center;
+       font-size:14px;
+}
+
+figure img{
+       max-width:100%;
+       margin-top:20px;
+}
+
 article{
       width:68%;
       float:left;
@@ -133,7 +147,6 @@ blockquote{
       padding:20px;
       color:rgba(0,0,0,0.5);
       font-size:18px;
-      background:url('../img/quote.png') no-repeat bottom right;
 }
 
 footer{
