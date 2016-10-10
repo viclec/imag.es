@@ -11,17 +11,28 @@ body {
 
 header{
        line-height:100px;
+       float:left;
+       width:60%;
      font-family: 'Lobster', cursive;
      color:#fff;
+       line-height:100px;
      text-shadow:2px 2px indigo;
 }
 
 nav{
+    float:right;
+       width:40%;
+       line-height:100px;
+}
 
+nav li{
+    display:inline-block;
+    padding:20px;
 }
 
 article{
-
+        width:100%;
+       float:left;
 }
 
 em{
