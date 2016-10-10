@@ -3,6 +3,8 @@
 
 body {
      margin:auto;
+     font-family: 'Abel', sans-serif;
+     font-size:20px;
 }
 
 header{
@@ -17,6 +19,11 @@ article{
 
 }
 
+em{
+     font-family: 'Lobster', cursive;
+     font-size:20px;
+}
+
 .tile{
      max-width:140px; 
      max-height:140px;
@@ -27,13 +34,21 @@ article{
      color:rgba(0,0,0,0);
 }
 
+.caption{
+     margin-top:50px;
+     text-align:center;
+     width:140px;
+     font-weight:400;
+     position:absolute;
+}
+
 .tile:hover{
-     color:black;
+     color:white;
+     text-shadow:1px 1px black;
 }
 
 .tile img{
       max-width:100%;
-     line-height:140px;
 }
 
 footer{
