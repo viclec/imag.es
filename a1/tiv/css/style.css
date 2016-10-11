@@ -36,11 +36,12 @@ h3{
 
 a,a:visited{
             color:#aaa;
+            text-decoration:none;
+            transition: all 0.8s ease;
 }
 
 a:hover{
         color:lightgreen;
-        text-decoration:underline;
 }
 
 header{
@@ -100,9 +101,9 @@ em{
 }
 
 .tile:hover{
-     color:white;
+     color:#fff;
      text-shadow:1px 1px black;
-      opacity:0.8;
+      opacity:0.5;
 }
 
 .tile img{
