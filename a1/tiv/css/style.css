@@ -81,7 +81,7 @@ em{
 }
 
 .tile{
-      transition: all 0.5s ease;
+     transition: all 1s ease;
      max-width:140px; 
      max-height:140px;
      margin:2px;
@@ -90,6 +90,10 @@ em{
      float:left;
      color:rgba(0,0,0,0);
      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.tile div{
+      z-index:-1;
 }
 
 .caption{
@@ -103,7 +107,15 @@ em{
 .tile:hover{
      color:#fff;
      text-shadow:1px 1px black;
+}
+
+.tile:hover img{
       opacity:0.5;
+}
+
+.tile:hover div{
+      z-index:1;
+      opacity:1;
 }
 
 .tile img{
