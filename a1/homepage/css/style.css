@@ -6,6 +6,8 @@ body {
      padding:10px;
 }
 
+
+/*child of body that contains the content*/
 .container{
      width:1024px;
      margin:auto;
@@ -61,6 +63,8 @@ td{
       padding:10px;
 }
 
+
+/*each quote has different background color*/
 .quote1{
       background:lightgreen url('../img/quote.png') no-repeat bottom left 10px;
       background-size:50px;
@@ -76,6 +80,8 @@ td{
       background-size:50px;
 }
 
+
+/*the composer of each quote*/
 .quote-writer{
      text-align:right;
      margin:20px;
@@ -83,6 +89,8 @@ td{
      font-size:16px;
 }
 
+
+/*title of website*/
 .title{
       margin:0;
      font-family: 'Oswald', sans-serif;
@@ -90,12 +98,16 @@ td{
       padding:20px;
 }
  
+
+/*menu of website*/
 nav{
       text-align:center;
       background:#ddd;
       line-height: 40px;
-      border-radius:10px;
       color:#888;
+    border-radius: 5px;
+      margin:10px;
+      font-size:18px;
 }
 
 nav a{
@@ -106,16 +118,13 @@ nav a:hover{
     color: #222;
 }
 
-.subtitle{
-      margin:10px;
-      font-size:18px;
-}
-
-.subtitle li{
+nav li{
       display:inline;
       margin:0 20px;
 }
 
+
+/*children of article that containes each activity*/
 section{
       margin:10px;
       padding:0 0 5px 0;
@@ -138,6 +147,8 @@ section p{
       margin:20px;
 }
 
+
+/*photos*/
 figure{
        font-style:italic;
        text-align:center;
@@ -161,6 +172,8 @@ video{
       width: 100%;
 }
 
+
+/*side container*/
 aside{
       width:30%;
       float:right;
@@ -170,6 +183,8 @@ aside img{
       width:100%;
 }
 
+
+/*inspirational quotes*/
 blockquote{
      font-family: 'Oswald', sans-serif;
       padding:20px;
@@ -193,6 +208,8 @@ footer{
 
 
 
+
+/*for screens narrower than 900px*/
 @media only screen and (max-width:900px){
        
        .quote1,.quote2,.quote3{
@@ -202,6 +219,8 @@ footer{
        
 }
 
+
+/*for screens narrower than 630px*/
 @media only screen and (max-width:630px){
        
        
@@ -222,9 +241,5 @@ footer{
        article{
                padding-left:0;
        }
-       
-}
-
-@media only screen and (max-width:480px){
        
 }
