@@ -1,0 +1,192 @@
+body {
+     margin:auto;
+     font-family: 'Abel', sans-serif;
+     font-size:20px;
+     background:#333;
+    background-repeat: repeat;
+    background-image: url(../images/bg.png);
+     max-width:1200px;
+     color:#aaa;
+     text-align:justify;
+       width:80%;
+       padding:30px 10%;
+}
+
+h1{
+       height:30px;
+       font-family: 'Lobster', cursive;
+       color:salmon;
+       margin:5px;
+}
+
+h2{
+   text-shadow:2px 2px black;
+   margin-bottom:0;
+   color:lightblue;
+}
+
+p{
+  padding:10px;
+}
+
+h3{
+   font-size:16px;
+   margin:0;
+}
+
+a,a:visited{
+            color:#aaa;
+            text-decoration:none;
+            transition: all 0.8s ease;
+}
+
+a:hover{
+        color:lightgreen;
+}
+
+header{
+       line-height:100px;
+       float:left;
+       width:60%;
+       height:50px;
+       text-shadow:2px 2px #000;
+}
+
+
+/*menu of website*/
+nav{
+       font-family: 'Lobster', cursive;
+       float:right;
+       width:40%;
+       line-height:50px;
+       font-size:22px;
+}
+
+nav ul{
+    text-align:center;
+}
+
+nav li{
+    text-align:center;
+    display:inline-block;
+    padding:10px;
+}
+
+article{
+        width:100%;
+       float:left;
+}
+
+em{
+     font-family: 'Lobster', cursive;
+     font-size:20px;
+}
+
+
+/*each photo with the caption*/
+.tile{
+     transition: all 1s ease;
+     max-width:140px; 
+     max-height:140px;
+     margin:2px;
+     padding:2px;
+     border:1px solid black;
+     float:left;
+     color:rgba(0,0,0,0);
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+/*hides caption*/
+.tile div{
+      z-index:-1;
+}
+
+.caption{
+     margin-top:50px;
+     text-align:center;
+     width:140px;
+     font-weight:400;
+     position:absolute;
+}
+
+.tile:hover{
+     color:#fff;
+     text-shadow:1px 1px black;
+}
+
+
+/*effect*/
+.tile:hover img{
+      opacity:0.5;
+}
+
+
+/*displays the caption*/
+.tile:hover div{
+      z-index:1;
+      opacity:1;
+}
+
+.tile img{
+      max-width:100%;
+}
+
+#pathexplorer{
+    padding: 5% 5%;
+    width: 10%;
+    border: 10px solid rgba(255,255,255,0.1);
+    text-align: center;
+    margin: 0 40%;
+    align-self: center;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+     text-shadow:1px 1px black;
+     transition: all 1s ease;
+}
+
+#pathexplorer img{
+    width: 100px;
+}
+
+#pathexplorer:hover{
+    background: rgba(255,255,255,0.2);
+}
+
+#images{
+    min-height: 500px;
+    text-align: center;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    justify-content: flex;
+}
+
+footer{
+       float:left;
+       width:80%;
+       padding:30px 10%;
+       margin-bottom:30px;
+       background:rgba(0,0,0,0.5);
+}
+
+
+/*screen sizes narrower than 1000px*/
+@media only screen and (max-width:1000px){
+       header{
+              width:100%;
+       }
+       
+       nav{
+           width:100%;
+           float:left;
+           margin-top:20px;
+       }
+}
+
+
+/*screen sizes narrower than 400px*/
+@media only screen and (max-width:400px){
+       h3{
+          display:none;
+       }
+ }
