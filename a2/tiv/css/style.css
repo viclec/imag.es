@@ -107,6 +107,7 @@ em{
      margin-top:50px;
      text-align:center;
      width:140px;
+    overflow-x: hidden;
      font-weight:400;
      position:absolute;
 }
