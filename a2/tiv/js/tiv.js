@@ -3,6 +3,13 @@ function TIV3449() {
     
     var images = [];
     
+    function showImageDetailedExifInfo(index, elem) {
+        var image = images[index];
+        EXIF.getData(image, function() {
+            document.getElementById('exif').innerHTML = EXIF.pretty(this);
+        });
+    }
+    
     function showImage(index, elem) {
         var image = images[index], span, button, reader;
         document.getElementById('list').innerHTML = [];
@@ -16,12 +23,13 @@ function TIV3449() {
         reader.onload = (function (image) {
             return function (e) {
                 span = document.createElement('span');
-                span.className = "fullsize";
-                span.innerHTML = ['<img src="', e.target.result, '" title="', escape(image.name), '"><div class="exif">',image.name ,'</div>'].join('');
+                span.id = "fullsize";
+                span.innerHTML = ['<img src="', e.target.result, '" title="', escape(image.name), '"><div id="exif"></div><div id="title"></div>'].join('');
                 document.getElementById(elem).insertBefore(span, null);
             };
         })(image);
         reader.readAsDataURL(image);
+        showImageDetailedExifInfo(index, elem);
     }
 
     function showLoadedImages(elem) {
@@ -65,10 +73,6 @@ function TIV3449() {
             alert("No images found. Try another directory.");
             // add code
         }
-    }
-    
-    function showImageDetailedExifInfo(index, elem) {
-        
     }
     
     function showImageDetailedExifWithMap(index, elem) {

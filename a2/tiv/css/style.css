@@ -116,6 +116,7 @@ em{
 .tile:hover{
      color:#fff;
      text-shadow:1px 1px black;
+    cursor: pointer;
 }
 
 
@@ -166,19 +167,19 @@ em{
     justify-content: flex;
 }
 
-.fullsize{
-    float: left;
+#fullsize{
+   float: left;
     width: 100%;
     background: rgba(0,0,0,0.5);
 }
 
-.fullsize img{
-    max-width: 80%;
+#fullsize img{
+    max-width: 70%;
 }
 
-.exif{
+#exif{
     float: right;
-    width: 20%;
+    width: 30%;
     background: rgba(0,0,0,0.5);
     color:rgba(255,255,255,0.8);
     height: 100%;
