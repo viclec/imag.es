@@ -4,13 +4,19 @@ function TIV3449() {
     var images = [];
     
     function showImage(index, elem) {
-        var image = images[index], reader, span;
-        document.getElementsByClassName("tile").style.display = "none";
+        var image = images[index], span, button, reader;
+        document.getElementById('list').innerHTML = [];
+        button = document.createElement('span');
+        button.onclick = function () {
+            showLoadedImages(elem);
+        }
+        button.innerHTML = ['<button>Go Back</button>'];
+        document.getElementById('list').insertBefore(button, null);
         reader = new FileReader();
         reader.onload = (function (image) {
             return function (e) {
                 span = document.createElement('span');
-                span.className = "fullview";
+                span.className = "fullsize";
                 span.innerHTML = ['<img src="', e.target.result, '" title="', escape(image.name), '">'].join('');
                 document.getElementById(elem).insertBefore(span, null);
             };
@@ -26,10 +32,14 @@ function TIV3449() {
             file = images[i];
             reader = new FileReader();
             reader.onload = (function (file) {
+                var j = i;
                 return function (e) {
                     span = document.createElement('span');
                     span.className = "tile";
-                    span.innerHTML = ['<div class="caption"><em>', file.name, '</em><br><small>Artist</small></div><img onclick="showImage(', i, ',', elem, ')" src="', e.target.result, '" title="', escape(file.name), '">'].join('');
+                    span.onclick = function () {
+                        showImage(j, elem);
+                    };
+                    span.innerHTML = ['<div class="caption"><em>', file.name, '</em><br><small>', file.name, '</small></div><img src="', e.target.result, '" title="', escape(file.name), '">'].join('');
                     document.getElementById(elem).insertBefore(span, null);
                 };
             })(file);
@@ -52,7 +62,8 @@ function TIV3449() {
         if (images.length > 0) {
             showLoadedImages("list");
         } else {
-            alert("No images found.");
+            alert("No images found. Try another directory.");
+            // add code
         }
     }
     
