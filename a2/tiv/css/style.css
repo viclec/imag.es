@@ -89,6 +89,7 @@ em{
      max-width:140px; 
      max-height:140px;
      margin:2px;
+    display: flex;
      padding:2px;
      border:1px solid black;
      float:left;
@@ -105,7 +106,7 @@ em{
 .caption{
      margin-top:50px;
      text-align:center;
-     width:140px;
+     max-width:140px;
      font-weight:400;
      position:absolute;
 }
@@ -129,7 +130,8 @@ em{
 }
 
 .tile img{
-      max-width:100%;
+    max-width: 140px;
+     max-height:140px;
 }
 
 #pathexplorer{
