@@ -15,7 +15,7 @@ body {
 h1{
        height:30px;
        font-family: 'Lobster', cursive;
-       color:salmon;
+       color:rgba(255,122,11,1);;
        margin:5px;
 }
 
@@ -170,12 +170,11 @@ em{
 #fullsize{
     width: 100%;
     background: rgba(0,0,0,0.5);
-    display: list-item;
 }
 
 #fullsize img{
    float: left;
-    max-width: 70%;
+    width: 70%;
 }
 
 #title{
@@ -189,6 +188,9 @@ em{
 }
 
 #exif{
+}
+
+aside{
     float: right;
     width: 25%;
     background: rgba(0,0,0,0.5);
@@ -200,12 +202,24 @@ em{
     padding: 20px 2.5%;
 }
 
+#map {
+    margin: 20px 0;
+    height: 300px;
+    width: 100%;
+}
+
 footer{
        float:left;
        width:80%;
        padding:30px 10%;
        margin-bottom:30px;
        background:rgba(0,0,0,0.5);
+}
+
+button{
+    width: 100%;
+    line-height: 40px;
+    font-size: 16px;
 }
 
 
@@ -221,7 +235,7 @@ footer{
            margin-top:20px;
        }
     
-    #title, #exif{
+    #title, aside{
         width: 95%;
         padding: 20px 2.5%;
     }

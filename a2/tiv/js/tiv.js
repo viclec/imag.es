@@ -3,11 +3,26 @@ function TIV3449() {
     
     var images = [];
     
+    function showImageDetailedExifWithMap(index, elem) {
+        var uluru, map, marker, image;
+        image = images[index];
+        uluru = {lat: -25.363, lng: 131.044};
+        map = new google.maps.Map(document.getElementById(elem), {
+            zoom: 4,
+            center: uluru
+        });
+        marker = new google.maps.Marker({
+            position: uluru,
+            map: map
+        });
+    }
+    
     function showImageDetailedExifInfo(index, elem) {
         var image = images[index];
-        EXIF.getData(image, function() {
-            document.getElementById('exif').innerHTML = EXIF.pretty(this);
+        EXIF.getData(image, function () {
+            document.getElementById(elem).innerHTML = EXIF.pretty(this);
         });
+        showImageDetailedExifWithMap(index, 'map');
     }
     
     function showImage(index, elem) {
@@ -16,7 +31,7 @@ function TIV3449() {
         button = document.createElement('span');
         button.onclick = function () {
             showLoadedImages(elem);
-        }
+        };
         button.innerHTML = ['<button>Go Back</button>'];
         document.getElementById('list').insertBefore(button, null);
         reader = new FileReader();
@@ -24,12 +39,12 @@ function TIV3449() {
             return function (e) {
                 span = document.createElement('span');
                 span.id = "fullsize";
-                span.innerHTML = ['<img src="', e.target.result, '" title="', escape(image.name), '"><div id="title">', image.name, '</div><div id="exif"></div>'].join('');
+                span.innerHTML = ['<img src="', e.target.result, '" title="', escape(image.name), '"><div id="title">', image.name, '</div><aside><div id="map"></div><div id="exif"></div></aside>'].join('');
                 document.getElementById(elem).insertBefore(span, null);
+                showImageDetailedExifInfo(index, 'exif');
             };
         })(image);
         reader.readAsDataURL(image);
-        showImageDetailedExifInfo(index, elem);
     }
 
     function showLoadedImages(elem) {
@@ -73,10 +88,6 @@ function TIV3449() {
             alert("No images found. Try another directory.");
             // add code
         }
-    }
-    
-    function showImageDetailedExifWithMap(index, elem) {
-        
     }
     
     this.onload = loadImages();
