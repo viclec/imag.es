@@ -24,7 +24,7 @@ function TIV3449() {
             return function (e) {
                 span = document.createElement('span');
                 span.id = "fullsize";
-                span.innerHTML = ['<img src="', e.target.result, '" title="', escape(image.name), '"><div id="exif"></div><div id="title"></div>'].join('');
+                span.innerHTML = ['<img src="', e.target.result, '" title="', escape(image.name), '"><div id="title">', image.name, '</div><div id="exif"></div>'].join('');
                 document.getElementById(elem).insertBefore(span, null);
             };
         })(image);
