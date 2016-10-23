@@ -1,12 +1,14 @@
 function TIV3449() {
     "use strict";
+    
+    var images = [];
 
     function showLoadedImages(elem) {
         var i, span,  reader, file;
         document.getElementById("list").style.display = "inline";
         document.getElementById('list').innerHTML = [];
-        for (i = 0; i < elem.length; i = i + 1) {
-            file = elem[i];
+        for (i = 0; i < images.length; i = i + 1) {
+            file = images[i];
             reader = new FileReader();
             reader.onload = (function (file) {
                 return function (e) {
@@ -22,20 +24,17 @@ function TIV3449() {
     }
 
     function getLoadedImages() {
-        return {
-            
-        };
+        return images;
     }
     
     function loadImages() {
-        var files = document.getElementById('images').files, i, file, reader, images = [];
+        var files = document.getElementById('images').files, i, file, reader;
         for (i = 0; i < files.length; i = i + 1) {
             file = files[i];
             if (file.name.endsWith(".jpg") || file.name.endsWith(".gif") || file.name.endsWith(".png")) {
                 images.push(file);
             }
         }
-        alert("Found " + images.length + " images.");
         if (images.length > 0) {
             showLoadedImages(images);
         }
