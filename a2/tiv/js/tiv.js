@@ -4,16 +4,26 @@ function TIV3449() {
     var images = [];
     
     function showImageDetailedExifWithMap(index, elem) {
-        var uluru, map, marker, image;
+        var uluru, map, marker, image, latitude, longitude;
         image = images[index];
-        uluru = {lat: -25.363, lng: 131.044};
-        map = new google.maps.Map(document.getElementById(elem), {
-            zoom: 4,
-            center: uluru
-        });
-        marker = new google.maps.Marker({
-            position: uluru,
-            map: map
+        EXIF.getData(image, function () {
+            latitude = EXIF.getTag(image, "GPSLatitude")[0] + (60 * EXIF.getTag(image, "GPSLatitude")[1] + EXIF.getTag(image, "GPSLatitude")[2]) / 3600;
+            longitude = EXIF.getTag(image, "GPSLongitude")[0] + (60 * EXIF.getTag(image, "GPSLongitude")[1] +  EXIF.getTag(image, "GPSLongitude")[2]) / 3600;
+            if (EXIF.getTag(image, "GPSLatitudeRef") === "S") {
+                latitude = latitude * (-1);
+            } else if (EXIF.getTag(image, "GPSLongitudeRef") === "W") {
+                longitude = longitude * (-1);
+            }
+            alert(latitude + "\n" + longitude);
+            uluru = {lat: latitude, lng: longitude};
+            map = new google.maps.Map(document.getElementById(elem), {
+                zoom: 4,
+                center: uluru
+            });
+            marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+            });
         });
     }
     
