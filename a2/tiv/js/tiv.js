@@ -6,6 +6,9 @@ function TIV3449() {
     function showImageDetailedExifWithMap(index, elem) {
         var uluru, map, marker, image, latitude, longitude;
         image = images[index];
+        if (EXIF.getTag(image, "GPSLatitude") === undefined || EXIF.getTag(image, "GPSLongitude") === undefined) {
+            return;
+        }
         EXIF.getData(image, function () {
             latitude = EXIF.getTag(image, "GPSLatitude")[0] + (60 * EXIF.getTag(image, "GPSLatitude")[1] + EXIF.getTag(image, "GPSLatitude")[2]) / 3600;
             longitude = EXIF.getTag(image, "GPSLongitude")[0] + (60 * EXIF.getTag(image, "GPSLongitude")[1] +  EXIF.getTag(image, "GPSLongitude")[2]) / 3600;
@@ -14,7 +17,6 @@ function TIV3449() {
             } else if (EXIF.getTag(image, "GPSLongitudeRef") === "W") {
                 longitude = longitude * (-1);
             }
-            alert(latitude + "\n" + longitude);
             uluru = {lat: latitude, lng: longitude};
             map = new google.maps.Map(document.getElementById(elem), {
                 zoom: 4,
@@ -49,7 +51,7 @@ function TIV3449() {
             return function (e) {
                 span = document.createElement('span');
                 span.id = "fullsize";
-                span.innerHTML = ['<img src="', e.target.result, '" title="', escape(image.name), '"><div id="title">', image.name, '</div><aside><div id="map"></div><div id="exif"></div></aside>'].join('');
+                span.innerHTML = ['<img src="', e.target.result, '" title="', escape(image.name), '"><div id="title">', image.name, '</div><aside><div id="exif"></div><div id="map"></div></aside>'].join('');
                 document.getElementById(elem).insertBefore(span, null);
                 showImageDetailedExifInfo(index, 'exif');
             };

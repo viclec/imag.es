@@ -152,7 +152,8 @@ em{
 }
 
 #pathexplorer img{
-    width: 100px;
+    width: 100%;
+    max-width: 100px;
 }
 
 #pathexplorer:hover{
@@ -188,6 +189,7 @@ em{
 }
 
 #exif{
+    white-space: pre-wrap;
 }
 
 aside{
