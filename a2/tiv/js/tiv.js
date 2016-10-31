@@ -3,6 +3,7 @@ function TIV3449() {
     
     var images = [];
     
+    //shows the map with the coordinates of the photo where it was taken
     function showImageDetailedExifWithMap(index, elem) {
         var uluru, map, marker, image, latitude, longitude;
         image = images[index];
@@ -29,6 +30,9 @@ function TIV3449() {
         });
     }
     
+    
+    //shows detailed exif information about the image
+    //if the photo doesn't contain any exif information the method returns
     function showImageDetailedExifInfo(index, elem) {
         var image = images[index];
         EXIF.getData(image, function () {
@@ -37,6 +41,7 @@ function TIV3449() {
         showImageDetailedExifWithMap(index, 'map');
     }
     
+    //displays the image in a larger scale along with it's EXIF info and geolocation
     function showImage(index, elem) {
         var image = images[index], span, button, reader;
         document.getElementById('list').innerHTML = [];
@@ -58,7 +63,8 @@ function TIV3449() {
         })(image);
         reader.readAsDataURL(image);
     }
-
+    
+    //displays the loaded images, elements of array images[]
     function showLoadedImages(elem) {
         var i, span,  reader, file;
         document.getElementById(elem).style.display = "inline";
@@ -81,11 +87,13 @@ function TIV3449() {
             reader.readAsDataURL(file);
         }
     }
-
+    
+    //returns the array with the loaded images
     function getLoadedImages() {
         return images;
     }
     
+    //loads the images of the selected folder
     function loadImages() {
         var files = document.getElementById('images').files, i, file, reader;
         for (i = 0; i < files.length; i = i + 1) {
@@ -98,10 +106,10 @@ function TIV3449() {
             showLoadedImages("list");
         } else {
             alert("No images found. Try another directory.");
-            // add code
         }
     }
     
-    this.onload = loadImages();
+    //starts the excecution of the function
+    loadImages();
     
 }

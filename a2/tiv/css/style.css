@@ -138,6 +138,7 @@ em{
     object-fit: cover;
 }
 
+/*main screen - path selector*/
 #pathexplorer{
     padding: 5% 5%;
     width: 10%;
@@ -168,6 +169,7 @@ em{
     justify-content: flex;
 }
 
+/*style for enlarged image*/
 #fullsize{
     width: 100%;
     background: rgba(0,0,0,0.5);
@@ -192,6 +194,7 @@ em{
     white-space: pre-wrap;
 }
 
+/*exif info and map container*/
 aside{
     float: right;
     width: 25%;
@@ -218,6 +221,7 @@ footer{
        background:rgba(0,0,0,0.5);
 }
 
+/*go back button style*/
 button{
     width: 100%;
     line-height: 40px;
