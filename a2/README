@@ -2,8 +2,10 @@ CSD3449 - Victor Lecomte
 Assignment 2
 
 TIV:
-    Warning: Map takes it's time to load.
-    In other news it's functioning as it should. Use the 'Go Back' button in order to go back to the previous directory. If you want to change directory just refresh the page.
+    Warning: In order to load the map you have to choose a photo, go back and choose it again. Once it loads for the first photo the map loads for all of them.
+    
+    In other news the TIV is functioning as it should. Use the 'Go Back' button in order to go back to the previous directory. If you want to change directory just refresh the page.
     
 multiFilter:
+    Prints the results as indicated in the comments.
     
