@@ -9,7 +9,7 @@ var originalArray = currentArray;
 		return currentArray;
 	}
 // Filter out things
-// TO COMPLETE!
+	currentArray = currentArray.filter(pred);
 // If callback is a function, execute callback
 // TO COMPLETE TOGETHER!
 // TO COMPLETE TOGETHER!
