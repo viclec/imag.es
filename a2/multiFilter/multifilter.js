@@ -1,20 +1,19 @@
 function makeMultiFilter(array) {
     'use strict';
     // What we track
-var currentArray = array;
-var originalArray = currentArray;
+    var currentArray = array, originalArray = currentArray;
     return (function arrayFilterer(pred, callback) {
-// If filter not a function return current Array
-	if(typeof(pred)!=="function"){
-		return currentArray;
-	}
-// Filter out things
-	currentArray = currentArray.filter(pred);
-// If callback is a function, execute callback
-	if(typeof(callback)==="function"){
-		callback.call(array,currentArray);
-	}
-	return makeMultiFilter(currentArray);
+    // If filter not a function return current Array
+        if (typeof (pred) !== "function") {
+            return currentArray;
+        }
+    // Filter out things
+        currentArray = currentArray.filter(pred);
+    // If callback is a function, execute callback
+        if (typeof (callback) === "function") {
+            callback.call(array, currentArray);
+        }
+        return makeMultiFilter(currentArray);
     });
 }
 // !!! THE CODE THAT FOLLOWS USES THE makeMultiFilter function
