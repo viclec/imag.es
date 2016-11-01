@@ -11,8 +11,9 @@ var originalArray = currentArray;
 // Filter out things
 	currentArray = currentArray.filter(pred);
 // If callback is a function, execute callback
-// TO COMPLETE TOGETHER!
-// TO COMPLETE TOGETHER!
+	if(typeof(callback)==="function"){
+		callback.call(array,currentArray);
+	}
 // TO COMPLETE! We have to return something!
     });
 }
