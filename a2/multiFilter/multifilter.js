@@ -14,7 +14,7 @@ var originalArray = currentArray;
 	if(typeof(callback)==="function"){
 		callback.call(array,currentArray);
 	}
-// TO COMPLETE! We have to return something!
+	return makeMultiFilter(currentArray);
     });
 }
 // !!! THE CODE THAT FOLLOWS USES THE makeMultiFilter function
