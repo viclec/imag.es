@@ -2,7 +2,7 @@ function makeMultiFilter(array) {
     'use strict';
     // What we track
 var currentArray = array;
-// TO COMPLETE!
+var originalArray = currentArray;
     return (function arrayFilterer(pred, callback) {
 // If filter not a function return current Array
 // TO COMPLETE TOGETHER!
