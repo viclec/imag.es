@@ -5,8 +5,9 @@ var currentArray = array;
 var originalArray = currentArray;
     return (function arrayFilterer(pred, callback) {
 // If filter not a function return current Array
-// TO COMPLETE TOGETHER!
-// TO COMPLETE TOGETHER!
+	if(typeof(pred)!=="function"){
+		return currentArray;
+	}
 // Filter out things
 // TO COMPLETE!
 // If callback is a function, execute callback
