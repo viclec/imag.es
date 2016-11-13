@@ -718,6 +718,46 @@ public class MyServlet extends HttpServlet {
                 + "            </div>\n"
                 + "        </div>";
     }
+    private String printLoggedIn() {
+        return "<select onchange='loggedIn(this.value);'>"
+                + "<option hidden selected>"
+                + CurrentUser.getUserName()
+                + "</option>"
+                + "<option value='profile'>My Profile</option>"
+                + "<option value='users'>All Users</option>"
+                + "<option value='logout'><button onclick='logout();'>Logout</button></option>"
+                + "</select>";
+    }
+
+    private boolean validPassword(String s) {
+        String n = ".*[0-9].*";
+        String a = ".*[a-zA-Z].*";
+        return s.matches(n) && s.matches(a);
+    }
+
+    private boolean validName(String name) {
+        return name.matches("[a-zA-Z]+");
+    }
+
+    private String loggedInStatus(String status) {
+        int i;
+        String ret = "";
+        if (status.equals("allusers")) {
+            ret+="<table id='allusers'>";
+            for (i = 0; i < users.size(); i++) {
+                ret += "<tr><td>"+users.get(i).toString()+"</td></tr>";
+            }
+            ret+="</table>";
+        } else if (status.equals("myprofile")) {
+            ret += printChangeInfo();
+            for (i = 0; i < users.size(); i++) {
+                if (users.get(i).getUserName().equals(CurrentUser.getUserName())) {
+                    ret += users.get(i).toString();
+                }
+            }
+        }
+        return ret;
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -737,8 +777,105 @@ public class MyServlet extends HttpServlet {
             String country = request.getParameter("country");
             String city = request.getParameter("city");
             String other = request.getParameter("other");
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("username".equals(cookie.getName())) {
+                        if ("logout".equals(status)) {
+                            cookie.setMaxAge(0);
+                            response.addCookie(cookie);
+                        }
+                        u = cookie.getValue();
+                    } else if ("password".equals(cookie.getName())) {
+                        if ("logout".equals(status)) {
+                            cookie.setMaxAge(0);
+                            response.addCookie(cookie);
+                        }
+                        p = cookie.getValue();
+                    }
+                }
+                if (u != null && p != null) {
+                    if ("logout".equals(status)) {
+                        out.println(printFormLogin());
+                        CurrentUser = null;
+                        out.println("Succesfully logged out.");
+                        return;
+                    }
+                    out.println(printLoggedIn());
+                    out.println("<h1>" + status + "</h1>");
+                    out.println(loggedInStatus(status));
+                    if (status.equals("updateInfo")) {
+                        int emailCountAt = email.length() - email.replaceAll("@", "").length();
+                        int emailCountDot = email.length() - email.replaceAll("\\.", "").length();
+                        if (user.length() < 8) {
+                            out.println(printChangeInfo());
+                            out.println("Invalid Username. It's length must be at least 8 characters.");
+                            return;
+                        } else if (emailCountAt != 1 || emailCountDot < 1) {
+                            out.println(printChangeInfo());
+                            out.println("Invalid email. It must contain exactly one @ symbol and at least one dot.");
+                            return;
+                        } else if (pass.length() < 6 || pass.length() > 10 || (!pass.contains("#") && !pass.contains("$") && !pass.contains("%") && !pass.contains("@")) || !validPassword(pass)) {
+                            out.println(printChangeInfo());
+                            out.println("Invalid Password.");
+                            return;
+                        } else if (fName.length() < 3 || fName.length() > 20 || !validName(fName)) {
+                            out.println(printChangeInfo());
+                            out.println("Invalid first name.");
+                            return;
+                        } else if (lName.length() < 3 || lName.length() > 20 || !validName(lName)) {
+                            out.println(printChangeInfo());
+                            out.println("Invalid last name.");
+                            return;
+                        } else if (false) {  //birthdate check code
+                            out.println(printChangeInfo());
+                            out.println("Invalid birthdate.");
+                            return;
+                        } else if (city.length() < 2 || city.length() > 50) {
+                            out.println(printChangeInfo());
+                            out.println("Invalid city.");
+                            return;
+                        } else if (other.length() > 500) {
+                            out.println(printChangeInfo());
+                            out.println("Error.");
+                            return;
+                        }
+                        out.println(bdate);
+                        CurrentUser.setUserName(user);
+                        CurrentUser.setEmail(email);
+                        CurrentUser.setPassword(pass);
+                        CurrentUser.setFirstName(fName);
+                        CurrentUser.setLastName(lName);
+                        CurrentUser.setBirthDate(bdate);
+                        CurrentUser.setSex(sex);
+                        CurrentUser.setCountry(country);
+                        CurrentUser.setCity(city);
+                        CurrentUser.setOtherInfo(other);
+                        out.println("User updated.");
+                    }
+                    return;
+                }
+            }
             if (status.equals("reglog")) {
                 out.println(printFormRegister());
+                return;
+            } else if ("login".equals(status)) {
+                for (i = 0; i < users.size(); i++) {
+                    if (users.get(i).getUserName() == null ? user == null : users.get(i).getUserName().equals(user) && (pass == null ? users.get(i).getPassword() == null : pass.equals(users.get(i).getPassword()))) {
+                        CurrentUser = users.get(i);
+                        Cookie username = new Cookie("username", user);
+                        username.setMaxAge(3600 * 24 * 365);
+                        response.addCookie(username);
+                        Cookie password = new Cookie("password", pass);
+                        password.setMaxAge(3600 * 24 * 365);
+                        response.addCookie(password);
+                        out.println("Welcome back " + user + ".");
+                        out.println(printLoggedIn());
+                        return;
+                    }
+                }
+                out.println(printFormLogin());
+                out.println("Username or email are incorrect.");
                 return;
             }
             int emailCountAt = email.length() - email.replaceAll("@", "").length();

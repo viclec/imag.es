@@ -65,3 +65,36 @@ function login() {
     };
     xhr.send(null);
 }
+
+function logout() {
+    'use strict';
+    var xhr = new XMLHttpRequest(),
+        params = "status=logout";
+    xhr.open('GET', 'MyServlet?' + params, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            document.getElementById('userForm')
+                    .innerHTML = xhr.responseText;
+        } else if (xhr.status !== 200) {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send(null);
+}
+
+function checkCookies() {
+    'use strict';
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'MyServlet', true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            document.getElementById('userForm')
+                    .innerHTML = xhr.responseText;
+        } else if (xhr.status !== 200) {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send(null);
+}
+
+window.onload = checkCookies;
