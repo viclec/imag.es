@@ -99,6 +99,53 @@ function changeInfo() {
     };
     xhr.send(null);
 }
+            
+function loggedIn(status) {
+    'use strict';
+    switch (status) {
+    case ("logout"):
+        logout();
+        break;
+    case ("users"):
+        allUsers();
+        break;
+    case ("profile"):
+        myProfile();
+        break;
+    }
+}
+            
+function allUsers() {
+    'use strict';
+    var xhr = new XMLHttpRequest(),
+        params = "status=allusers";
+    xhr.open('GET', 'MyServlet?' + params, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            document.getElementById('userForm')
+                    .innerHTML = xhr.responseText;
+        } else if (xhr.status !== 200) {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send(null);
+}
+
+function myProfile() {
+    'use strict';
+    var xhr = new XMLHttpRequest(),
+        params = "status=myprofile";
+    xhr.open('GET', 'MyServlet?' + params, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            document.getElementById('userForm')
+                    .innerHTML = xhr.responseText;
+        } else if (xhr.status !== 200) {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send(null);
+}
 
 function logout() {
     'use strict';
