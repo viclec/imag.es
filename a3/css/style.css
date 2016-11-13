@@ -9,3 +9,11 @@ input, select{
     margin: 5px 0;
     max-width: 200px;
 }
+
+input[type="text"]:disabled {
+    cursor: not-allowed;
+}
+
+#allusers tr{
+    border: 1px solid black;
+}
