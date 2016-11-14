@@ -1100,7 +1100,7 @@ public class MyServlet extends HttpServlet {
                             out.println(printChangeInfo());
                         out.println("<h1 class='failure'>Invalid last name.</h1>");
                             return;
-                        } else if (false) {  //birthdate check code
+                        } else if (bdate.equals("") || Integer.parseInt(bdate.substring(0,4)) > 2001) {
                             out.println(printChangeInfo());
                         out.println("<h1 class='failure'>Invalid birthdate.</h1>");
                             return;
@@ -1177,9 +1177,9 @@ public class MyServlet extends HttpServlet {
                 out.println(printFormRegister());
                         out.println("<h1 class='failure'>Invalid last name.</h1>");
                 return;
-            } else if (false) {  //birthdate check code
+            } else if (bdate.equals("") || Integer.parseInt(bdate.substring(0,4)) > 2001) {
                 out.println(printFormRegister());
-                        out.println("<h1 class='failure'>Invalid birthdate.</h1>");
+                        out.println("<h1 class='failure'>"+bdate+" Invalid birthdate.</h1>");
                 return;
             } else if (city.length() < 2 || city.length() > 50) {
                 out.println(printFormRegister());
