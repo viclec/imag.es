@@ -727,14 +727,14 @@ public class MyServlet extends HttpServlet {
                 undefined="checked='checked'";
                 break;
         }
-        return "<input placeholder='username' value='" + CurrentUser.getUserName() + "' id='user' type='text' name='user' required=\"required\" disabled><br>\n"
-                + "                <input placeholder='email' value='" + CurrentUser.getEmail() + "' id='email' type=\"email\" name='email' required=\"required\"><br>\n"
-                + "                <input placeholder='change password' value='" + CurrentUser.getPassword() + "' id='pass' type=\"text\" name='password' required=\"required\"><br>\n"
-                + "                <input placeholder='first name' value='" + CurrentUser.getFirstName() + "' id='fname' type=\"text\" name='firstName' required=\"required\"><br>\n"
-                + "                <input placeholder='last name' value='" + CurrentUser.getLastName() + "' id='lname' type=\"text\" name='lastName' required=\"required\"><br>\n"
+        return "<div class='tab-content'><label for='user'>username</label>\n<input placeholder='username' value='" + CurrentUser.getUserName() + "' id='user' type='text' name='user' required=\"required\" disabled><br>\n"
+                + "                <label for='email'>email</label>\n<input placeholder='email' value='" + CurrentUser.getEmail() + "' id='email' type=\"email\" name='email' required=\"required\"><br>\n"
+                + "                <label for='pass'>password</label>\n<input placeholder='change password' value='" + CurrentUser.getPassword() + "' id='pass' type=\"text\" name='password' required=\"required\"><br>\n"
+                + "                <label for='fname'>first name</label>\n<input placeholder='first name' value='" + CurrentUser.getFirstName() + "' id='fname' type=\"text\" name='firstName' required=\"required\"><br>\n"
+                + "                <label for='lname'>last name</label>\n<input placeholder='last name' value='" + CurrentUser.getLastName() + "' id='lname' type=\"text\" name='lastName' required=\"required\"><br>\n"
                 + "                <label for='bdate'>birth date:</label><br>\n"
                 + "                <input placeholder='birthdate' value='" + CurrentUser.getBirthDate()+ "' id='bdate' type=\"date\" name='birthDate' required=\"required\"><br>\n"
-                + "                <label for='sex'>sex:</label><br>\n"
+                + "                <label for='sex'>sex</label><br>\n"
                 + "                <label for='sex'>male</label>\n"
                 + "                <input id='sex_male' type=\"radio\" name='sex' value=\"male\" "+ male +">\n"
                 + "                <label for='sex'>female</label>\n"
@@ -992,14 +992,14 @@ public class MyServlet extends HttpServlet {
                 + "	<option value=\"ZMB\">Zambia</option>\n"
                 + "	<option value=\"ZWE\">Zimbabwe</option>\n"
                 + "</select><br>\n"
-                + "                <input placeholder='city' value='" + CurrentUser.getCity() + "' id='city' type=\"text\" name='city' required=\"required\"><br>\n"
-                + "                <input placeholder='other info' value='" + CurrentUser.getOtherInfo() + "' id='other' type=\"text\" name='other'><br>\n"
-                + "                <input type='button' value='Update Info' onclick='changeInfo();'><br>\n";
+                + "                <label for='city'>city</label>\n<input placeholder='city' value='" + CurrentUser.getCity() + "' id='city' type=\"text\" name='city' required=\"required\"><br>\n"
+                + "                <label for='other'>other info</label>\n<input placeholder='other info' value='" + CurrentUser.getOtherInfo() + "' id='other' type=\"text\" name='other'><br>\n"
+                + "                <input type='button' value='Update Info' onclick='changeInfo();'><br>\n</div>";
     }
 
     private String printLoggedIn() {
-        return "<select onchange='loggedIn(this.value);'>"
-                + "<option hidden selected>"
+        return "<select id='userMenu' onchange='loggedIn(this.value);'>"
+                + "<option hidden selected>Welcome, "
                 + CurrentUser.getUserName()
                 + "</option>"
                 + "<option value='profile'>My Profile</option>"
@@ -1022,18 +1022,13 @@ public class MyServlet extends HttpServlet {
         int i;
         String ret = "";
         if (status.equals("allusers")) {
-            ret+="<table id='allusers'>";
+            ret+="<div class='tab-content'><table id='allusers'>";
             for (i = 0; i < users.size(); i++) {
                 ret += "<tr><td>"+users.get(i).toString()+"</td></tr>";
             }
-            ret+="</table>";
+            ret+="</table></div>";
         } else if (status.equals("myprofile")) {
             ret += printChangeInfo();
-            for (i = 0; i < users.size(); i++) {
-                if (users.get(i).getUserName().equals(CurrentUser.getUserName())) {
-                    ret += users.get(i).toString();
-                }
-            }
         }
         return ret;
     }
@@ -1077,46 +1072,45 @@ public class MyServlet extends HttpServlet {
                     if ("logout".equals(status)) {
                         out.println(printFormLogin());
                         CurrentUser = null;
-                        out.println("Succesfully logged out.");
+                        out.println("<h1 class='success'>Succesfully logged out.</h1>");
                         return;
                     }
                     out.println(printLoggedIn());
-                    out.println("<h1>" + status + "</h1>");
                     out.println(loggedInStatus(status));
                     if (status.equals("updateInfo")) {
                         int emailCountAt = email.length() - email.replaceAll("@", "").length();
                         int emailCountDot = email.length() - email.replaceAll("\\.", "").length();
                         if (user.length() < 8) {
                             out.println(printChangeInfo());
-                            out.println("Invalid Username. It's length must be at least 8 characters.");
+                        out.println("<h1 class='failure'>Invalid username.</h1>");
                             return;
                         } else if (emailCountAt != 1 || emailCountDot < 1) {
                             out.println(printChangeInfo());
-                            out.println("Invalid email. It must contain exactly one @ symbol and at least one dot.");
+                        out.println("<h1 class='failure'>Invalid email.</h1>");
                             return;
                         } else if (pass.length() < 6 || pass.length() > 10 || (!pass.contains("#") && !pass.contains("$") && !pass.contains("%") && !pass.contains("@")) || !validPassword(pass)) {
                             out.println(printChangeInfo());
-                            out.println("Invalid Password.");
+                        out.println("<h1 class='failure'>Invalid password.</h1>");
                             return;
                         } else if (fName.length() < 3 || fName.length() > 20 || !validName(fName)) {
                             out.println(printChangeInfo());
-                            out.println("Invalid first name.");
+                        out.println("<h1 class='failure'>Invalid first name.</h1>");
                             return;
                         } else if (lName.length() < 3 || lName.length() > 20 || !validName(lName)) {
                             out.println(printChangeInfo());
-                            out.println("Invalid last name.");
+                        out.println("<h1 class='failure'>Invalid last name.</h1>");
                             return;
                         } else if (false) {  //birthdate check code
                             out.println(printChangeInfo());
-                            out.println("Invalid birthdate.");
+                        out.println("<h1 class='failure'>Invalid birthdate.</h1>");
                             return;
                         } else if (city.length() < 2 || city.length() > 50) {
                             out.println(printChangeInfo());
-                            out.println("Invalid city.");
+                        out.println("<h1 class='failure'>Invalid city.</h1>");
                             return;
                         } else if (other.length() > 500) {
                             out.println(printChangeInfo());
-                            out.println("Error.");
+                        out.println("<h1 class='failure'>Invalid message.</h1>");
                             return;
                         }
                         out.println(bdate);
@@ -1130,7 +1124,8 @@ public class MyServlet extends HttpServlet {
                         CurrentUser.setCountry(country);
                         CurrentUser.setCity(city);
                         CurrentUser.setOtherInfo(other);
-                        out.println("User updated.");
+                        out.println(printChangeInfo());
+                        out.println("<h1 class='success'>User info updated successfuly.</h1>");
                     }
                     return;
                 }
@@ -1148,64 +1143,63 @@ public class MyServlet extends HttpServlet {
                         Cookie password = new Cookie("password", pass);
                         password.setMaxAge(3600 * 24 * 365);
                         response.addCookie(password);
-                        out.println("Welcome back " + user + ".");
                         out.println(printLoggedIn());
                         return;
                     }
                 }
                 out.println(printFormLogin());
-                out.println("Username or email are incorrect.");
+                        out.println("<h1 class='failure'>Username or email are incorrect.</h1>");
                 return;
             }
             int emailCountAt = email.length() - email.replaceAll("@", "").length();
             int emailCountDot = email.length() - email.replaceAll("\\.", "").length();
             if (user.length() < 8) {
                 out.println(printFormRegister());
-                out.println("Invalid Username.");
+                        out.println("<h1 class='failure'>Invalid username.</h1>");
                 return;
             } else if (emailCountAt != 1 || emailCountDot < 1) {
                 out.println(printFormRegister());
-                out.println("Invalid email.");
+                        out.println("<h1 class='failure'>Invalid email.</h1>");
                 return;
             } else if (pass.length() < 6 || pass.length() > 10 || (!pass.contains("#") && !pass.contains("$") && !pass.contains("%") && !pass.contains("@")) || !validPassword(pass)) {
                 out.println(printFormRegister());
-                out.println("Invalid Password.");
+                        out.println("<h1 class='failure'>Invalid password.</h1>");
                 return;
             } else if (pass == null ? verify != null : !pass.equals(verify)) {
                 out.println(printFormRegister());
-                out.println("Passwords don't match!");
+                        out.println("<h1 class='failure'>Passwords doesn't match.</h1>");
                 return;
             } else if (fName.length() < 3 || fName.length() > 20 || !validName(fName)) {
                 out.println(printFormRegister());
-                out.println("Invalid first name.");
+                        out.println("<h1 class='failure'>Invalid first name.</h1>");
                 return;
             } else if (lName.length() < 3 || lName.length() > 20 || !validName(lName)) {
                 out.println(printFormRegister());
-                out.println("Invalid last name.");
+                        out.println("<h1 class='failure'>Invalid last name.</h1>");
                 return;
             } else if (false) {  //birthdate check code
                 out.println(printFormRegister());
-                out.println("Invalid birthdate.");
+                        out.println("<h1 class='failure'>Invalid birthdate.</h1>");
                 return;
             } else if (city.length() < 2 || city.length() > 50) {
                 out.println(printFormRegister());
-                out.println("Invalid city.");
+                        out.println("<h1 class='failure'>Invalid password.</h1>");
                 return;
             } else if (other.length() > 500) {
                 out.println(printFormRegister());
-                out.println("Error.");
+                        out.println("<h1 class='failure'>Invalid message.</h1>");
                 return;
             }
             for (i = 0; i < users.size(); i++) {
                 if ((users.get(i).getUserName() == null ? user == null : users.get(i).getUserName().equals(user)) || (users.get(i).getEmail().equals(email))) {
                     out.println(printFormRegister());
-                    out.println("Username or email already exists.");
+                        out.println("<h1 class='failure'>Username or email already exist.</h1>");
                     return;
                 }
             }
             new user(user, email, pass, fName, lName, bdate, sex, country, city, other);
-            out.println("<h1>" + user + " you succesfully signed up!</h1>");
             out.println(printFormLogin());
+            out.println("<h1 class='success'>" + user + " you succesfully signed up!</h1>");
         }
     }
 

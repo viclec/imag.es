@@ -1,17 +1,67 @@
+/* 
+    Created on : Nov 8, 2016, 3:02:44 PM
+    Author     : viclec
+*/
+
 body{
-    max-width: 1200px;
+    text-align: center;
+    background-color: #333;
+    background-image: url(bg.png);
+}
+
+h1{
+    margin: 0;
+    padding: 10px 0;
+    font-size: 16px;
+}
+
+a{
+    color: #fff;
+}
+
+#userForm{
+    max-width: 500px;
     margin: 0 auto;
     text-align: center;
+    padding: 20px;
+}
+
+.success{
+    width: 100%;
+    color: #fff;
+    background: greenyellow;
+}
+
+.failure{
+    width: 100%;
+    color: #fff;
+    background: red;
+}
+
+.tab-content{
+    padding: 20px;
+    background: #fff;
 }
 
 input, select{
     padding: 15px;
-    margin: 5px 0;
-    max-width: 200px;
+    width: 100%;
 }
 
 input[type="text"]:disabled {
     cursor: not-allowed;
+}
+
+input[type="radio"] {
+    width: 30px;
+}
+
+#userMenu{
+    background: #ddd;
+}
+
+#logout{
+    display: none;
 }
 
 #allusers tr{
