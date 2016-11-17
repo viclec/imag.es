@@ -1,0 +1,7 @@
+csd3449 - Victor Lecomte
+
+XSS attack example:
+As username the following div
+<div onmouseover='alert("XSS")'>albert</div>
+
+Which will alert <<XSS>> each time you move your cursor over it.

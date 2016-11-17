@@ -714,6 +714,14 @@ public class MyServlet extends HttpServlet {
                 + "        </div>";
     }
 
+    
+    
+    /*
+    *   XSS ATTACK
+    *   A really simple example of an XSS attack on my webpage:
+    *   username filled with the following html code
+    *   <div onmouseover='alert("XSS")'>username</div>
+    */
     private String printChangeInfo() {
         String male="", female="", undefined="";
         switch (CurrentUser.getSex()) {
@@ -1113,7 +1121,6 @@ public class MyServlet extends HttpServlet {
                         out.println("<h1 class='failure'>Invalid message.</h1>");
                             return;
                         }
-                        out.println(bdate);
                         CurrentUser.setUserName(user);
                         CurrentUser.setEmail(email);
                         CurrentUser.setPassword(pass);
@@ -1126,9 +1133,11 @@ public class MyServlet extends HttpServlet {
                         CurrentUser.setOtherInfo(other);
                         out.println(printChangeInfo());
                         out.println("<h1 class='success'>User info updated successfuly.</h1>");
+                        
                     }
                     return;
                 }
+                return;
             }
             if (status.equals("reglog")) {
                 out.println(printFormRegister());
@@ -1179,7 +1188,7 @@ public class MyServlet extends HttpServlet {
                 return;
             } else if (bdate.equals("") || Integer.parseInt(bdate.substring(0,4)) > 2001) {
                 out.println(printFormRegister());
-                        out.println("<h1 class='failure'>"+bdate+" Invalid birthdate.</h1>");
+                        out.println("<h1 class='failure'>Invalid birthdate.</h1>");
                 return;
             } else if (city.length() < 2 || city.length() > 50) {
                 out.println(printFormRegister());
