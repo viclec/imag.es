@@ -735,13 +735,13 @@ public class MyServlet extends HttpServlet {
                 undefined="checked='checked'";
                 break;
         }
-        return "<div class='tab-content'><label for='user'>username</label>\n<input placeholder='username' value='" + CurrentUser.getUserName() + "' id='user' type='text' name='user' required=\"required\" disabled><br>\n"
-                + "                <label for='email'>email</label>\n<input placeholder='email' value='" + CurrentUser.getEmail() + "' id='email' type=\"email\" name='email' required=\"required\"><br>\n"
-                + "                <label for='pass'>password</label>\n<input placeholder='change password' value='" + CurrentUser.getPassword() + "' id='pass' type=\"text\" name='password' required=\"required\"><br>\n"
-                + "                <label for='fname'>first name</label>\n<input placeholder='first name' value='" + CurrentUser.getFirstName() + "' id='fname' type=\"text\" name='firstName' required=\"required\"><br>\n"
-                + "                <label for='lname'>last name</label>\n<input placeholder='last name' value='" + CurrentUser.getLastName() + "' id='lname' type=\"text\" name='lastName' required=\"required\"><br>\n"
+        return "<div class='tab-content'><label for='user'>username</label>\n<input placeholder='username' value='" + filterOut(CurrentUser.getUserName()) + "' id='user' type='text' name='user' required=\"required\" disabled><br>\n"
+                + "                <label for='email'>email</label>\n<input placeholder='email' value='" + filterOut(CurrentUser.getEmail()) + "' id='email' type=\"email\" name='email' required=\"required\"><br>\n"
+                + "                <label for='pass'>password</label>\n<input placeholder='change password' value='" + filterOut(CurrentUser.getPassword()) + "' id='pass' type=\"text\" name='password' required=\"required\"><br>\n"
+                + "                <label for='fname'>first name</label>\n<input placeholder='first name' value='" + filterOut(CurrentUser.getFirstName()) + "' id='fname' type=\"text\" name='firstName' required=\"required\"><br>\n"
+                + "                <label for='lname'>last name</label>\n<input placeholder='last name' value='" + filterOut(CurrentUser.getLastName()) + "' id='lname' type=\"text\" name='lastName' required=\"required\"><br>\n"
                 + "                <label for='bdate'>birth date:</label><br>\n"
-                + "                <input placeholder='birthdate' value='" + CurrentUser.getBirthDate()+ "' id='bdate' type=\"date\" name='birthDate' required=\"required\"><br>\n"
+                + "                <input placeholder='birthdate' value='" + filterOut(CurrentUser.getBirthDate())+ "' id='bdate' type=\"date\" name='birthDate' required=\"required\"><br>\n"
                 + "                <label for='sex'>sex</label><br>\n"
                 + "                <label for='sex'>male</label>\n"
                 + "                <input id='sex_male' type=\"radio\" name='sex' value=\"male\" "+ male +">\n"
@@ -1000,15 +1000,15 @@ public class MyServlet extends HttpServlet {
                 + "	<option value=\"ZMB\">Zambia</option>\n"
                 + "	<option value=\"ZWE\">Zimbabwe</option>\n"
                 + "</select><br>\n"
-                + "                <label for='city'>city</label>\n<input placeholder='city' value='" + CurrentUser.getCity() + "' id='city' type=\"text\" name='city' required=\"required\"><br>\n"
-                + "                <label for='other'>other info</label>\n<input placeholder='other info' value='" + CurrentUser.getOtherInfo() + "' id='other' type=\"text\" name='other'><br>\n"
+                + "                <label for='city'>city</label>\n<input placeholder='city' value='" + filterOut(CurrentUser.getCity()) + "' id='city' type=\"text\" name='city' required=\"required\"><br>\n"
+                + "                <label for='other'>other info</label>\n<input placeholder='other info' value='" + filterOut(CurrentUser.getOtherInfo()) + "' id='other' type=\"text\" name='other'><br>\n"
                 + "                <input type='button' value='Update Info' onclick='changeInfo();'><br>\n</div>";
     }
 
     private String printLoggedIn() {
         return "<select id='userMenu' onchange='loggedIn(this.value);'>"
                 + "<option hidden selected>Welcome, "
-                + CurrentUser.getUserName()
+                + filterOut(CurrentUser.getUserName())
                 + "</option>"
                 + "<option value='profile'>My Profile</option>"
                 + "<option value='users'>All Users</option>"
@@ -1032,13 +1032,18 @@ public class MyServlet extends HttpServlet {
         if (status.equals("allusers")) {
             ret+="<div class='tab-content'><table id='allusers'>";
             for (i = 0; i < users.size(); i++) {
-                ret += "<tr><td>"+users.get(i).toString()+"</td></tr>";
+                ret += "<tr><td>"+filterOut(users.get(i).toString())+"</td></tr>";
             }
             ret+="</table></div>";
         } else if (status.equals("myprofile")) {
             ret += printChangeInfo();
         }
         return ret;
+    }
+    
+    private String filterOut(String s){
+        String lt = "<", gt = ">", ap = "'", ic = "\"";
+        return s.replace(lt, "&lt;").replace(gt, "&gt;").replace(ap, "&#39;").replace(ic, "&#34;");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -1208,7 +1213,7 @@ public class MyServlet extends HttpServlet {
             }
             new user(user, email, pass, fName, lName, bdate, sex, country, city, other);
             out.println(printFormLogin());
-            out.println("<h1 class='success'>" + user + " you succesfully signed up!</h1>");
+            out.println("<h1 class='success'>" + filterOut(user) + " you succesfully signed up!</h1>");
         }
     }
 
