@@ -1013,7 +1013,11 @@ public class MyServlet extends HttpServlet {
                 + "<option value='profile'>My Profile</option>"
                 + "<option value='users'>All Users</option>"
                 + "<option value='logout'><button onclick='logout();'>Logout</button></option>"
-                + "</select>";
+                + "</select>\n" +
+"            <form id=\"pathexplorer\">\n" +
+"                <img src=\"images/fldr.png\" alt=\"Add folder...\"/>\n" +
+"                <input id=\"images\" type=\"file\" webkitdirectory mozdirectory directory name=\"myFiles\" onchange=\"TIV3449();\" multiple/>\n" +
+"            </form>";
     }
 
     private boolean validPassword(String s) {

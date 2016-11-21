@@ -29,19 +29,16 @@
         </header>
         <nav>
             <ul>
+                <li>
+                    <input id="logreg" type='button' value='Register / Login' onclick='register_login();'></li>
+                <li><input id="logout" type='button' value='Logout' onclick='logout();'></li>
                 <li><a href="#home">home</a></li>
                 <li><a href="#about">about</a></li>
                 <li><a href="#list">images</a></li>
                 <li><a href="#contact">contact</a></li>
             </ul>
         </nav>
-        <input id="logreg" type='button' value='Register / Login' onclick='register_login();'>
-        <input id="logout" type='button' value='Logout' onclick='logout();'>
         <article id="list">
-            <form id="pathexplorer">
-                <img src="images/fldr.png" alt="Add folder..."/>
-                <input id="images" type="file" webkitdirectory mozdirectory directory name="myFiles" onchange="TIV3449();" multiple/>
-            </form>
             <span id="tmp"></span>
         </article>
         <article id="about">
