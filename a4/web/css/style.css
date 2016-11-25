@@ -222,7 +222,7 @@ input[type="button"]{
 
 #title{
     float: left;
-    min-width: 65%;
+    min-width: 70%;
     max-width: 95%;
     background: rgba(255,122,11,0.8);
     color:rgba(255,255,255,0.8);
@@ -237,7 +237,7 @@ input[type="button"]{
 /*exif info and map container*/
 aside{
     float: right;
-    width: 25%;
+    width: 30%;
     background: rgba(0,0,0,0.5);
     color:rgba(255,255,255,0.8);
     height: 100%;

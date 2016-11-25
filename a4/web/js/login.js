@@ -161,6 +161,7 @@ function logout() {
         }
     };
     xhr.send(null);
+    register_login();
 }
 
 function checkCookies() {
@@ -176,6 +177,7 @@ function checkCookies() {
         }
     };
     xhr.send(null);
+    register_login();
 }
 
 window.onload = checkCookies;

@@ -7,9 +7,6 @@ function TIV3449() {
     function showImageDetailedExifWithMap(index, elem) {
         var uluru, map, marker, image, latitude, longitude;
         image = images[index];
-        if (EXIF.getTag(image, "GPSLatitude") === undefined || EXIF.getTag(image, "GPSLongitude") === undefined) {
-            return;
-        }
         EXIF.getData(image, function () {
             latitude = EXIF.getTag(image, "GPSLatitude")[0] + (60 * EXIF.getTag(image, "GPSLatitude")[1] + EXIF.getTag(image, "GPSLatitude")[2]) / 3600;
             longitude = EXIF.getTag(image, "GPSLongitude")[0] + (60 * EXIF.getTag(image, "GPSLongitude")[1] +  EXIF.getTag(image, "GPSLongitude")[2]) / 3600;
@@ -49,7 +46,7 @@ function TIV3449() {
         button.onclick = function () {
             showLoadedImages(elem);
         };
-        button.innerHTML = ['<button>Go Back</button>'];
+        button.innerHTML = ['<button>< Go Back</button>'];
         document.getElementById('list').insertBefore(button, null);
         reader = new FileReader();
         reader.onload = (function (image) {
