@@ -46,7 +46,5 @@ public class ExampleAPI {
 
         System.out.println(UserDB.getUser("turing"));
 
-        UserDB.deleteUser("turing");
-
     }
 }

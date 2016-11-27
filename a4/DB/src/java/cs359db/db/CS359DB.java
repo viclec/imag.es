@@ -15,11 +15,11 @@ import java.sql.SQLException;
  */
 public class CS359DB {
 
-    private static final String URL = "jdbc:mysql://CHECK HOST IN GIT";
-    private static final String DATABASE = "SAME AS USERNAME IN GIT";
+    private static final String URL = "jdbc:mysql://83.212.108.178";
+    private static final String DATABASE = "csd3449";
     private static final int PORT = 3306;
-    private static final String UNAME = "CHECK USERNAME IN GIT";
-    private static final String PASSWD = "CHECK PASSWD IN GIT";
+    private static final String UNAME = "csd3449";
+    private static final String PASSWD = "t2%1XZ8^t8%7";
 
     /**
      * Attempts to establish a database connection Using mysql

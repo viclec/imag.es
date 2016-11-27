@@ -1,9 +1,15 @@
 package servlet;
 
+import cs359db.db.UserDB;
+import static cs359db.db.UserDB.addUser;
+import cs359db.model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -25,122 +31,9 @@ public class MyServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private static ArrayList<user> users = new ArrayList<>();
+    private static List<User> users;
 
-    private static user CurrentUser;
-
-    private class user {
-
-        private String username;
-        private String password;
-        private String email;
-        private String firstName;
-        private String lastName;
-        private String birthDate;
-        private String sex;
-        private String country;
-        private String city;
-        private String otherInfo;
-
-        private void setUserName(String username) {
-            this.username = username;
-        }
-
-        private void setEmail(String email) {
-            this.email = email;
-        }
-
-        private void setPassword(String password) {
-            this.password = password;
-        }
-
-        private void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        private void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-
-        private void setBirthDate(String birthDate) {
-            this.birthDate = birthDate;
-        }
-
-        private void setSex(String sex) {
-            this.sex = sex;
-        }
-
-        private void setCountry(String country) {
-            this.country = country;
-        }
-
-        private void setCity(String city) {
-            this.city = city;
-        }
-
-        private void setOtherInfo(String otherInfo) {
-            this.otherInfo = otherInfo;
-        }
-
-        private String getUserName() {
-            return username;
-        }
-
-        private String getEmail() {
-            return email;
-        }
-
-        private String getPassword() {
-            return password;
-        }
-
-        private String getFirstName() {
-            return firstName;
-        }
-
-        private String getLastName() {
-            return lastName;
-        }
-
-        private String getBirthDate() {
-            return birthDate;
-        }
-
-        private String getSex() {
-            return sex;
-        }
-
-        private String getCountry() {
-            return country;
-        }
-
-        private String getCity() {
-            return city;
-        }
-
-        private String getOtherInfo() {
-            return otherInfo;
-        }
-
-        @Override
-        public String toString() {
-            return "Username: " + username + "\nPassword: " + password + "\nEmail: " + email + "\nFirst Name: " + firstName + "\nLast Name: " + lastName + "\nBirthdate: " + birthDate + "\nSex: " + sex + "\nCountry: " + country + "\nCity: " + city + "\nOther Info: " + otherInfo;
-        }
-
-        user(String username, String email, String password, String firstName, String lastName, String birthDate, String sex, String country, String city, String otherInfo) {
-            setUserName(username);
-            setEmail(email);
-            setPassword(password);
-            setFirstName(firstName);
-            setLastName(lastName);
-            setBirthDate(birthDate);
-            setSex(sex);
-            setCountry(country);
-            setCity(city);
-            setOtherInfo(otherInfo);
-            users.add(this);
-        }
-    }
+    private static User CurrentUser;
 
     private String printFormRegister() {
         return "<ul class=\"nav nav-tabs\">\n"
@@ -714,41 +607,39 @@ public class MyServlet extends HttpServlet {
                 + "        </div>";
     }
 
-    
-    
     /*
     *   XSS ATTACK
     *   A really simple example of an XSS attack on my webpage:
     *   username filled with the following html code
     *   <div onmouseover='alert("XSS")'>username</div>
-    */
+     */
     private String printChangeInfo() {
-        String male="", female="", undefined="";
-        switch (CurrentUser.getSex()) {
+        String male = "", female = "", undefined = "";
+        /*switch (CurrentUser.getGender()) {
             case "male":
-                male="checked='checked'";
+                male = "checked='checked'";
                 break;
             case "female":
-                female="checked='checked'";
+                female = "checked='checked'";
                 break;
             default:
-                undefined="checked='checked'";
+                undefined = "checked='checked'";
                 break;
-        }
+        }*/
         return "<div class='tab-content'><label for='user'>username</label>\n<input placeholder='username' value='" + filterOut(CurrentUser.getUserName()) + "' id='user' type='text' name='user' required=\"required\" disabled><br>\n"
                 + "                <label for='email'>email</label>\n<input placeholder='email' value='" + filterOut(CurrentUser.getEmail()) + "' id='email' type=\"email\" name='email' required=\"required\"><br>\n"
                 + "                <label for='pass'>password</label>\n<input placeholder='change password' value='" + filterOut(CurrentUser.getPassword()) + "' id='pass' type=\"text\" name='password' required=\"required\"><br>\n"
                 + "                <label for='fname'>first name</label>\n<input placeholder='first name' value='" + filterOut(CurrentUser.getFirstName()) + "' id='fname' type=\"text\" name='firstName' required=\"required\"><br>\n"
                 + "                <label for='lname'>last name</label>\n<input placeholder='last name' value='" + filterOut(CurrentUser.getLastName()) + "' id='lname' type=\"text\" name='lastName' required=\"required\"><br>\n"
                 + "                <label for='bdate'>birth date:</label><br>\n"
-                + "                <input placeholder='birthdate' value='" + filterOut(CurrentUser.getBirthDate())+ "' id='bdate' type=\"date\" name='birthDate' required=\"required\"><br>\n"
+                + "                <input placeholder='birthdate' value='" + filterOut(CurrentUser.getBirthDate()) + "' id='bdate' type=\"date\" name='birthDate' required=\"required\"><br>\n"
                 + "                <label for='sex'>sex</label><br>\n"
                 + "                <label for='sex'>male</label>\n"
-                + "                <input id='sex_male' type=\"radio\" name='sex' value=\"male\" "+ male +">\n"
+                + "                <input id='sex_male' type=\"radio\" name='sex' value=\"male\" " + male + ">\n"
                 + "                <label for='sex'>female</label>\n"
-                + "                <input id='sex_female' type=\"radio\" name='sex' value=\"female\" "+ female +">\n"
+                + "                <input id='sex_female' type=\"radio\" name='sex' value=\"female\" " + female + ">\n"
                 + "                <label for='sex'>undefined</label>\n"
-                + "                <input id='sex_undefined' type=\"radio\" name='sex' value=\"undefined\" "+ undefined +"><br>\n"
+                + "                <input id='sex_undefined' type=\"radio\" name='sex' value=\"undefined\" " + undefined + "><br>\n"
                 + "                <select id='country'>\n"
                 + "	<option value=\"AFG\">Afghanistan</option>\n"
                 + "	<option value=\"ALA\">Åland Islands</option>\n"
@@ -1000,8 +891,8 @@ public class MyServlet extends HttpServlet {
                 + "	<option value=\"ZMB\">Zambia</option>\n"
                 + "	<option value=\"ZWE\">Zimbabwe</option>\n"
                 + "</select><br>\n"
-                + "                <label for='city'>city</label>\n<input placeholder='city' value='" + filterOut(CurrentUser.getCity()) + "' id='city' type=\"text\" name='city' required=\"required\"><br>\n"
-                + "                <label for='other'>other info</label>\n<input placeholder='other info' value='" + filterOut(CurrentUser.getOtherInfo()) + "' id='other' type=\"text\" name='other'><br>\n"
+                + "                <label for='city'>city</label>\n<input placeholder='city' value='" + filterOut(CurrentUser.getTown()) + "' id='city' type=\"text\" name='city' required=\"required\"><br>\n"
+                + "                <label for='other'>other info</label>\n<input placeholder='other info' value='" + filterOut(CurrentUser.getInfo()) + "' id='other' type=\"text\" name='other'><br>\n"
                 + "                <input type='button' value='Update Info' onclick='changeInfo();'><br>\n</div>";
     }
 
@@ -1030,26 +921,27 @@ public class MyServlet extends HttpServlet {
         int i;
         String ret = "";
         if (status.equals("allusers")) {
-            ret+="<div class='tab-content'><table id='allusers'>";
+            ret += "<div class='tab-content'><table id='allusers'>";
             for (i = 0; i < users.size(); i++) {
-                ret += "<tr><td>"+filterOut(users.get(i).toString())+"</td></tr>";
+                ret += "<tr><td>" + filterOut(users.get(i).toString()) + "</td></tr>";
             }
-            ret+="</table></div>";
+            ret += "</table></div>";
         } else if (status.equals("myprofile")) {
             ret += printChangeInfo();
         }
         return ret;
     }
-    
-    private String filterOut(String s){
+
+    private String filterOut(String s) {
         String lt = "<", gt = ">", ap = "'", ic = "\"";
         return s.replace(lt, "&lt;").replace(gt, "&gt;").replace(ap, "&#39;").replace(ic, "&#34;");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            users = UserDB.getUsers();
             String u = null, p = null;
             int i;
             String status = request.getParameter("status");
@@ -1093,37 +985,37 @@ public class MyServlet extends HttpServlet {
                     if (status.equals("updateInfo")) {
                         int emailCountAt = email.length() - email.replaceAll("@", "").length();
                         int emailCountDot = email.length() - email.replaceAll("\\.", "").length();
-                        if (user.length() < 8) {
+                        if (user.length() < 8 || !UserDB.checkValidUserName(user)) {
                             out.println(printChangeInfo());
-                        out.println("<h1 class='failure'>Invalid username.</h1>");
+                            out.println("<h1 class='failure'>Invalid username.</h1>");
                             return;
                         } else if (emailCountAt != 1 || emailCountDot < 1) {
                             out.println(printChangeInfo());
-                        out.println("<h1 class='failure'>Invalid email.</h1>");
+                            out.println("<h1 class='failure'>Invalid email.</h1>");
                             return;
                         } else if (pass.length() < 6 || pass.length() > 10 || (!pass.contains("#") && !pass.contains("$") && !pass.contains("%") && !pass.contains("@")) || !validPassword(pass)) {
                             out.println(printChangeInfo());
-                        out.println("<h1 class='failure'>Invalid password.</h1>");
+                            out.println("<h1 class='failure'>Invalid password.</h1>");
                             return;
                         } else if (fName.length() < 3 || fName.length() > 20 || !validName(fName)) {
                             out.println(printChangeInfo());
-                        out.println("<h1 class='failure'>Invalid first name.</h1>");
+                            out.println("<h1 class='failure'>Invalid first name.</h1>");
                             return;
                         } else if (lName.length() < 3 || lName.length() > 20 || !validName(lName)) {
                             out.println(printChangeInfo());
-                        out.println("<h1 class='failure'>Invalid last name.</h1>");
+                            out.println("<h1 class='failure'>Invalid last name.</h1>");
                             return;
-                        } else if (bdate.equals("") || Integer.parseInt(bdate.substring(0,4)) > 2001) {
+                        } else if (bdate.equals("") || Integer.parseInt(bdate.substring(0, 4)) > 2001) {
                             out.println(printChangeInfo());
-                        out.println("<h1 class='failure'>Invalid birthdate.</h1>");
+                            out.println("<h1 class='failure'>Invalid birthdate.</h1>");
                             return;
                         } else if (city.length() < 2 || city.length() > 50) {
                             out.println(printChangeInfo());
-                        out.println("<h1 class='failure'>Invalid city.</h1>");
+                            out.println("<h1 class='failure'>Invalid city.</h1>");
                             return;
                         } else if (other.length() > 500) {
                             out.println(printChangeInfo());
-                        out.println("<h1 class='failure'>Invalid message.</h1>");
+                            out.println("<h1 class='failure'>Invalid message.</h1>");
                             return;
                         }
                         CurrentUser.setUserName(user);
@@ -1132,13 +1024,14 @@ public class MyServlet extends HttpServlet {
                         CurrentUser.setFirstName(fName);
                         CurrentUser.setLastName(lName);
                         CurrentUser.setBirthDate(bdate);
-                        CurrentUser.setSex(sex);
+                        CurrentUser.setGender(sex);
                         CurrentUser.setCountry(country);
-                        CurrentUser.setCity(city);
-                        CurrentUser.setOtherInfo(other);
+                        CurrentUser.setTown(city);
+                        CurrentUser.setInfo(other);
+                        UserDB.updateUser(CurrentUser);
                         out.println(printChangeInfo());
                         out.println("<h1 class='success'>User info updated successfuly.</h1>");
-                        
+
                     }
                     return;
                 }
@@ -1162,58 +1055,57 @@ public class MyServlet extends HttpServlet {
                     }
                 }
                 out.println(printFormLogin());
-                        out.println("<h1 class='failure'>Username or email are incorrect.</h1>");
+                out.println("<h1 class='failure'>Username or email are incorrect.</h1>");
                 return;
             }
             int emailCountAt = email.length() - email.replaceAll("@", "").length();
             int emailCountDot = email.length() - email.replaceAll("\\.", "").length();
             if (user.length() < 8) {
                 out.println(printFormRegister());
-                        out.println("<h1 class='failure'>Invalid username.</h1>");
+                out.println("<h1 class='failure'>Invalid username.</h1>");
                 return;
             } else if (emailCountAt != 1 || emailCountDot < 1) {
                 out.println(printFormRegister());
-                        out.println("<h1 class='failure'>Invalid email.</h1>");
+                out.println("<h1 class='failure'>Invalid email.</h1>");
                 return;
             } else if (pass.length() < 6 || pass.length() > 10 || (!pass.contains("#") && !pass.contains("$") && !pass.contains("%") && !pass.contains("@")) || !validPassword(pass)) {
                 out.println(printFormRegister());
-                        out.println("<h1 class='failure'>Invalid password.</h1>");
+                out.println("<h1 class='failure'>Invalid password.</h1>");
                 return;
             } else if (pass == null ? verify != null : !pass.equals(verify)) {
                 out.println(printFormRegister());
-                        out.println("<h1 class='failure'>Passwords doesn't match.</h1>");
+                out.println("<h1 class='failure'>Passwords doesn't match.</h1>");
                 return;
             } else if (fName.length() < 3 || fName.length() > 20 || !validName(fName)) {
                 out.println(printFormRegister());
-                        out.println("<h1 class='failure'>Invalid first name.</h1>");
+                out.println("<h1 class='failure'>Invalid first name.</h1>");
                 return;
             } else if (lName.length() < 3 || lName.length() > 20 || !validName(lName)) {
                 out.println(printFormRegister());
-                        out.println("<h1 class='failure'>Invalid last name.</h1>");
+                out.println("<h1 class='failure'>Invalid last name.</h1>");
                 return;
-            } else if (bdate.equals("") || Integer.parseInt(bdate.substring(0,4)) > 2001) {
+            } else if (bdate.equals("") || Integer.parseInt(bdate.substring(0, 4)) > 2001) {
                 out.println(printFormRegister());
-                        out.println("<h1 class='failure'>Invalid birthdate.</h1>");
+                out.println("<h1 class='failure'>Invalid birthdate.</h1>");
                 return;
             } else if (city.length() < 2 || city.length() > 50) {
                 out.println(printFormRegister());
-                        out.println("<h1 class='failure'>Invalid password.</h1>");
+                out.println("<h1 class='failure'>Invalid password.</h1>");
                 return;
             } else if (other.length() > 500) {
                 out.println(printFormRegister());
-                        out.println("<h1 class='failure'>Invalid message.</h1>");
+                out.println("<h1 class='failure'>Invalid message.</h1>");
                 return;
             }
-            for (i = 0; i < users.size(); i++) {
-                if ((users.get(i).getUserName() == null ? user == null : users.get(i).getUserName().equals(user)) || (users.get(i).getEmail().equals(email))) {
-                    out.println(printFormRegister());
-                        out.println("<h1 class='failure'>Username or email already exist.</h1>");
-                    return;
-                }
+            if (!UserDB.checkValidUserName(user)) {
+                out.println(printFormRegister());
+                out.println("<h1 class='failure'>Username or email already exist.</h1>");
+                return;
             }
-            new user(user, email, pass, fName, lName, bdate, sex, country, city, other);
+            UserDB.addUser(new User(user, email, pass, fName, lName, bdate, country, city, other, sex));
             out.println(printFormLogin());
             out.println("<h1 class='success'>" + filterOut(user) + " you succesfully signed up!</h1>");
+            out.println(UserDB.getUsers());
         }
     }
 
@@ -1229,7 +1121,11 @@ public class MyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MyServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -1243,7 +1139,11 @@ public class MyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MyServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
