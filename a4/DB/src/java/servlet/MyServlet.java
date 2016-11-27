@@ -985,7 +985,7 @@ public class MyServlet extends HttpServlet {
                     if (status.equals("updateInfo")) {
                         int emailCountAt = email.length() - email.replaceAll("@", "").length();
                         int emailCountDot = email.length() - email.replaceAll("\\.", "").length();
-                        if (user.length() < 8 || !UserDB.checkValidUserName(user)) {
+                        if (user.length() < 8 || (!UserDB.checkValidUserName(user) && !user.equals(CurrentUser.getUserName()))) {
                             out.println(printChangeInfo());
                             out.println("<h1 class='failure'>Invalid username.</h1>");
                             return;
