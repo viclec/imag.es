@@ -282,8 +282,8 @@ public class User {
      *
      * @return
      */
-    public Gender getGender() {
-        return gender;
+    public String getGender() {
+        return gender.toString();
     }
 
     /**

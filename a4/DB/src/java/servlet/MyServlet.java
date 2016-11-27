@@ -615,17 +615,17 @@ public class MyServlet extends HttpServlet {
      */
     private String printChangeInfo() {
         String male = "", female = "", undefined = "";
-        /*switch (CurrentUser.getGender()) {
-            case "male":
+        switch (CurrentUser.getGender()) {
+            case "Male":
                 male = "checked='checked'";
                 break;
-            case "female":
+            case "Female":
                 female = "checked='checked'";
                 break;
             default:
                 undefined = "checked='checked'";
                 break;
-        }*/
+        }
         return "<div class='tab-content'><label for='user'>username</label>\n<input placeholder='username' value='" + filterOut(CurrentUser.getUserName()) + "' id='user' type='text' name='user' required=\"required\" disabled><br>\n"
                 + "                <label for='email'>email</label>\n<input placeholder='email' value='" + filterOut(CurrentUser.getEmail()) + "' id='email' type=\"email\" name='email' required=\"required\"><br>\n"
                 + "                <label for='pass'>password</label>\n<input placeholder='change password' value='" + filterOut(CurrentUser.getPassword()) + "' id='pass' type=\"text\" name='password' required=\"required\"><br>\n"
