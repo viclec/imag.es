@@ -81,6 +81,10 @@ em{
      font-size:20px;
 }
 
+#userMenu{
+    display: none;
+}
+
 #userForm{
     max-width: 500px;
     margin: 0 auto;

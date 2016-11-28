@@ -57,6 +57,7 @@ function login() {
     xhr.open('GET', 'MyServlet?' + params, true);
     xhr.onload = function () {
         if (xhr.status === 200) {
+            document.getElementById('userMenu').style.display = "inherit";
             document.getElementById('list')
                     .innerHTML = xhr.responseText;
         } else if (xhr.status !== 200) {
