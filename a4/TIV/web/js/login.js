@@ -58,6 +58,7 @@ function login() {
     xhr.onload = function () {
         if (xhr.status === 200) {
             document.getElementById('userMenu').style.display = "inherit";
+            document.getElementById('logreg').style.display = "none";
             document.getElementById('list')
                     .innerHTML = xhr.responseText;
         } else if (xhr.status !== 200) {
@@ -113,7 +114,13 @@ function loggedIn(status) {
     case ("profile"):
         myProfile();
         break;
+    case("photos"):
+        loadPhotos();
     }
+}
+
+function loadPhotos(){
+    
 }
             
 function allUsers() {
@@ -148,6 +155,22 @@ function myProfile() {
     xhr.send(null);
 }
 
+function loadPhotos() {
+    'use strict';
+    var xhr = new XMLHttpRequest(),
+        params = "status=photos";
+    xhr.open('GET', 'MyServlet?' + params, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            document.getElementById('list')
+                    .innerHTML = xhr.responseText;
+        } else if (xhr.status !== 200) {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send(null);
+}
+
 function logout() {
     'use strict';
     var xhr = new XMLHttpRequest(),
@@ -155,6 +178,8 @@ function logout() {
     xhr.open('GET', 'MyServlet?' + params, true);
     xhr.onload = function () {
         if (xhr.status === 200) {
+            document.getElementById('userMenu').style.display = "none";
+            document.getElementById('logreg').style.display = "inherit";
             document.getElementById('list')
                     .innerHTML = xhr.responseText;
         } else if (xhr.status !== 200) {
@@ -171,6 +196,8 @@ function checkCookies() {
     xhr.open('GET', 'MyServlet', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
+            document.getElementById('userMenu').style.display = "inherit";
+            document.getElementById('logreg').style.display = "none";
             document.getElementById('list')
                     .innerHTML = xhr.responseText;
         } else if (xhr.status !== 200) {

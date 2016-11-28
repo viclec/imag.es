@@ -1015,6 +1015,13 @@ public class MyServlet extends HttpServlet {
                 + "<option value='logout'><button onclick='logout();'>Logout</button></option>"
                 + "</select>\n";
     }
+    
+    private String printLoadPhotos(){
+        return  "<form id=\"pathexplorer\">\n" +
+"                <img src=\"images/fldr.png\" alt=\"Add folder...\"/>\n" +
+"                <input id=\"images\" type=\"file\" webkitdirectory mozdirectory directory name=\"myFiles\" onchange=\"TIV3449();\" multiple/>\n" +
+"            </form>";
+    }
 
     private boolean validPassword(String s) {
         String n = ".*[0-9].*";
@@ -1086,6 +1093,9 @@ public class MyServlet extends HttpServlet {
                         out.println(printFormLogin());
                         CurrentUser = null;
                         out.println("<h1 class='success'>Succesfully logged out.</h1>");
+                        return;
+                    }else if("photos".equals(status)){
+                        out.println(printLoadPhotos());
                         return;
                     }
                     out.println(printLoggedIn());
