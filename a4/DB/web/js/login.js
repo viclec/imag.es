@@ -79,7 +79,7 @@ function changeInfo() {
         city = document.getElementById('city').value,
         other = document.getElementById('other').value,
         xhr = new XMLHttpRequest(),
-        params = "status=updateInfo&user=" + user + "&email=" + email + "&pass=" + pass + "&fName=" + fName + "&lName=" + lName + "&bdate=" + bdate + "&sex=" + sex + "&country=" + country + "&city=" + city + "&other=" + other;
+        params;
     if (document.getElementById('sex_male').checked) {
         sex = document.getElementById('sex_male').value;
     } else if (document.getElementById('sex_female').checked) {
@@ -87,6 +87,7 @@ function changeInfo() {
     } else if (document.getElementById('sex_undefined').checked) {
         sex = document.getElementById('sex_undefined').value;
     }
+    params  = "status=updateInfo&user=" + user + "&email=" + email + "&pass=" + pass + "&fName=" + fName + "&lName=" + lName + "&bdate=" + bdate + "&sex=" + sex + "&country=" + country + "&city=" + city + "&other=" + other;
     
     xhr.open('GET', 'MyServlet?' + params, true);
     xhr.onload = function () {

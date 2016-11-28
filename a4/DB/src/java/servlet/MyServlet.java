@@ -615,7 +615,7 @@ public class MyServlet extends HttpServlet {
      */
     private String printChangeInfo() {
         String male = "", female = "", undefined = "";
-        switch (CurrentUser.getGender()) {
+        switch (CurrentUser.getGender().toString()) {
             case "Male":
                 male = "checked='checked'";
                 break;
@@ -635,9 +635,9 @@ public class MyServlet extends HttpServlet {
                 + "                <input placeholder='birthdate' value='" + filterOut(CurrentUser.getBirthDate()) + "' id='bdate' type=\"date\" name='birthDate' required=\"required\"><br>\n"
                 + "                <label for='sex'>sex</label><br>\n"
                 + "                <label for='sex'>male</label>\n"
-                + "                <input id='sex_male' type=\"radio\" name='sex' value=\"male\" " + male + ">\n"
+                + "                <input id='sex_male' type=\"radio\" name='sex' value=\"Male\" " + male + ">\n"
                 + "                <label for='sex'>female</label>\n"
-                + "                <input id='sex_female' type=\"radio\" name='sex' value=\"female\" " + female + ">\n"
+                + "                <input id='sex_female' type=\"radio\" name='sex' value=\"Female\" " + female + ">\n"
                 + "                <label for='sex'>undefined</label>\n"
                 + "                <input id='sex_undefined' type=\"radio\" name='sex' value=\"undefined\" " + undefined + "><br>\n"
                 + "                <select id='country'>\n"
@@ -1018,7 +1018,6 @@ public class MyServlet extends HttpServlet {
                             out.println("<h1 class='failure'>Invalid message.</h1>");
                             return;
                         }
-                        CurrentUser.setUserName(user);
                         CurrentUser.setEmail(email);
                         CurrentUser.setPassword(pass);
                         CurrentUser.setFirstName(fName);

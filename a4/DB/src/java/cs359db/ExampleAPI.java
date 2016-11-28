@@ -7,6 +7,7 @@ package cs359db;
 
 import cs359db.db.UserDB;
 import cs359db.model.User;
+import java.util.List;
 
 /**
  *
@@ -45,6 +46,10 @@ public class ExampleAPI {
         UserDB.updateUser(turing);
 
         System.out.println(UserDB.getUser("turing"));
+        /*List<User> users = UserDB.getUsers();
+        for(int i=0;i<users.size();i++){
+            UserDB.deleteUser(users.get(i).getUserName());
+        }*/
 
     }
 }
