@@ -2,7 +2,7 @@ csd3449 - Victor Lecomte
 
 TIV
 ------------------------
-In case you are not logged in and you hit the refresh button, there's an issue and you have to press the logout button in order to reset the form.
+In case you are not logged in and you hit the refresh button, there's an issue and you have to press the logout button in order to reset the form. The same issue extends when you are trying to loggin without success (inexisting user or false username/password)
 
 DB
 ------------------------
