@@ -1,0 +1,9 @@
+csd3449 - Victor Lecomte
+
+TIV
+------------------------
+In case you are not logged in and you hit the refresh button, there's an issue and you have to press the logout button in order to reset the form.
+
+DB
+------------------------
+Same as the Assignment 3 but now we keep the users in a DataBase.

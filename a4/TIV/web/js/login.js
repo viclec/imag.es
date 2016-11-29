@@ -93,7 +93,7 @@ function changeInfo() {
         sex = document.getElementById('sex_undefined').value;
     }    
     
-    params = "status=register&user=" + user + "&email=" + email + "&pass=" + pass + "&verify=" + verify + "&fName=" + fName + "&lName=" + lName + "&bdate=" + bdate + "&sex=" + sex + "&country=" + country + "&city=" + city + "&other=" + other;
+    params  = "status=updateInfo&user=" + user + "&email=" + email + "&pass=" + pass + "&fName=" + fName + "&lName=" + lName + "&bdate=" + bdate + "&sex=" + sex + "&country=" + country + "&city=" + city + "&other=" + other;
     
     xhr.open('GET', 'MyServlet?' + params, true);
     xhr.onload = function () {
@@ -201,8 +201,11 @@ function checkCookies() {
     xhr.open('GET', 'MyServlet', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
+            document.getElementById('userMenu').style.display = "inherit";
+            document.getElementById('logreg').style.display = "none";
             document.getElementById('list')
                     .innerHTML = xhr.responseText;
+            loadPhotos();
         } else if (xhr.status !== 200) {
             alert('Request failed. Returned status of ' + xhr.status);
         }
