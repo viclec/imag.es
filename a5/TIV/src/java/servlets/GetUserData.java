@@ -45,7 +45,7 @@ public class GetUserData extends HttpServlet {
                 String male = "";
                 String female = "";
                 String nothing = "";
-                if (user.getGender().equals("male")) {
+                if (user.getGender().toString().equals("male")) {
                     male = "checked=\"\"";
                 } else if (user.getGender().equals("male")) {
                     female = "checked=\"\"";
