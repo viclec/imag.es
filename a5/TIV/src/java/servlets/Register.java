@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,16 +49,12 @@ public class Register extends HttpServlet {
                     UserDB.addUser(user);
                 }
 
-                response.setContentType("text/html;charset=UTF-8");
+                response.setContentType("application/json");
                 try (PrintWriter out = response.getWriter()) {
-                    out.println(user.toString() + "<br>");
+                    out.println("{\"username\":\"" + user.getUserName() + "\"}");
                 }
             } else {
-                response.setContentType("text/html;charset=UTF-8");
-                try (PrintWriter out = response.getWriter()) {
-                    out.println("Username: <strong>" + user.getUserName()
-                            + "</strong> or email: <strong>" + user.getEmail() + "</strong> is already registered");
-                }
+                response.setStatus(409);
             }
         }
     }
@@ -77,7 +74,7 @@ public class Register extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException e) {
-            
+
         }
     }
 
@@ -95,7 +92,7 @@ public class Register extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException e) {
-            
+
         }
     }
 
