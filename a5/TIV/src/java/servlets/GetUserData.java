@@ -38,7 +38,7 @@ public class GetUserData extends HttpServlet {
         if (request.getParameter("action") != null && request.getParameter("action").equals("GetUserData")) {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("loggedUser");
-            response.setContentType("text/html;charset=UTF-8");
+            response.setContentType("application/json");
             try (PrintWriter out = response.getWriter()) {
                 //Get the file that contains the registration form from
                 //the WEB-INF folder and dispatch it
@@ -52,48 +52,21 @@ public class GetUserData extends HttpServlet {
                 } else {
                     nothing = "checked=\"\"";
                 }
-                out.println("<article id=\"form\">\n"
-                        + "    <h3><button id='hideshow'>Change your settings:</h3><br>\n"
-                        + "    <form id=\"settingsform\" style=\"display: none;\" onsubmit=\"return false;\" accept-charset=\"ISO-8859-1\">"
-                        + "<label for=\"username\">Username:</label>\n"
-                        + "        <input id=\"username\" type=\"text\" name=\"username\" value=\"" + user.getUserName() + "\"pattern=\".{3,}\" required>\n"
-                        + "        <br>\n"
-                        + "        <label for=\"email\">E-mail:</label>\n"
-                        + "        <input id=\"email\" type=\"email\" name=\"email\" value=\"" + user.getEmail()+ "\" required>\n"
-                        + "        <br>\n"
-                        + "        <label for=\"password\">Password:</label>\n"
-                        + "        <input id=\"password\" type=\"password\" name=\"password\" value=\"" + user.getPassword() + "\" pattern=\"^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{6,10}$\" required>\n"
-                        + "        <br>\n"
-                        + "        <label for=\"conf_password\">Confirm Password:</label>\n"
-                        + "        <input id=\"conf_password\" type=\"password\" name=\"confirm_password\" value=\"" + user.getPassword()+ "\" pattern=\"^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{6,10}$\" required>\n"
-                        + "        <br>\n"
-                        + "        <label for=\"fname\">First name:</label>\n"
-                        + "        <input id=\"fname\" type=\"text\" name=\"firstName\" value=\"" + user.getFirstName()+ "\" pattern=\"[A-Za-z]{3,20}\" required>\n"
-                        + "        <br>\n"
-                        + "        <label for=\"lname\">Last name:</label>\n"
-                        + "        <input id=\"lname\" type=\"text\" name=\"lastName\" value=\"" + user.getLastName()+ "\" pattern=\"[A-Za-z]{4,20}\" required>\n"
-                        + "        <br>\n"
-                        + "        <label for=\"birthdate\">Date of Birth:</label>\n"
-                        + "        <input id=\"birthdate\" type=\"date\" name=\"birthdate\" value=\"" + user.getBirthDate()+ "\" max=\"2001-11-17\" required>\n"
-                        + "        <br>\n"
-                        + "        <label for=\"gender\">Gender:</label>\n"
-                        + "        <input type=\"radio\" name=\"gender\" value=\"male\"" + "checked=\"\"" + male + ">Male\n"
-                        + "        <input type=\"radio\" name=\"gender\" value=\"female\"" + female + ">Female\n"
-                        + "        <input type=\"radio\" name=\"gender\" value=\"not-applicable\"" + nothing + ">Not-Applicable\n"
-                        + "        <br>\n"
-                        + "        <label for=\"country\">Country:</label>\n"
-                        + "        <select id=\"country\" required>" + user.getCountry() + "</select>\n"
-                        + "        <br>\n"
-                        + "        <label for=\"town\">Town:</label>\n"
-                        + "        <input id=\"town\" type=\"text\" name=\"town\" value=\"" + user.getTown()+ "\" pattern=\".{2,50}\" required>\n"
-                        + "        <br>\n"
-                        + "        <label for=\"textarea\">Info:</label>\n"
-                        + "        <textarea id=\"textarea\" rows=\"4\" cols=\"50\" maxlength=\"500\"\" form=\"textarea\">" + user.getInfo()+ "</textarea>\n"
-                        + "        <br>\n"
-                        + "        <input type=\"submit\" value=\"Submit\" onclick=\"sendAjaxPOST('ChangeUserData');\">\n"
-                        + "        <br>\n"
-                        + "    </form>\n"
-                        + "</article>");
+
+                out.println("{");
+                out.println("\"username\":\"" + user.getUserName() + "\",");
+                out.println("\"email\":\"" + user.getEmail() + "\",");
+                out.println("\"password\":\"" + user.getPassword() + "\",");
+                out.println("\"conf_password\":\"" + user.getPassword() + "\",");
+                out.println("\"fname\":\"" + user.getFirstName() + "\",");
+                out.println("\"lname\":\"" + user.getLastName() + "\",");
+                out.println("\"birthdate\":\"" + user.getBirthDate() + "\",");
+                out.println("\"gender\":\"" + user.getGender().toString() + "\",");
+                out.println("\"country\":\"" + user.getCountry() + "\",");
+                out.println("\"town\":\"" + user.getTown() + "\",");
+                out.println("\"textarea\":\"" + user.getInfo() + "\"");
+                out.println("}");
+
             }
         }
     }
