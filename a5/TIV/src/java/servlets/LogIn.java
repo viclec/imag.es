@@ -36,8 +36,6 @@ public class LogIn extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException {
 
         if (request.getParameter("action") != null && request.getParameter("action").equals("LogIn")) {
-            HttpSession session = request.getSession(true);
-
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             User loggedUser = null;
@@ -47,11 +45,9 @@ public class LogIn extends HttpServlet {
             }
 
             if (loggedUser != null) {
-                session.setAttribute("loggedUser", loggedUser);
                 response.setStatus(201);
-                printhtml(request, response);
             } else {
-                //username and/or password incorrect
+                //username and/or password incorrect.
                 response.setStatus(417);
             }
         } else if (request.getParameter("action") != null && request.getParameter("action").equals("AutomaticLogIn")) {
@@ -59,25 +55,13 @@ public class LogIn extends HttpServlet {
 
             if (session != null && session.getAttribute("loggedUser") != null 
                     && UserDB.checkValidUserName(request.getParameter("username"))) {
-                response.setContentType("text/html;charset=UTF-8");
                 response.setStatus(200);
-                printhtml(request, response);
             } else {
+                //no user logged in currently.
                 response.setStatus(204);
             }
         }
 
-    }
-
-    private void printhtml(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            //Get the file that contains the welcome page from
-            //the WEB-INF folder and dispatch it
-            RequestDispatcher view = request.getRequestDispatcher("WEB-INF/html/Login_welcome.html");
-            view.forward(request, response);
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
