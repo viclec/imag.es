@@ -424,6 +424,7 @@ function allUsers() {
             alert('Request failed. Returned status of ' + xhr.status);
         }
     };
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(params);
 }
 
@@ -437,10 +438,11 @@ function myProfile() {
             document.getElementById('list')
                     .innerHTML = xhr.responseText;
         } else if (xhr.status !== 200) {
-            alert('Request failed. Returned status of ' + xhr.status);
+            alert('Get user data failed.');
         }
     };
-    xhr.send(null);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(params);
 }
 
 function loadPhotos() {
