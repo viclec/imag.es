@@ -47,7 +47,7 @@ public class GetImage extends HttpServlet {
                 response.setContentType("image/jpg");   // Use the appropriate type from the metadata
 
                 // Get the blob of the photo
-                byte[] imgData = PhotosDB.getPhotoBlobWithID(1);
+                byte[] imgData = PhotosDB.getPhotoBlobWithID(image);
 
                 
                 // output with the help of outputStream
