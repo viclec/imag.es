@@ -5,10 +5,11 @@
  */
 package servlets;
 
-import data.User;
+import cs359db.db.PhotosDB;
+import data.Photo;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,10 +19,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Antwnis
+ * @author antwnis4
  */
-@WebServlet(name = "GetUserData", urlPatterns = {"/GetUserData"})
-public class GetUserData extends HttpServlet {
+@WebServlet(name = "GetImage", urlPatterns = {"/GetImage"})
+public class GetImage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,39 +34,36 @@ public class GetUserData extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
 
-        if (request.getParameter("action") != null && request.getParameter("action").equals("GetUserData")) {
-            HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("loggedUser");
-            response.setContentType("application/json");
-            try (PrintWriter out = response.getWriter()) {
-                //Get the file that contains the registration form from
-                //the WEB-INF folder and dispatch it
-                String male = "";
-                String female = "";
-                String nothing = "";
-                if (user.getGender().toString().equals("male")) {
-                    male = "checked=\"\"";
-                } else if (user.getGender().equals("male")) {
-                    female = "checked=\"\"";
-                } else {
-                    nothing = "checked=\"\"";
+            HttpSession session = request.getSession(true);
+            int image = Integer.parseInt(request.getParameter("image"));
+            Boolean metadata = Boolean.parseBoolean(request.getParameter("metadata"));
+
+            if (metadata == false) {
+                //This is what you should do for the response in the servlet
+                response.setContentType("image/jpg");   // Use the appropriate type from the metadata
+
+                // Get the blob of the photo
+                byte[] imgData = PhotosDB.getPhotoBlobWithID(image);
+
+                
+                // output with the help of outputStream
+                try (OutputStream os = response.getOutputStream()) {
+                    os.write(imgData);
+                    os.flush();
                 }
-
-                out.println("{");
-                out.println("\"username\":\"" + user.getUserName() + "\",");
-                out.println("\"email\":\"" + user.getEmail() + "\",");
-                out.println("\"password\":\"" + user.getPassword() + "\",");
-                out.println("\"conf_password\":\"" + user.getPassword() + "\",");
-                out.println("\"fname\":\"" + user.getFirstName() + "\",");
-                out.println("\"lname\":\"" + user.getLastName() + "\",");
-                out.println("\"birthdate\":\"" + user.getBirthDate() + "\",");
-                out.println("\"gender\":\"" + user.getGender().toString() + "\",");
-                out.println("\"country\":\"" + user.getCountry() + "\",");
-                out.println("\"town\":\"" + user.getTown() + "\",");
-                out.println("\"textarea\":\"" + user.getInfo() + "\"");
-                out.println("}");
+            } else {
+                
+                Photo photo = PhotosDB.getPhotoMetadataWithID(image);
+                
+                response.setContentType("application/json");
+                out.println("{userName:\"" + photo.getUserName() + "\", title:\""
+                        + photo.getTitle() + "\"," + "date:\"" + photo.getDate()
+                        + "\", contentType:\"" + photo.getContentType() +
+                        "\", numberOfRatings:\"" + photo.getNumberOfRatings() + "\"}");
 
             }
         }
@@ -83,7 +81,11 @@ public class GetUserData extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException e) {
+
+        }
     }
 
     /**
@@ -97,7 +99,11 @@ public class GetUserData extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException e) {
+
+        }
     }
 
     /**
