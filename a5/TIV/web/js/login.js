@@ -475,22 +475,20 @@ function logout() {
 
 function checkCookies() {
     "use strict";
-    var xhr = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest(),
+        params = 'action=AutomaticLogIn';
     xhr.open('POST', 'LogIn');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             document.getElementById('userMenu').style.display = "inherit";
             document.getElementById('logreg').style.display = "none";
-            document.body.innerHTML = this.responseText;
-            showUserData(this.responseText);
-            sendAjaxPOST('ShowRegisteredMembers');
         } else if (xhr.status !== 200) {
             register_login();
         }
     };
 
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send('action=AutomaticLogIn');
+    xhr.send(params);
 }
 
 function validate(str) {
