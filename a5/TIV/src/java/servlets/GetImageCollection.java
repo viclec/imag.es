@@ -52,7 +52,7 @@ public class GetImageCollection extends HttpServlet {
         }
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
-            out.println("{\"Photos:[");
+            out.println("{[");
             int i = number;
             for (Integer key : photos) {
                 out.println("{\"" + key + "\"}");
