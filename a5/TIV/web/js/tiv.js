@@ -53,7 +53,7 @@ function TIV3449() {
             return function (e) {
                 span = document.createElement('span');
                 span.id = "fullsize";
-                span.innerHTML = ['<img src="', e.target.result, '" title="', escape(image.name), '"><div id="title">', image.name, '</div><aside><div id="exif"></div><div id="map"></div></aside>'].join('');
+                span.innerHTML = ['<img src="', e.target.result, '" title="', escape(image.name), '"><div id="title">', image.name, '<div id="uploadButton" onclick="uploadImage();"><button>Upload Image</button></div></div><aside><div id="exif"></div><div id="map"></div></aside>'].join('');
                 document.getElementById(elem).insertBefore(span, null);
                 showImageDetailedExifInfo(index, 'exif');
             };
