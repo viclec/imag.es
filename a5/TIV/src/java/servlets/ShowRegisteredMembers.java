@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "ShowRegisteredMembers", urlPatterns = {"/ShowRegisteredMembers"})
 public class ShowRegisteredMembers extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,13 +36,19 @@ public class ShowRegisteredMembers extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException {
         if (request.getParameter("action") != null && request.getParameter("action").equals("ShowRegisteredMembers")) {
             HttpSession session = request.getSession();
-            response.setContentType("text/html;charset=UTF-8");
+            response.setContentType("application/json");
             try (PrintWriter out = response.getWriter()) {
-                out.println("<h2>Users registered:</h2><br>");
-                int i = 1;
+                out.println("{\"Users:[");
+                int i = UserDB.getUsers().size();
                 for (User key : UserDB.getUsers()) {
-                    out.println(i++ + ":" + key.getUserName() + "<br>");
+                    out.println("{\"username:\"" + key.getUserName() + "\"}");
+                    if (--i > 0) {
+                        out.println(",");
+                        
+                    }
                 }
+                out.println("]}");
+
             }
         }
     }
