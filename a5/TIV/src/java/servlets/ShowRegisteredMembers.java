@@ -38,7 +38,7 @@ public class ShowRegisteredMembers extends HttpServlet {
             HttpSession session = request.getSession();
             response.setContentType("application/json");
             try (PrintWriter out = response.getWriter()) {
-                out.print("{[");
+                out.print("[");
                 int i = UserDB.getUsers().size();
                 for (User key : UserDB.getUsers()) {
                     out.print("\"" + key.getUserName() + "\"");
@@ -47,7 +47,7 @@ public class ShowRegisteredMembers extends HttpServlet {
                         
                     }
                 }
-                out.print("]}");
+                out.print("]");
 
             }
         }
