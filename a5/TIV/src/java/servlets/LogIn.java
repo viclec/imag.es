@@ -39,9 +39,10 @@ public class LogIn extends HttpServlet {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             User loggedUser = null;
-
+            HttpSession session = request.getSession(true);
             if (UserDB.getUser(username).getPassword().equals(password)) {
                 loggedUser = UserDB.getUser(username);
+                session.setAttribute("loggedUser", loggedUser);
             }
 
             if (loggedUser != null) {

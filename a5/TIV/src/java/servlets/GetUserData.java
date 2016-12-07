@@ -42,16 +42,7 @@ public class GetUserData extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 //Get the file that contains the registration form from
                 //the WEB-INF folder and dispatch it
-                String male = "";
-                String female = "";
-                String nothing = "";
-                if (user.getGender().toString().equals("male")) {
-                    male = "checked=\"\"";
-                } else if (user.getGender().equals("male")) {
-                    female = "checked=\"\"";
-                } else {
-                    nothing = "checked=\"\"";
-                }
+                
 
                 out.println("{");
                 out.println("\"username\":\"" + user.getUserName() + "\",");
