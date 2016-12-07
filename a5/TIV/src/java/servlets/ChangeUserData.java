@@ -39,12 +39,14 @@ public class ChangeUserData extends HttpServlet {
             if (session != null && session.getAttribute("loggedUser") != null) {
 //                User user = (User) session.getAttribute("loggedUser");
                 User user = UserDB.getUser(request.getParameter("username"));
-                user.changeFields(request.getParameter("username"), request.getParameter("email"),
+                user.changeFields(request.getParameter("email"),
                         request.getParameter("password"), request.getParameter("fname"),
                         request.getParameter("lname"), request.getParameter("birthdate"),
                         request.getParameter("country"), request.getParameter("town"),
                         request.getParameter("text"), request.getParameter("gender"));
                 UserDB.updateUser(user);
+                
+                session.setAttribute("loggedUser", user);
 
                 response.setContentType("text/html;charset=UTF-8");
                 try (PrintWriter out = response.getWriter()) {

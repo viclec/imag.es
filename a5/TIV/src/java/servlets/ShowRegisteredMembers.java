@@ -35,7 +35,6 @@ public class ShowRegisteredMembers extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
         if (request.getParameter("action") != null && request.getParameter("action").equals("ShowRegisteredMembers")) {
-            HttpSession session = request.getSession();
             response.setContentType("application/json");
             try (PrintWriter out = response.getWriter()) {
                 out.print("[");

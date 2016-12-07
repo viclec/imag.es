@@ -38,6 +38,7 @@ public class GetUserData extends HttpServlet {
         if (request.getParameter("action") != null && request.getParameter("action").equals("GetUserData")) {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("loggedUser");
+            
             response.setContentType("application/json");
             try (PrintWriter out = response.getWriter()) {
                 //Get the file that contains the registration form from

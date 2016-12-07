@@ -149,8 +149,7 @@ public class User implements Serializable {
         setGender(gender);
     }
     
-    public void changeFields(String userName,
-            String email,
+    public void changeFields(String email,
             String password,
             String firstName,
             String lastName,
@@ -159,7 +158,6 @@ public class User implements Serializable {
             String town,
             String info,
             String gender) {
-        this.userName = userName;
         this.email = email;
         this.password = password;
         this.firstName = firstName;

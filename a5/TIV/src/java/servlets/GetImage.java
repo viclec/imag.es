@@ -38,7 +38,6 @@ public class GetImage extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            HttpSession session = request.getSession(true);
             int image = Integer.parseInt(request.getParameter("image"));
             Boolean metadata = Boolean.parseBoolean(request.getParameter("metadata"));
 

@@ -35,7 +35,6 @@ public class GetImageCollection extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
 
-        HttpSession session = request.getSession(true);
         String user = request.getParameter("user");
         int number;
         List<Integer> photos;
@@ -45,6 +44,7 @@ public class GetImageCollection extends HttpServlet {
         } else {
             number = Integer.parseInt(request.getParameter("number"));
         }
+        
         if (user != null) {
             photos = PhotosDB.getPhotoIDs(number, user);
         } else {
@@ -53,10 +53,10 @@ public class GetImageCollection extends HttpServlet {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
             out.println("[");
-            int i = number;
-            for (Integer key : photos) {
-                out.println("\"" + key + "\"");
-                if (--i > 0) {
+            for (int k = 0; k < number; k++) {
+                
+                out.println("\"" + photos.get(k) + "\"");
+                if (k != number - 1) {
                     out.println(",");
 
                 }
