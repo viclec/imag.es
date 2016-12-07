@@ -415,18 +415,20 @@ function allUsers() {
     var xhr = new XMLHttpRequest(),
             params = "action=ShowRegisteredMembers",
             members,
-            i;
+            i,
+            printLine = "";
     xhr.open('POST', 'ShowRegisteredMembers');
     xhr.onload = function () {
         if (this.readyState === 4 && xhr.status === 200) {
             console.log(xhr);
             members = JSON.parse(xhr.responseText);
-            document.getElementById('list').innerHTML = "<div class='tab-content'><table id='allusers'>";
+            printLine = "<div class='tab-content'><table id='allusers'>";
                 console.log(members);
-            for (i = 0; i < members.Users.length; i++) {
-                document.getElementById('list').innerHTML += "<tr><td>"+members.Users[i].username+"</td></tr>";
+            for (i = 0; i < members.length; i++) {
+                printLine += "<tr><td>"+members[i]+"</td></tr>";
             }
-            document.getElementById('list').innerHTML += "</table></div>";
+            printLine += "</table></div>";
+            document.getElementById('list').innerHTML = printLine;
         } else if (xhr.status !== 200) {
             alert('Request failed. Returned status of ' + xhr.status);
         }
