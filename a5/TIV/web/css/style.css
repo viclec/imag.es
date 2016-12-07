@@ -283,6 +283,15 @@ button{
               width:100%;
        }
        
+       body{
+           width: 100%;
+       }
+
+       #pathexplorer{
+           width:40%;
+           margin: 0 30%;
+       }
+       
        nav{
            width:100%;
            float:left;
