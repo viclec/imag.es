@@ -52,16 +52,16 @@ public class GetImageCollection extends HttpServlet {
         }
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
-            out.println("{[");
+            out.println("[");
             int i = number;
             for (Integer key : photos) {
-                out.println("{\"" + key + "\"}");
+                out.println("\"" + key + "\"");
                 if (--i > 0) {
                     out.println(",");
 
                 }
             }
-            out.println("]}");
+            out.println("]");
 
         }
     }
