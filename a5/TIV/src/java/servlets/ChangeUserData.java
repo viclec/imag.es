@@ -43,7 +43,7 @@ public class ChangeUserData extends HttpServlet {
                         request.getParameter("password"), request.getParameter("fname"),
                         request.getParameter("lname"), request.getParameter("birthdate"),
                         request.getParameter("country"), request.getParameter("town"),
-                        request.getParameter("text"), request.getParameter("gender"));
+                        request.getParameter("info"), request.getParameter("gender"));
                 UserDB.updateUser(user);
                 
                 session.setAttribute("loggedUser", user);

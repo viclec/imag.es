@@ -56,7 +56,7 @@ public class GetUserData extends HttpServlet {
                 out.println("\"gender\":\"" + user.getGender().toString() + "\",");
                 out.println("\"country\":\"" + user.getCountry() + "\",");
                 out.println("\"town\":\"" + user.getTown() + "\",");
-                out.println("\"textarea\":\"" + user.getInfo() + "\"");
+                out.println("\"info\":\"" + user.getInfo() + "\"");
                 out.println("}");
 
             }
