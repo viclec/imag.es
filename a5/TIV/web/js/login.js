@@ -354,6 +354,9 @@ function login() {
 
 function changeInfo() {
     'use strict';
+    if (!document.getElementById('updateInfoForm').checkValidity()) {
+        return;
+    }
     var user = document.getElementById('user').value,
             email = document.getElementById('email').value,
             pass = document.getElementById('pass').value,
@@ -374,7 +377,7 @@ function changeInfo() {
         sex = document.getElementById('sex_undefined').value;
     }
 
-    params = "action=ChangeUserData&username=" + user + "&email=" + email + "&password=" + pass + "&fname=" + fName + "&lName=" + lName + "&birthdate=" + bdate + "&gender=" + sex + "&country=" + country + "&town=" + city + "&info=" + other;
+    params = "action=ChangeUserData&username=" + user + "&email=" + email + "&password=" + pass + "&fname=" + fName + "&lname=" + lName + "&birthdate=" + bdate + "&gender=" + sex + "&country=" + country + "&town=" + city + "&info=" + other;
 
     xhr.open('POST', 'ChangeUserData');
     xhr.onload = function () {
@@ -406,10 +409,6 @@ function loggedIn(status) {
     }
 }
 
-function loadPhotos() {
-
-}
-
 function allUsers() {
     'use strict';
     var xhr = new XMLHttpRequest(),
@@ -423,9 +422,9 @@ function allUsers() {
             console.log(xhr);
             members = JSON.parse(xhr.responseText);
             printLine = "<div class='tab-content'><table id='allusers'>";
-                console.log(members);
+            console.log(members);
             for (i = 0; i < members.length; i++) {
-                printLine += "<tr><td>"+members[i]+"</td></tr>";
+                printLine += "<tr><td>" + members[i] + "</td></tr>";
             }
             printLine += "</table></div>";
             document.getElementById('list').innerHTML = printLine;
@@ -461,13 +460,14 @@ function myProfile() {
                     break;
             }
             document.getElementById('list')
-                    .innerHTML = "<div class='tab-content'><label for='user'>username</label>\n<input placeholder='username' value='" + profileInfo.username + "' id='user' type='text' name='user' required=\"required\" disabled><br>\n"
+                    .innerHTML = "<form id=\"updateInfoForm\" onsubmit=\"return false;\">\n"
+                    + "                 <div class='tab-content'><label for='user'>username</label>\n<input placeholder='username' value='" + profileInfo.username + "' id='user' type='text' name='user' required=\"required\" disabled pattern=\".{3,}\"><br>\n"
                     + "                <label for='email'>email</label>\n<input placeholder='email' value='" + profileInfo.email + "' id='email' type=\"email\" name='email' required=\"required\"><br>\n"
                     + "                <label for='pass'>password</label>\n<input placeholder='change password' value='" + profileInfo.password + "' id='pass' type=\"text\" name='password' required=\"required\"><br>\n"
-                    + "                <label for='fname'>first name</label>\n<input placeholder='first name' value='" + profileInfo.fname + "' id='fname' type=\"text\" name='firstName' required=\"required\"><br>\n"
-                    + "                <label for='lname'>last name</label>\n<input placeholder='last name' value='" + profileInfo.lname + "' id='lname' type=\"text\" name='lastName' required=\"required\"><br>\n"
+                    + "                <label for='fname'>first name</label>\n<input placeholder='first name' value='" + profileInfo.fname + "' id='fname' type=\"text\" name='firstName' pattern=\"[A-Za-z]{3,20}\" required=\"required\"><br>\n"
+                    + "                <label for='lname'>last name</label>\n<input placeholder='last name' value='" + profileInfo.lname + "' id='lname' type=\"text\" name='lastName' pattern=\"[A-Za-z]{3,20}\" required=\"required\"><br>\n"
                     + "                <label for='bdate'>birth date:</label><br>\n"
-                    + "                <input placeholder='birthdate' value='" + profileInfo.birthdate + "' id='bdate' type=\"date\" name='birthDate' required=\"required\"><br>\n"
+                    + "                <input placeholder='birthdate' value='" + profileInfo.birthdate + "' id='bdate' type=\"date\" name='birthDate' max=\"2001-11-17\" required=\"required\"><br>\n"
                     + "                <label for='sex'>sex</label><br>\n"
                     + "                <label for='sex'>male</label>\n"
                     + "                <input id='sex_male' type=\"radio\" name='sex' value=\"male\" " + male + ">\n"
@@ -726,9 +726,9 @@ function myProfile() {
                     + "	<option value=\"ZMB\">Zambia</option>\n"
                     + "	<option value=\"ZWE\">Zimbabwe</option>\n"
                     + "</select><br>\n"
-                    + "                <label for='city'>city</label>\n<input placeholder='city' value='" + profileInfo.town + "' id='city' type=\"text\" name='city' required=\"required\"><br>\n"
+                    + "                <label for='city'>city</label>\n<input placeholder='city' pattern=\".{2,50}\" value='" + profileInfo.town + "' id='city' type=\"text\" name='city' required=\"required\"><br>\n"
                     + "                <label for='other'>other info</label>\n<input placeholder='other info' value='" + profileInfo.info + "' id='other' type=\"text\" name='other'><br>\n"
-                    + "                <input type='button' value='Update Info' onclick='changeInfo();'><br>\n</div>";
+                    + "                <input type='submit' value='Update Info' onclick='changeInfo();'><br>\n</div>\n</form>";
         } else if (xhr.status !== 200) {
             alert('Get user data failed.');
         }
