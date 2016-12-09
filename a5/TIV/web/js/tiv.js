@@ -80,6 +80,10 @@ function TIV3449() {
 
         file = images[index];
         formData.append("photo", file);
+        formData.append("title", file.name);
+        formData.append("contentType", file.type);
+        formData.append("userName", "John");
+        console.log(formData);
         jQuery.ajax({
             url: 'UploadImage',
             data: formData,
@@ -89,6 +93,9 @@ function TIV3449() {
             type: 'POST',
             success: function (data) {
                 console.log(data.photoId);
+            },
+            error: function () {
+                alert("Image upload failed");
             }
         });
     }
