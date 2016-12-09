@@ -60,10 +60,10 @@ public class GetImage extends HttpServlet {
                 Photo photo = PhotosDB.getPhotoMetadataWithID(image);
 
                 response.setContentType("application/json");
-                out.println("{username:\"" + photo.getUserName() + "\", title:\""
-                        + photo.getTitle() + "\"," + "date:\"" + photo.getDate()
-                        + "\", contentType:\"" + photo.getContentType()
-                        + "\", numberOfRatings:\"" + photo.getNumberOfRatings() + "\"}");
+                out.println("{\"username\":\"" + photo.getUserName() + "\", \"title\":\""
+                        + photo.getTitle() + "\",\"date\":\"" + photo.getDate()
+                        + "\", \"contentType\":\"" + photo.getContentType()
+                        + "\", \"numberOfRatings\":\"" + photo.getNumberOfRatings() + "\"}");
 
             }
         }
