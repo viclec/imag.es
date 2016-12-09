@@ -53,11 +53,13 @@ public class GetImageCollection extends HttpServlet {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
             out.println("[");
-            for (int k = 0; k < number; k++) {
+            for (int k = 0; k < photos.size() - 1; k++) {
                 
                 out.println("\"" + photos.get(k) + "\"");
+                System.out.println("\"" + photos.get(k) + "\"");
                 if (k != number - 1) {
                     out.println(",");
+                    System.out.println(",");
 
                 }
             }

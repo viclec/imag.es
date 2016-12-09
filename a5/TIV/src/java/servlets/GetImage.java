@@ -35,34 +35,35 @@ public class GetImage extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        
+        int image = Integer.parseInt(request.getParameter("image"));
+        Boolean metadata = Boolean.parseBoolean(request.getParameter("metadata"));
 
-            int image = Integer.parseInt(request.getParameter("image"));
-            Boolean metadata = Boolean.parseBoolean(request.getParameter("metadata"));
+        if (metadata == false) {
+            //This is what you should do for the response in the servlet
+            response.setContentType("image/jpg");   // Use the appropriate type from the metadata
 
-            if (metadata == false) {
-                //This is what you should do for the response in the servlet
-                response.setContentType("image/jpg");   // Use the appropriate type from the metadata
+            // Get the blob of the photo
+            byte[] imgData = PhotosDB.getPhotoBlobWithID(image);
 
-                // Get the blob of the photo
-                byte[] imgData = PhotosDB.getPhotoBlobWithID(image);
+            // output with the help of outputStream
+            try (OutputStream os = response.getOutputStream()) {
+                os.write(imgData);
+                os.flush();
+                os.close();
+            }
+        } else {
 
-                
-                // output with the help of outputStream
-                try (OutputStream os = response.getOutputStream()) {
-                    os.write(imgData);
-                    os.flush();
-                }
-            } else {
-                
+            response.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = response.getWriter()) {
+
                 Photo photo = PhotosDB.getPhotoMetadataWithID(image);
-                
+
                 response.setContentType("application/json");
                 out.println("{userName:\"" + photo.getUserName() + "\", title:\""
                         + photo.getTitle() + "\"," + "date:\"" + photo.getDate()
-                        + "\", contentType:\"" + photo.getContentType() +
-                        "\", numberOfRatings:\"" + photo.getNumberOfRatings() + "\"}");
+                        + "\", contentType:\"" + photo.getContentType()
+                        + "\", numberOfRatings:\"" + photo.getNumberOfRatings() + "\"}");
 
             }
         }
