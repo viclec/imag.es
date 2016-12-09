@@ -32,7 +32,7 @@ public class UploadImage extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         // gets values of text fields
-        String userName = request.getParameter("userName");
+        String username = request.getParameter("username");
         String contentType = request.getParameter("contentType");
         String title = request.getParameter("title");
         int photoId;
@@ -53,9 +53,9 @@ public class UploadImage extends HttpServlet {
         try {
             // uploadPhoto returns the id of the photo
             if (title != null) {
-                photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType, title);
+                photoId = PhotosDB.uploadPhoto(inputStream, username, contentType, title);
             } else {
-                photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType);
+                photoId = PhotosDB.uploadPhoto(inputStream, username, contentType);
             }
 
             response.setContentType("application/json");
