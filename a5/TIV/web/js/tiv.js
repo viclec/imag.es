@@ -79,7 +79,7 @@ function TIV3449() {
         formData.append("photo", file);
         formData.append("title", file.name);
         formData.append("contentType", file.type);
-        formData.append("userName", "123456@d.");   //TODO username
+        formData.append("username", "123456@d.");   //TODO username
         jQuery.ajax({
             url: 'UploadImage',
             data: formData,
