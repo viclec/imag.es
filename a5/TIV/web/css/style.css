@@ -80,6 +80,28 @@ em{
      font-size:20px;
 }
 
+#myLatestPhotos{
+    display: inline-block;
+    background: #eee;
+    padding: 50px;
+    margin:50px 0;
+}
+
+#allLatestPhotos{
+    display: inline-block;
+    background: #ddd;
+    padding: 50px;
+    margin:50px 0;
+}
+
+#myLatestPhotos h1{
+    font-size: 20px;
+}
+
+#allLatestPhotos h1{
+    font-size: 20px;
+}
+
 #userMenu{
     display: none;
 }
@@ -315,7 +337,8 @@ button{
        }
     
     #title, aside{
-        width: 95%;
+        max-width: 100%;
+        width: 100%;
         padding: 20px 2.5%;
     }
     
