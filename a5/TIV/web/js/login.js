@@ -339,6 +339,7 @@ function login() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 201) {
             document.getElementById('userMenu').style.display = "inherit";
+            document.getElementById('numberOfImages').style.display = "inherit";
             document.getElementById('logreg').style.display = "none";
             document.getElementById('list')
                     .innerHTML = xhr.responseText;
@@ -742,7 +743,70 @@ function loadPhotos() {
     document.getElementById('list').innerHTML = "<form id=\"pathexplorer\">\n" +
             "                <img src=\"images/fldr.png\" alt=\"Add folder...\"/>\n" +
             "                <input id=\"images\" type=\"file\" webkitdirectory mozdirectory directory name=\"myFiles\" onchange=\"TIV3449();\" multiple/>\n" +
-            "            </form>";
+            "            </form>" +
+            "            <p>My Latest Photos</p>" +
+            "            <div id='myLatestPhotos'></div>";
+    loadMyLatestPhotos();
+}
+
+function loadMyLatestPhotos() {
+    "use strict";
+    var formData = new FormData(),
+            number = document.getElementById('numberOfImages').value,
+            i,
+            images;
+    $.when(ajax1()).done(function (data, textStatus, jqXHR) {
+        images = data;
+        for (i = 0; i < number; i++) {
+            console.log(i);
+            showImage(images[i], false);
+        }
+    });
+    function ajax1() {
+        return jQuery.ajax({
+            url: 'GetImageCollection',
+            data: "user=John&number=" + number, //TODO user
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function (data) {
+                //console.log(data);
+            },
+            error: function () {
+                alert("No enough latest photos to display.");
+                //console.log(formData);
+            }
+        });
+    }
+}
+
+function showImage(photoID, metadata) {
+    "use strict";
+    var formData = new FormData(),
+            span;
+    jQuery.ajax({
+        url: 'GetImage',
+        data: "image=" + photoID + "&metadata=" + metadata,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'GET',
+        success: function (data) {
+            //console.log(data);
+            span = document.createElement('span');
+            span.className = "tile";
+            span.onclick = function () {
+                //showEnlargedImage(id, meta);
+            };
+            span.innerHTML = ['<div class="caption"><em>', data.name, '</em><br><small>', data.name, '</small></div><img src="', data, '" title="', escape(data.name), '">'].join('');
+            document.getElementById('myLatestPhotos').insertBefore(span, null);
+        },
+        error: function () {
+            alert("Couldn't fetch the photo.");
+            //console.log(formData);
+        }
+    });
 }
 
 function logout() {
@@ -753,6 +817,7 @@ function logout() {
     xhr.onload = function () {
         if (xhr.status === 200) {
             document.getElementById('userMenu').style.display = "none";
+            document.getElementById('numberOfImages').style.display = "none";
             document.getElementById('logreg').style.display = "inherit";
             document.getElementById('list')
                     .innerHTML = xhr.responseText;
