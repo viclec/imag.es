@@ -1,4 +1,4 @@
-var loggedInUsername;
+var loggedInUsername = undefined;
 
 function register() {
     'use strict';
@@ -44,7 +44,9 @@ function register() {
 
 function register_login() {
     'use strict';
-    document.getElementById('list').innerHTML = "<ul class=\"nav nav-tabs\">\n"
+
+    loadAllLatestPhotos();
+    document.getElementById('list').innerHTML = "<div id='allLatestPhotos'><h2>All Latest Photos</h2></div>\n<ul class=\"nav nav-tabs\">\n"
             + "            <li class=\"active\"><a data-toggle=\"tab\" href=\"#login\">login</a></li>\n"
             + "            <li><a data-toggle=\"tab\" href=\"#register\">register</a></li>\n"
             + "        </ul>\n"
@@ -342,6 +344,7 @@ function login() {
         if (xhr.readyState === 4 && xhr.status === 201) {
             document.getElementById('userMenu').style.display = "inherit";
             document.getElementById('numberOfImages').style.display = "inherit";
+            document.getElementById('numberOfImagesLabel').style.display = "inherit";
             document.getElementById('logreg').style.display = "none";
             document.getElementById('list')
                     .innerHTML = xhr.responseText;
@@ -746,9 +749,10 @@ function loadPhotos() {
             "                <label for=\"images\">Select folder</label>" +
             "                <input id=\"images\" type=\"file\" webkitdirectory mozdirectory directory name=\"myFiles\" onchange=\"TIV3449();\" multiple/>\n" +
             "            </form>" +
-            "            <div id='myLatestPhotos'><h1>My Latest Photos</h1></div>" +
-            "            <div id='allLatestPhotos'><h1>All Latest Photos</h1></div>";
+            "            <div id='myLatestPhotos'><h2>My Latest Photos</h2></div>" +
+            "            <div id='allLatestPhotos'><h2>All Latest Photos</h2></div>";
     loadMyLatestPhotos();
+    loadAllLatestPhotos();
 }
 
 function loadMyLatestPhotos() {
@@ -765,7 +769,36 @@ function loadMyLatestPhotos() {
     function ajax1() {
         return jQuery.ajax({
             url: 'GetImageCollection',
-            data: "username="+loggedInUsername+"&number=" + number,
+            data: "username=" + loggedInUsername + "&number=" + number,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function (data) {
+                console.log(data);
+            },
+            error: function () {
+                alert("No enough latest photos to display.");
+            }
+        });
+    }
+}
+
+function loadAllLatestPhotos() {
+    "use strict";
+    var number = document.getElementById('numberOfImages').value,
+            i,
+            images;
+    $.when(ajax1()).done(function (data, textStatus, jqXHR) {
+        images = data;
+        for (i = 0; i < number; i++) {
+            showImage(images[i], false, true);
+        }
+    });
+    function ajax1() {
+        return jQuery.ajax({
+            url: 'GetImageCollection',
+            data: "&number=" + number,
             cache: false,
             contentType: false,
             processData: false,
@@ -788,7 +821,7 @@ function showImage(photoID, metadata, allUsers) {
             base64data,
             xhr;
     xhr = new XMLHttpRequest();
-    xhr.open("GET", "GetImage?image="+photoID+"&metadata="+metadata);
+    xhr.open("GET", "GetImage?image=" + photoID + "&metadata=" + metadata);
     xhr.responseType = "blob";
     xhr.onload = function () {
         if (xhr.status === 200) {
@@ -807,10 +840,14 @@ function showImage(photoID, metadata, allUsers) {
                     //showEnlargedImage(id, meta);
                 };
                 span.innerHTML = ['<div class="caption"><em>', blob, '</em><br><small>', blob, '</small></div><img src="', base64data, '" title="', blob, '">'].join('');
-                document.getElementById('myLatestPhotos').insertBefore(span, null);
+                if (allUsers === false) {
+                    document.getElementById('myLatestPhotos').insertBefore(span, null);
+                } else {
+                    document.getElementById('allLatestPhotos').insertBefore(span, null);
+                }
             };
         } else {
-            alert("Fetching the image with ID:"+photoID+" failed.");
+            alert("Fetching the image with ID:" + photoID + " failed.");
         }
 
     };
@@ -827,10 +864,12 @@ function logout() {
         if (xhr.status === 200) {
             document.getElementById('userMenu').style.display = "none";
             document.getElementById('numberOfImages').style.display = "none";
+            document.getElementById('numberOfImagesLabel').style.display = "none";
             document.getElementById('logreg').style.display = "inherit";
             document.getElementById('list')
                     .innerHTML = xhr.responseText;
             register_login();
+            loadAllLatestPhotos();
         } else if (xhr.status !== 200) {
             alert('Request failed. Returned status of ' + xhr.status);
         }
@@ -851,11 +890,14 @@ function checkCookies() {
             alert(loggedInUsername);
             document.getElementById('userMenu').style.display = "inherit";
             document.getElementById('numberOfImages').style.display = "inherit";
+            document.getElementById('numberOfImagesLabel').style.display = "inherit";
             document.getElementById('logreg').style.display = "none";
             loadPhotos();
         } else if (xhr.status !== 200) {
             document.getElementById('numberOfImages').style.display = "none";
+            document.getElementById('numberOfImagesLabel').style.display = "none";
             register_login();
+            loadAllLatestPhotos();
         }
     };
 
@@ -882,6 +924,10 @@ function validate(str) {
 
         return true;
     }
+}
+
+function getLoggedInUsername() {
+    return loggedInUsername;
 }
 
 window.onload = checkCookies;
