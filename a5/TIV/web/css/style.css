@@ -84,6 +84,11 @@ em{
     display: none;
 }
 
+#numberOfImages{
+    line-height: 30px;
+    max-width: 80px;
+}
+
 #logout{
 }
 
