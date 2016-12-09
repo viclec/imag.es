@@ -35,7 +35,7 @@ public class GetImageCollection extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
 
-        String user = request.getParameter("user");
+        String username = request.getParameter("username");
         int number;
         List<Integer> photos;
 
@@ -45,8 +45,8 @@ public class GetImageCollection extends HttpServlet {
             number = Integer.parseInt(request.getParameter("number"));
         }
         
-        if (user != null) {
-            photos = PhotosDB.getPhotoIDs(number, user);
+        if (username != null) {
+            photos = PhotosDB.getPhotoIDs(number, username);
         } else {
             photos = PhotosDB.getPhotoIDs(number);
         }

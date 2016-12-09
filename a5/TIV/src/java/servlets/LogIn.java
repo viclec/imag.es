@@ -60,7 +60,7 @@ public class LogIn extends HttpServlet {
             HttpSession session = request.getSession(true);
             User loggedUser = (User) session.getAttribute("loggedUser");
 
-            if (loggedUser != null && UserDB.checkValidUserName(loggedUser.getUserName())) {
+            if (loggedUser != null && !UserDB.checkValidUserName(loggedUser.getUserName())) {
                 response.setStatus(200);
 
                 response.setContentType("application/json");
