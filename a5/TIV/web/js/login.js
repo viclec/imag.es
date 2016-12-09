@@ -1,4 +1,4 @@
-var loggedInUsername = undefined;
+var loggedInUsername;
 
 function register() {
     'use strict';
@@ -391,9 +391,10 @@ function changeInfo() {
     xhr.open('POST', 'ChangeUserData');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("User updated succesfully!");
             myProfile();
         } else if (xhr.status !== 200) {
-            alert('Change of settings failed');
+            alert('Change of settings failed.');
         }
     };
     xhr.setRequestHeader('Content-type',
@@ -435,6 +436,7 @@ function allUsers() {
             }
             printLine += "</table></div>";
             document.getElementById('list').innerHTML = printLine;
+            document.getElementById('myAccount').selected = "selected";
         } else if (xhr.status !== 200) {
             alert('Request failed. Returned status of ' + xhr.status);
         }
@@ -450,12 +452,14 @@ function myProfile() {
             profileInfo,
             male = "",
             female = "",
-            undefined = "";
+            undefined = "",
+            countries,
+            i;
     xhr.open('POST', 'GetUserData');
     xhr.onload = function () {
         if (this.readyState === 4 && xhr.status === 200) {
             profileInfo = JSON.parse(xhr.responseText);
-            switch (profileInfo.gender) {
+            switch (profileInfo.gender.toLowerCase()) {
                 case "male":
                     male = "checked='checked'";
                     break;
@@ -568,7 +572,7 @@ function myProfile() {
                     + "	<option value=\"DEU\">Germany</option>\n"
                     + "	<option value=\"GHA\">Ghana</option>\n"
                     + "	<option value=\"GIB\">Gibraltar</option>\n"
-                    + "	<option selected value=\"GRC\">Greece</option>\n"
+                    + "	<option value=\"GRC\">Greece</option>\n"
                     + "	<option value=\"GRL\">Greenland</option>\n"
                     + "	<option value=\"GRD\">Grenada</option>\n"
                     + "	<option value=\"GLP\">Guadeloupe</option>\n"
@@ -736,6 +740,14 @@ function myProfile() {
                     + "                <label for='city'>city</label>\n<input placeholder='city' pattern=\".{2,50}\" value='" + profileInfo.town + "' id='city' type=\"text\" name='city' required=\"required\"><br>\n"
                     + "                <label for='other'>other info</label>\n<input placeholder='other info' value='" + profileInfo.info + "' id='other' type=\"text\" name='other'><br>\n"
                     + "                <input type='submit' value='Update Info' onclick='changeInfo();'><br>\n</div>\n</form>";
+
+            countries = document.getElementById('country').options;
+            for (i = 0; i < countries.length; i++) {
+                if (profileInfo.country === countries[i].value) {
+                    countries[i].selected = "selected";
+                }
+            }
+            document.getElementById('myAccount').selected = "selected";
         } else if (xhr.status !== 200) {
             alert('Get user data failed.');
         }
@@ -755,6 +767,7 @@ function loadPhotos() {
             "            <div id='allLatestPhotos'><h2>All Latest Photos</h2></div>";
     loadMyLatestPhotos();
     loadAllLatestPhotos();
+    document.getElementById('myAccount').selected = "selected";
 }
 
 function loadMyLatestPhotos() {
@@ -858,6 +871,7 @@ function showImage(photoID, allUsers, i) {
     xhr.send();
 }
 
+//displays the title and the username
 function showImageInfo(photoID, allUsers, i) {
     "use strict";
     var xhr = new XMLHttpRequest(),
@@ -867,8 +881,10 @@ function showImageInfo(photoID, allUsers, i) {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             info = JSON.parse(xhr.responseText);
-            document.getElementById('title-' + allUsers + '-' + i).innerHTML = info.title;
-            document.getElementById('artist-' + allUsers + '-' + i).innerHTML = info.username;
+            if (info.title !== null && info.title !== undefined)
+                document.getElementById('title-' + allUsers + '-' + i).innerHTML = info.title;
+            if (info.username !== null && info.username !== undefined)
+                document.getElementById('artist-' + allUsers + '-' + i).innerHTML = info.username;
         } else if (xhr.status !== 200) {
             console.log("Error while loading info for image with ID:" + photoID);
         }
@@ -878,6 +894,7 @@ function showImageInfo(photoID, allUsers, i) {
     xhr.send(params);
 }
 
+//same as Assignment 2
 function showImageDetailedExifWithMap(image, elem) {
     var uluru, map, marker, latitude, longitude;
     EXIF.getData(image, function () {
@@ -925,7 +942,7 @@ function base64ToFile(dataURI) {
         ia[i] = byteString.charCodeAt(i);
     }
 
-    return new Blob([ia], {type:mimeString});
+    return new Blob([ia], {type: mimeString});
 }
 
 //displays the image in a larger scale along with it's EXIF info and geolocation
@@ -987,6 +1004,7 @@ function checkCookies() {
             document.getElementById('numberOfImages').style.display = "inherit";
             document.getElementById('numberOfImagesLabel').style.display = "inherit";
             document.getElementById('logreg').style.display = "none";
+            document.getElementById('myAccount').selected = "selected";
             loadPhotos();
         } else if (xhr.status !== 200) {
             document.getElementById('numberOfImages').style.display = "none";
