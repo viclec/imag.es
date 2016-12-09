@@ -777,7 +777,7 @@ function loadMyLatestPhotos() {
             processData: false,
             type: 'GET',
             success: function (data) {
-                
+
             },
             error: function () {
                 alert("No enough latest photos to display.");
@@ -807,7 +807,7 @@ function loadAllLatestPhotos() {
             processData: false,
             type: 'GET',
             success: function (data) {
-                
+
             },
             error: function () {
                 alert("No enough latest photos to display.");
@@ -839,9 +839,9 @@ function showImage(photoID, allUsers, i) {
                 span = document.createElement('span');
                 span.className = "tile";
                 span.onclick = function () {
-                    //showEnlargedImage(id, meta);
+                    showEnlargedImage(photoID, allUsers, i);
                 };
-                span.innerHTML = ['<div class="caption"><em id="title-' + allUsers + '-' + i + '"></em><br><small id="artist-' + allUsers + '-' + i + '"></small></div><img src="', base64data, '" title="', i, '">'].join('');
+                span.innerHTML = ['<div class="caption"><em id="title-' + allUsers + '-' + i + '"></em><br><small id="artist-' + allUsers + '-' + i + '"></small></div><img id="image-' + allUsers + '-' + i + '" src="', base64data, '" title="', i, '">'].join('');
                 if (allUsers === false) {
                     document.getElementById('myLatestPhotos').insertBefore(span, null);
                 } else {
@@ -861,21 +861,95 @@ function showImage(photoID, allUsers, i) {
 function showImageInfo(photoID, allUsers, i) {
     "use strict";
     var xhr = new XMLHttpRequest(),
-            params = 'image='+photoID+'&metadata=true',
+            params = 'image=' + photoID + '&metadata=true',
             info;
     xhr.open('POST', 'GetImage');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             info = JSON.parse(xhr.responseText);
-            document.getElementById('title-'+allUsers+'-'+i).innerHTML = info.title;
-            document.getElementById('artist-'+allUsers+'-'+i).innerHTML = info.username;
+            document.getElementById('title-' + allUsers + '-' + i).innerHTML = info.title;
+            document.getElementById('artist-' + allUsers + '-' + i).innerHTML = info.username;
         } else if (xhr.status !== 200) {
-            console.log("Error while loading info for image with ID:"+photoID);
+            console.log("Error while loading info for image with ID:" + photoID);
         }
     };
 
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(params);
+}
+
+function showImageDetailedExifWithMap(image, elem) {
+    var uluru, map, marker, latitude, longitude;
+    EXIF.getData(image, function () {
+        latitude = EXIF.getTag(image, "GPSLatitude")[0] + (60 * EXIF.getTag(image, "GPSLatitude")[1] + EXIF.getTag(image, "GPSLatitude")[2]) / 3600;
+        longitude = EXIF.getTag(image, "GPSLongitude")[0] + (60 * EXIF.getTag(image, "GPSLongitude")[1] + EXIF.getTag(image, "GPSLongitude")[2]) / 3600;
+        if (EXIF.getTag(image, "GPSLatitudeRef") === "S") {
+            latitude = latitude * (-1);
+        } else if (EXIF.getTag(image, "GPSLongitudeRef") === "W") {
+            longitude = longitude * (-1);
+        }
+        uluru = {lat: latitude, lng: longitude};
+        map = new google.maps.Map(document.getElementById(elem), {
+            zoom: 4,
+            center: uluru
+        });
+        marker = new google.maps.Marker({
+            position: uluru,
+            map: map
+        });
+    });
+}
+
+
+//shows detailed exif information about the image
+//if the photo doesn't contain any exif information the method returns
+function showImageDetailedExifInfo(image, elem) {
+    image = base64ToFile(image);
+    EXIF.getData(image, function () {
+        document.getElementById(elem).innerHTML = EXIF.pretty(this);
+    });
+    showImageDetailedExifWithMap(image, 'map');
+}
+
+function base64ToFile(dataURI) {
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        byteString = atob(dataURI.split(',')[1]);
+    else
+        byteString = unescape(dataURI.split(',')[1]);
+
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], {type:mimeString});
+}
+
+//displays the image in a larger scale along with it's EXIF info and geolocation
+function showEnlargedImage(photoID, allUsers, index) {
+    var image = document.getElementById('image-' + allUsers + '-' + index).src,
+            span,
+            button,
+            reader,
+            title,
+            artist;
+    title = document.getElementById('title-' + allUsers + '-' + index).innerHTML;
+    artist = document.getElementById('artist-' + allUsers + '-' + index).innerHTML;
+    document.getElementById('list').innerHTML = [];
+    button = document.createElement('span');
+    button.onclick = function () {
+        checkCookies();
+    };
+    button.innerHTML = ['<button>< Go Back</button>'];
+    document.getElementById('list').insertBefore(button, null);
+    span = document.createElement('span');
+    span.id = "fullsize";
+    span.innerHTML = ['<img src="', image, '" title="', title, '"><div id="title">', title, ' by ', artist, '</div><aside><div id="map"></div><div id="exif"></div></aside>'].join('');
+    document.getElementById('list').insertBefore(span, null);
+    showImageDetailedExifInfo(image, 'exif');
 }
 
 function logout() {
