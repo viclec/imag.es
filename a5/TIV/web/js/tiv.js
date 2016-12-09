@@ -59,7 +59,7 @@ function TIV3449() {
                 button.innerHTML = "<button>Upload Image</button>";
                 span = document.createElement('span');
                 span.id = "fullsize";
-                span.innerHTML = ['<input type="text" name="photo" value="' + e.target.result.split(",")[1] + '" hidden><img src="', e.target.result, '" title="', escape(image.name), '"><div id="title">', image.name, '</div><aside><div id="exif"></div><div id="map"></div></aside>'].join('');
+                span.innerHTML = ['<input type="text" name="photo" value="' + e.target.result.split(",")[1] + '" hidden><img src="', e.target.result, '" title="', escape(image.name), '"><div id="title">', image.name, '</div><aside><div id="map"></div><div id="exif"></div></aside>'].join('');
                 document.getElementById(elem).insertBefore(button, null);
                 document.getElementById(elem).insertBefore(span, null);
                 showImageDetailedExifInfo(index, 'exif');
