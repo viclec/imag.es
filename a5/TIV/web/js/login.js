@@ -342,6 +342,8 @@ function login() {
     xhr.open('POST', 'LogIn');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 201) {
+            loggedInUsername = JSON.parse(xhr.responseText).username;
+            document.getElementById('myAccount').innerHTML = loggedInUsername;
             document.getElementById('userMenu').style.display = "inherit";
             document.getElementById('numberOfImages').style.display = "inherit";
             document.getElementById('numberOfImagesLabel').style.display = "inherit";
@@ -862,9 +864,6 @@ function logout() {
     xhr.open('GET', 'LogOut');
     xhr.onload = function () {
         if (xhr.status === 200) {
-            alert(xhr.responseText);
-            loggedInUsername = JSON.parse(xhr.responseText).username;
-            alert(loggedInUsername);
             document.getElementById('userMenu').style.display = "none";
             document.getElementById('numberOfImages').style.display = "none";
             document.getElementById('numberOfImagesLabel').style.display = "none";
@@ -887,9 +886,8 @@ function checkCookies() {
     xhr.open('POST', 'LogIn');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            alert(xhr.responseText);
             loggedInUsername = JSON.parse(xhr.responseText).username;
-            alert(loggedInUsername);
+            document.getElementById('myAccount').innerHTML = loggedInUsername;
             document.getElementById('userMenu').style.display = "inherit";
             document.getElementById('numberOfImages').style.display = "inherit";
             document.getElementById('numberOfImagesLabel').style.display = "inherit";
