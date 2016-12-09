@@ -881,7 +881,7 @@ function showImageInfo(photoID, allUsers, i) {
 function logout() {
     'use strict';
     var xhr = new XMLHttpRequest(),
-            params = "action=logout";
+            params = "action=LogOut";
     xhr.open('GET', 'LogOut');
     xhr.onload = function () {
         if (xhr.status === 200) {
