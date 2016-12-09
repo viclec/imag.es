@@ -344,6 +344,7 @@ function login() {
             document.getElementById('list')
                     .innerHTML = xhr.responseText;
             loadPhotos();
+
         } else if (xhr.status !== 201) {
             alert('Invalid login name and/or password');
         }
@@ -420,10 +421,8 @@ function allUsers() {
     xhr.open('POST', 'ShowRegisteredMembers');
     xhr.onload = function () {
         if (this.readyState === 4 && xhr.status === 200) {
-            console.log(xhr);
             members = JSON.parse(xhr.responseText);
             printLine = "<div class='tab-content'><table id='allusers'>";
-            console.log(members);
             for (i = 0; i < members.length; i++) {
                 printLine += "<tr><td>" + members[i] + "</td></tr>";
             }
@@ -742,65 +741,77 @@ function loadPhotos() {
     'use strict';
     document.getElementById('list').innerHTML = "<form id=\"pathexplorer\">\n" +
             "                <img src=\"images/fldr.png\" alt=\"Add folder...\"/>\n" +
+            "                <label for=\"images\">Select folder</label>" +
             "                <input id=\"images\" type=\"file\" webkitdirectory mozdirectory directory name=\"myFiles\" onchange=\"TIV3449();\" multiple/>\n" +
             "            </form>" +
-            "            <p>My Latest Photos</p>" +
-            "            <div id='myLatestPhotos'></div>";
+            "            <div id='myLatestPhotos'><h1>My Latest Photos</h1></div>"+
+            "            <div id='allLatestPhotos'><h1>All Latest Photos</h1></div>";
     loadMyLatestPhotos();
 }
 
 function loadMyLatestPhotos() {
     "use strict";
-    var formData = new FormData(),
-            number = document.getElementById('numberOfImages').value,
+    var number = document.getElementById('numberOfImages').value,
             i,
             images;
     $.when(ajax1()).done(function (data, textStatus, jqXHR) {
         images = data;
         for (i = 0; i < number; i++) {
-            console.log(i);
-            showImage(images[i], false);
+            showImage(images[i], false, false);
         }
     });
     function ajax1() {
         return jQuery.ajax({
             url: 'GetImageCollection',
-            data: "user=John&number=" + number, //TODO user
+            data: "user=123456@d.&number=" + number, //TODO user
             cache: false,
             contentType: false,
             processData: false,
             type: 'GET',
             success: function (data) {
-                //console.log(data);
+                console.log(data);
             },
             error: function () {
                 alert("No enough latest photos to display.");
-                //console.log(formData);
             }
         });
     }
 }
 
-function showImage(photoID, metadata) {
+function showImage(photoID, metadata, allUsers) {
     "use strict";
-    var formData = new FormData(),
-            span;
+    var span,
+            reader,
+            file,
+            blob,
+            base64data;
     jQuery.ajax({
         url: 'GetImage',
-        data: "image=" + photoID + "&metadata=" + metadata,
+        data: "image=" + photoID + "&metadata=" + metadata + "&false",
         cache: false,
         contentType: false,
         processData: false,
         type: 'GET',
         success: function (data) {
-            //console.log(data);
+
+            var blob = new Blob([data], {type: 'image/jpeg'});
+            
+            reader = new FileReader();
+
+            reader.readAsDataURL(blob);
+
+            reader.onload = function () {
+                base64data = reader.result;
             span = document.createElement('span');
             span.className = "tile";
             span.onclick = function () {
                 //showEnlargedImage(id, meta);
             };
-            span.innerHTML = ['<div class="caption"><em>', data.name, '</em><br><small>', data.name, '</small></div><img src="', data, '" title="', escape(data.name), '">'].join('');
+            span.innerHTML = ['<div class="caption"><em>', blob, '</em><br><small>', blob, '</small></div><img src="', base64data, '" title="', blob, '">'].join('');
             document.getElementById('myLatestPhotos').insertBefore(span, null);
+            };
+
+//            console.log(blob);
         },
         error: function () {
             alert("Couldn't fetch the photo.");
