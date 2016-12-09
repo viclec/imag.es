@@ -18,7 +18,7 @@ h1{
 }
 
 h2{
-   text-shadow:2px 2px black;
+   text-shadow:1px 1px black;
    margin-bottom:0;
    color:lightblue;
 }
@@ -81,25 +81,24 @@ em{
 }
 
 #myLatestPhotos{
-    display: inline-block;
-    background: #eee;
-    padding: 50px;
-    margin:50px 0;
+    background: lightslategray;
 }
 
 #allLatestPhotos{
+    background: lightcoral;
+}
+
+#allLatestPhotos, #myLatestPhotos{
     display: inline-block;
-    background: #ddd;
-    padding: 50px;
+    padding: 20px;
     margin:50px 0;
+    text-align: center;
 }
 
-#myLatestPhotos h1{
-    font-size: 20px;
-}
-
-#allLatestPhotos h1{
-    font-size: 20px;
+#myLatestPhotos h2,#allLatestPhotos h2{
+    font-size: 24px;
+    color:#eee;
+    font-weight: bold;
 }
 
 #userMenu{
@@ -182,7 +181,6 @@ input[type="button"]{
      max-height:140px;
      margin:2px;
     display: flex;
-     padding:2px;
      border:1px solid black;
      float:left;
      color:rgba(0,0,0,0);
