@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "LogIn", urlPatterns = {"/LogIn"})
 public class LogIn extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -47,16 +48,25 @@ public class LogIn extends HttpServlet {
 
             if (loggedUser != null) {
                 response.setStatus(201);
+                response.setContentType("application/json");
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("{\"username\":\"" + loggedUser.getUserName() + "\"}");
+                }
             } else {
                 //username and/or password incorrect.
                 response.setStatus(417);
             }
         } else if (request.getParameter("action") != null && request.getParameter("action").equals("AutomaticLogIn")) {
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(true);
+            User loggedUser = (User) session.getAttribute("loggedUser");
 
-            if (session != null && session.getAttribute("loggedUser") != null 
-                    && UserDB.checkValidUserName(request.getParameter("username"))) {
+            if (loggedUser != null && UserDB.checkValidUserName(loggedUser.getUserName())) {
                 response.setStatus(200);
+
+                response.setContentType("application/json");
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("{\"username\":\"" + loggedUser.getUserName() + "\"}");
+                }
             } else {
                 //no user logged in currently.
                 response.setStatus(204);
