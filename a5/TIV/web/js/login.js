@@ -882,7 +882,7 @@ function logout() {
     'use strict';
     var xhr = new XMLHttpRequest(),
             params = "action=LogOut";
-    xhr.open('GET', 'LogOut');
+    xhr.open('POST', 'LogOut');
     xhr.onload = function () {
         if (xhr.status === 200) {
             document.getElementById('userMenu').style.display = "none";
