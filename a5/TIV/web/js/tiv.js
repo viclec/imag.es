@@ -79,7 +79,7 @@ function TIV3449() {
         formData.append("photo", file);
         formData.append("title", file.name);
         formData.append("contentType", file.type);
-        formData.append("username", "123456@d.");   //TODO username
+        formData.append("username", getLoggedInUsername());   //TODO username
         jQuery.ajax({
             url: 'UploadImage',
             data: formData,
@@ -88,7 +88,7 @@ function TIV3449() {
             processData: false,
             type: 'POST',
             success: function (data) {
-                alert("Photo with ID:"+data.photoId+" uploaded succesfully!");
+                alert("Photo with ID:"+data.photoId+" uploaded succesfully!"+getLoggedInUsername());
             },
             error: function () {
                 alert("Image upload failed");
