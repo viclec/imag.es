@@ -764,8 +764,8 @@ function loadMyLatestPhotos() {
             images;
     $.when(ajax1()).done(function (data, textStatus, jqXHR) {
         images = data;
-        for (i = 0; i < number; i++) {
-            showImage(images[i], false, false, i);
+        for (i = 0; i < images.length; i++) {
+            showImage(images[i], false, i);
         }
     });
     function ajax1() {
@@ -777,7 +777,7 @@ function loadMyLatestPhotos() {
             processData: false,
             type: 'GET',
             success: function (data) {
-                console.log(data);
+                
             },
             error: function () {
                 alert("No enough latest photos to display.");
@@ -793,20 +793,21 @@ function loadAllLatestPhotos() {
             images;
     $.when(ajax1()).done(function (data, textStatus, jqXHR) {
         images = data;
-        for (i = 0; i < number; i++) {
-            showImage(images[i], false, true, i);
+        for (i = 0; i < images.length; i++) {
+            showImage(images[i], true, i);
         }
     });
     function ajax1() {
         return jQuery.ajax({
             url: 'GetImageCollection',
+            dataType: "json",
             data: "&number=" + number,
             cache: false,
             contentType: false,
             processData: false,
             type: 'GET',
             success: function (data) {
-                console.log(data);
+                
             },
             error: function () {
                 alert("No enough latest photos to display.");
@@ -815,7 +816,7 @@ function loadAllLatestPhotos() {
     }
 }
 
-function showImage(photoID, metadata, allUsers, i) {
+function showImage(photoID, allUsers, i) {
     "use strict";
     var span,
             reader,
@@ -823,12 +824,11 @@ function showImage(photoID, metadata, allUsers, i) {
             base64data,
             xhr;
     xhr = new XMLHttpRequest();
-    xhr.open("GET", "GetImage?image=" + photoID + "&metadata=" + metadata);
+    xhr.open("GET", "GetImage?image=" + photoID + "&metadata=false");
     xhr.responseType = "blob";
     xhr.onload = function () {
         if (xhr.status === 200) {
             blob = new Blob([this.response], {type: 'image/jpeg'});
-            console.log(blob);
 
             reader = new FileReader();
 
@@ -841,12 +841,13 @@ function showImage(photoID, metadata, allUsers, i) {
                 span.onclick = function () {
                     //showEnlargedImage(id, meta);
                 };
-                span.innerHTML = ['<div class="caption"><em>', i, '</em><br><small>', i, '</small></div><img src="', base64data, '" title="', i, '">'].join('');
+                span.innerHTML = ['<div class="caption"><em id="title-' + allUsers + '-' + i + '"></em><br><small id="artist-' + allUsers + '-' + i + '"></small></div><img src="', base64data, '" title="', i, '">'].join('');
                 if (allUsers === false) {
                     document.getElementById('myLatestPhotos').insertBefore(span, null);
                 } else {
                     document.getElementById('allLatestPhotos').insertBefore(span, null);
                 }
+                showImageInfo(photoID, allUsers, i);
             };
         } else {
             alert("Fetching the image with ID:" + photoID + " failed.");
@@ -855,6 +856,26 @@ function showImage(photoID, metadata, allUsers, i) {
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send();
+}
+
+function showImageInfo(photoID, allUsers, i) {
+    "use strict";
+    var xhr = new XMLHttpRequest(),
+            params = 'image='+photoID+'&metadata=true',
+            info;
+    xhr.open('POST', 'GetImage');
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            info = JSON.parse(xhr.responseText);
+            document.getElementById('title-'+allUsers+'-'+i).innerHTML = info.title;
+            document.getElementById('artist-'+allUsers+'-'+i).innerHTML = info.username;
+        } else if (xhr.status !== 200) {
+            console.log("Error while loading info for image with ID:"+photoID);
+        }
+    };
+
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(params);
 }
 
 function logout() {
