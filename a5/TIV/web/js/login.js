@@ -763,7 +763,7 @@ function loadMyLatestPhotos() {
     $.when(ajax1()).done(function (data, textStatus, jqXHR) {
         images = data;
         for (i = 0; i < number; i++) {
-            showImage(images[i], false, false);
+            showImage(images[i], false, false, i);
         }
     });
     function ajax1() {
@@ -792,7 +792,7 @@ function loadAllLatestPhotos() {
     $.when(ajax1()).done(function (data, textStatus, jqXHR) {
         images = data;
         for (i = 0; i < number; i++) {
-            showImage(images[i], false, true);
+            showImage(images[i], false, true, i);
         }
     });
     function ajax1() {
@@ -813,7 +813,7 @@ function loadAllLatestPhotos() {
     }
 }
 
-function showImage(photoID, metadata, allUsers) {
+function showImage(photoID, metadata, allUsers, i) {
     "use strict";
     var span,
             reader,
@@ -839,7 +839,7 @@ function showImage(photoID, metadata, allUsers) {
                 span.onclick = function () {
                     //showEnlargedImage(id, meta);
                 };
-                span.innerHTML = ['<div class="caption"><em>', blob, '</em><br><small>', blob, '</small></div><img src="', base64data, '" title="', blob, '">'].join('');
+                span.innerHTML = ['<div class="caption"><em>', i, '</em><br><small>', i, '</small></div><img src="', base64data, '" title="', i, '">'].join('');
                 if (allUsers === false) {
                     document.getElementById('myLatestPhotos').insertBefore(span, null);
                 } else {
@@ -862,6 +862,9 @@ function logout() {
     xhr.open('GET', 'LogOut');
     xhr.onload = function () {
         if (xhr.status === 200) {
+            alert(xhr.responseText);
+            loggedInUsername = JSON.parse(xhr.responseText).username;
+            alert(loggedInUsername);
             document.getElementById('userMenu').style.display = "none";
             document.getElementById('numberOfImages').style.display = "none";
             document.getElementById('numberOfImagesLabel').style.display = "none";
@@ -869,9 +872,8 @@ function logout() {
             document.getElementById('list')
                     .innerHTML = xhr.responseText;
             register_login();
-            loadAllLatestPhotos();
         } else if (xhr.status !== 200) {
-            alert('Request failed. Returned status of ' + xhr.status);
+            alert("Logout failed unexpectedly.");
         }
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -885,7 +887,7 @@ function checkCookies() {
     xhr.open('POST', 'LogIn');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            alert("SUCCESS");
+            alert(xhr.responseText);
             loggedInUsername = JSON.parse(xhr.responseText).username;
             alert(loggedInUsername);
             document.getElementById('userMenu').style.display = "inherit";
@@ -897,7 +899,6 @@ function checkCookies() {
             document.getElementById('numberOfImages').style.display = "none";
             document.getElementById('numberOfImagesLabel').style.display = "none";
             register_login();
-            loadAllLatestPhotos();
         }
     };
 
