@@ -24,12 +24,15 @@
     </head>
     <body>
         <header id="home">
-            <h1>imag.es</h1>
+            <a onclick="checkCookies();">
+                <h1>imag.es</h1>
+            </a>
             <h3>the online image depository</h3>
         </header>
         <nav>
             <ul>
                 <li><select id="userMenu" onchange="loggedIn(this.value);"><option hidden="" selected="selected">My Account</option><option value="profile">My Profile</option><option value="photos">My Photos</option><option value="users">All Users</option><option value="logout">Logout</option></select></li>
+                <li><input type="number" id="numberOfImages" value="10" onchange="loadPhotos();"></li>
                 <li><input id="logreg" type='button' value='Register / Login' onclick='register_login();'></li>
                 <!--<li><a href="#home">home</a></li>
                 <li><a href="#about">about</a></li>
