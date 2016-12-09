@@ -1,3 +1,5 @@
+var loggedInUsername;
+
 function register() {
     'use strict';
     if (!document.getElementById('registrationForm').checkValidity()) {
@@ -744,7 +746,7 @@ function loadPhotos() {
             "                <label for=\"images\">Select folder</label>" +
             "                <input id=\"images\" type=\"file\" webkitdirectory mozdirectory directory name=\"myFiles\" onchange=\"TIV3449();\" multiple/>\n" +
             "            </form>" +
-            "            <div id='myLatestPhotos'><h1>My Latest Photos</h1></div>"+
+            "            <div id='myLatestPhotos'><h1>My Latest Photos</h1></div>" +
             "            <div id='allLatestPhotos'><h1>All Latest Photos</h1></div>";
     loadMyLatestPhotos();
 }
@@ -763,7 +765,7 @@ function loadMyLatestPhotos() {
     function ajax1() {
         return jQuery.ajax({
             url: 'GetImageCollection',
-            data: "user=123456@d.&number=" + number, //TODO user
+            data: "username="+loggedInUsername+"&number=" + number,
             cache: false,
             contentType: false,
             processData: false,
@@ -782,42 +784,38 @@ function showImage(photoID, metadata, allUsers) {
     "use strict";
     var span,
             reader,
-            file,
             blob,
-            base64data;
-    jQuery.ajax({
-        url: 'GetImage',
-        data: "image=" + photoID + "&metadata=" + metadata + "&false",
-        cache: false,
-        contentType: false,
-        processData: false,
-        type: 'GET',
-        success: function (data) {
+            base64data,
+            xhr;
+    xhr = new XMLHttpRequest();
+    xhr.open("GET", "GetImage?image="+photoID+"&metadata="+metadata);
+    xhr.responseType = "blob";
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            blob = new Blob([this.response], {type: 'image/jpeg'});
+            console.log(blob);
 
-            var blob = new Blob([data], {type: 'image/jpeg'});
-            
             reader = new FileReader();
 
             reader.readAsDataURL(blob);
 
             reader.onload = function () {
                 base64data = reader.result;
-            span = document.createElement('span');
-            span.className = "tile";
-            span.onclick = function () {
-                //showEnlargedImage(id, meta);
+                span = document.createElement('span');
+                span.className = "tile";
+                span.onclick = function () {
+                    //showEnlargedImage(id, meta);
+                };
+                span.innerHTML = ['<div class="caption"><em>', blob, '</em><br><small>', blob, '</small></div><img src="', base64data, '" title="', blob, '">'].join('');
+                document.getElementById('myLatestPhotos').insertBefore(span, null);
             };
-            span.innerHTML = ['<div class="caption"><em>', blob, '</em><br><small>', blob, '</small></div><img src="', base64data, '" title="', blob, '">'].join('');
-            document.getElementById('myLatestPhotos').insertBefore(span, null);
-            };
-
-//            console.log(blob);
-        },
-        error: function () {
-            alert("Couldn't fetch the photo.");
-            //console.log(formData);
+        } else {
+            alert("Fetching the image with ID:"+photoID+" failed.");
         }
-    });
+
+    };
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
 }
 
 function logout() {
@@ -848,10 +846,15 @@ function checkCookies() {
     xhr.open('POST', 'LogIn');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("SUCCESS");
+            loggedInUsername = JSON.parse(xhr.responseText).username;
+            alert(loggedInUsername);
             document.getElementById('userMenu').style.display = "inherit";
+            document.getElementById('numberOfImages').style.display = "inherit";
             document.getElementById('logreg').style.display = "none";
             loadPhotos();
         } else if (xhr.status !== 200) {
+            document.getElementById('numberOfImages').style.display = "none";
             register_login();
         }
     };
