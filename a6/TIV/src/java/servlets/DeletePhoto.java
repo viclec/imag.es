@@ -47,7 +47,7 @@ public class DeletePhoto extends HttpServlet {
 
             if (user != null && user.getUserName().equals(username)) {
                 if (allPhotos == true && photoId == -1) {
-                    List<Integer> photos = PhotosDB.getPhotoIDs(0);
+                    List<Integer> photos = PhotosDB.getPhotoIDs(0, username);
                     int i;
                     for (i = 0; i < photos.size(); i++) {
                         PhotosDB.deletePhoto(photos.get(i));
