@@ -343,6 +343,7 @@ function login() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 201) {
             loggedInUsername = JSON.parse(xhr.responseText).username;
+            document.getElementById('numberOfImages').value = JSON.parse(xhr.responseText).numberOfImages;
             document.getElementById('myAccount').innerHTML = loggedInUsername;
             document.getElementById('userMenu').style.display = "inherit";
             document.getElementById('numberOfImages').style.display = "inherit";
@@ -432,7 +433,7 @@ function allUsers() {
             members = JSON.parse(xhr.responseText);
             printLine = "<div class='tab-content'><table id='allusers'>";
             for (i = 0; i < members.length; i++) {
-                printLine += "<tr><td>" + members[i] + "</td></tr>";
+                printLine += "<tr><td><a  onclick=\"showAllImagesOfUser("+ members[i] +");\">" + members[i] + "</a></td><td class=\"memberStatus\">" + members[i] + "</td></tr>";
             }
             printLine += "</table></div>";
             document.getElementById('list').innerHTML = printLine;
@@ -999,7 +1000,7 @@ function logout() {
     xhr.send(params);
 }
 
-function checkCookies() {       //TODO return NumberOfImagesPreference from LogIn of user
+function checkCookies() {
     "use strict";
     var xhr = new XMLHttpRequest(),
             params = 'action=AutomaticLogIn';
@@ -1007,6 +1008,7 @@ function checkCookies() {       //TODO return NumberOfImagesPreference from LogI
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             loggedInUsername = JSON.parse(xhr.responseText).username;
+            document.getElementById('numberOfImages').value = JSON.parse(xhr.responseText).numberOfImages;
             document.getElementById('myAccount').innerHTML = loggedInUsername;
             document.getElementById('userMenu').style.display = "inherit";
             document.getElementById('numberOfImages').style.display = "inherit";
