@@ -8,6 +8,7 @@ package servlets;
 import cs359db.PhotosDB;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -29,9 +30,10 @@ public class UploadImage extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         // gets values of text fields
-        String userName = request.getParameter("userName");
+        String username = request.getParameter("username");
         String contentType = request.getParameter("contentType");
-
+        String title = request.getParameter("title");
+        int photoId;
         InputStream inputStream = null; // input stream of the upload file
 
         // obtains the upload file part in this multipart request
@@ -47,7 +49,17 @@ public class UploadImage extends HttpServlet {
         }
         try {
             // uploadPhoto returns the id of the photo
-            PhotosDB.uploadPhoto(inputStream, userName, contentType);
+            if (title != null) {
+                photoId = PhotosDB.uploadPhoto(inputStream, username, contentType, title);
+            } else {
+                photoId = PhotosDB.uploadPhoto(inputStream, username, contentType);
+            }
+
+            response.setContentType("application/json");
+            try (PrintWriter out = response.getWriter()) {
+                out.println("{\"photoId\":\"" + photoId + "\"}");
+                
+            }
         } catch (Exception ex) {
             Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
         }
