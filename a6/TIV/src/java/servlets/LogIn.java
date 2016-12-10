@@ -38,13 +38,6 @@ public class LogIn extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
         
-        
-        UserDB.deleteUser("123456@d.");
-        UserDB.deleteUser("John");
-        UserDB.deleteUser("testing");
-        
-        
-        
         if (request.getParameter("action") != null && request.getParameter("action").equals("LogIn")) {
             String username = request.getParameter("username");
             String encryptedpassword = MD5Encrypt.cryptWithMD5(request.getParameter("password"));            
