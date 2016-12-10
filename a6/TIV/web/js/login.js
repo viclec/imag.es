@@ -786,7 +786,7 @@ function loadMyLatestPhotos() {
     function ajax1() {
         return jQuery.ajax({
             url: 'GetImageCollection',
-            data: "username=" + loggedInUsername + "&number=" + number,
+            data: "action=GetImageCollection&username=" + loggedInUsername + "&number=" + number,
             cache: false,
             contentType: false,
             processData: false,
@@ -816,7 +816,7 @@ function loadAllLatestPhotos() {
         return jQuery.ajax({
             url: 'GetImageCollection',
             dataType: "json",
-            data: "&number=" + number,
+            data: "action=GetImageCollection&number=" + number,
             cache: false,
             contentType: false,
             processData: false,
@@ -839,7 +839,7 @@ function showImage(photoID, allUsers, i) {
             base64data,
             xhr;
     xhr = new XMLHttpRequest();
-    xhr.open("GET", "GetImage?image=" + photoID + "&metadata=false");
+    xhr.open("GET", "GetImage?action=GetImage&image=" + photoID + "&metadata=false");
     xhr.responseType = "blob";
     xhr.onload = function () {
         if (xhr.status === 200) {
@@ -856,7 +856,7 @@ function showImage(photoID, allUsers, i) {
                 span.onclick = function () {
                     showEnlargedImage(photoID, allUsers, i);
                 };
-                span.innerHTML = ['<div class="caption"><em id="title-' + allUsers + '-' + i + '"></em><br><small id="artist-' + allUsers + '-' + i + '"></small></div><img id="image-' + allUsers + '-' + i + '" src="', base64data, '" title="', i, '">'].join('');
+                span.innerHTML = ['<div class="caption"><em id="title-' + allUsers + '-' + i + '"></em><br><small id="artist-' + allUsers + '-' + i + '"></small><br><small id="rating-' + allUsers + '-' + i + '"></small></div><img id="image-' + allUsers + '-' + i + '" src="', base64data, '" title="', i, '">'].join('');
                 if (allUsers === false) {
                     document.getElementById('myLatestPhotos').insertBefore(span, null);
                 } else {
@@ -877,7 +877,7 @@ function showImage(photoID, allUsers, i) {
 function showImageInfo(photoID, allUsers, i) {
     "use strict";
     var xhr = new XMLHttpRequest(),
-            params = 'image=' + photoID + '&metadata=true',
+            params = 'action=GetImage&image=' + photoID + '&metadata=true',
             info;
     xhr.open('POST', 'GetImage');
     xhr.onload = function () {
@@ -887,6 +887,8 @@ function showImageInfo(photoID, allUsers, i) {
                 document.getElementById('title-' + allUsers + '-' + i).innerHTML = info.title;
             if (info.username !== null && info.username !== undefined)
                 document.getElementById('artist-' + allUsers + '-' + i).innerHTML = info.username;
+            if (info.username !== null && info.username !== undefined)
+                document.getElementById('rating-' + allUsers + '-' + i).innerHTML = numOfStars(info.rating) + " (" + info.numberOfRatings + ")";
         } else if (xhr.status !== 200) {
             console.log("Error while loading info for image with ID:" + photoID);
         }
@@ -894,6 +896,16 @@ function showImageInfo(photoID, allUsers, i) {
 
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(params);
+}
+
+function numOfStars(rating){
+    var i,
+            ret="";
+    rating = Math.round(rating);
+    for(i=0;i<rating;i++){
+        ret+="☆";
+    }
+    return ret;
 }
 
 //same as Assignment 2
@@ -972,7 +984,7 @@ function showEnlargedImage(photoID, allUsers, index) {
     document.getElementById('list').insertBefore(button, null);
     span = document.createElement('span');
     span.id = "fullsize";
-    span.innerHTML = ['<img src="', image, '" title="', title, '"><div id="title">', title, ' by ', artist, '<br><div class="rating"><span onclick="setRating('+ photoID +',5)">☆</span><span onclick="setRating('+ photoID +',4)">☆</span><span onclick="setRating('+ photoID +',3)">☆</span><span onclick="setRating('+ photoID +',2)">☆</span><span onclick="setRating('+ photoID +',1)">☆</span></div></div><div id="imageBody"><div id="infoRaiting"><label for="avgRating">Average Rating</label><input name="avgRating" id="avgRating" type="text" disabled><label for="myRating">My Rating</label><input name="myRating" id="myRating" type "text" disabled></div></div><aside><div id="map"></div><div id="exif"></div></aside>'].join('');
+    span.innerHTML = ['<img src="', image, '" title="', title, '"><div id="title">', title, ' by ', artist, '<br><div class="rating"><span onclick="setRating('+ photoID +',5)">☆</span><span onclick="setRating('+ photoID +',4)">☆</span><span onclick="setRating('+ photoID +',3)">☆</span><span onclick="setRating('+ photoID +',2)">☆</span><span onclick="setRating('+ photoID +',1)">☆</span></div></div><div id="imageBody"><div id="infoRaiting"><label for="avgRating">Average Rating</label><input name="avgRating" id="avgRating" type="text" disabled><label for="myRating">My Rating</label><input name="myRating" id="myRating" type "text" disabled></div><div id="comments"><br><textarea id=\"newComment\" placeholder=\"Add a new comment...\"></textarea><button id="newCommentButton" onclick=\"addComment('+photoID+');\">Add Comment</button></div></div><aside><div id="map"></div><div id="exif"></div></aside>'].join('');
     document.getElementById('list').insertBefore(span, null);
     showImageDetailedExifInfo(image, 'exif');
 }
