@@ -44,7 +44,7 @@ public class GetImageCollection extends HttpServlet {
         } else {
             number = Integer.parseInt(request.getParameter("number"));
         }
-        
+
         if (username != null) {
             photos = PhotosDB.getPhotoIDs(number, username);
         } else {
