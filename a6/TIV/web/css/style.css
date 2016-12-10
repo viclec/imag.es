@@ -1,0 +1,357 @@
+body {
+     margin:auto;
+     font-family: 'Abel', sans-serif;
+     font-size:20px;
+     background:#333;
+    background-repeat: repeat;
+    background-image: url(../images/bg.png);
+     color:#aaa;
+     text-align:justify;
+       width:80%;
+       padding:30px 10%;
+}
+
+h1{
+       font-family: 'Lobster', cursive;
+       color:rgba(255,122,11,1);;
+       margin:5px;
+}
+
+h2{
+   text-shadow:1px 1px black;
+   margin-bottom:0;
+   color:lightblue;
+}
+
+p{
+  padding:10px;
+}
+
+h3{
+   font-size:16px;
+   margin:0;
+}
+
+a,a:visited{
+            color:#aaa;
+            text-decoration:none;
+            transition: all 0.8s ease;
+}
+
+a:hover{
+        color:lightgreen;
+}
+
+header{
+       line-height:100px;
+       float:left;
+       width:40%;
+       height:50px;
+       text-shadow:2px 2px #000;
+}
+
+
+/*menu of website*/
+nav{
+       font-family: 'Lobster', cursive;
+       float:right;
+       width:60%;
+       line-height:50px;
+       font-size:22px;
+}
+
+nav ul{
+    text-align:center;
+}
+
+nav li{
+    text-align:center;
+    display:inline-block;
+    padding:10px;
+}
+
+article{
+        width:100%;
+       float:left;
+}
+
+em{
+     font-family: 'Lobster', cursive;
+     font-size:20px;
+}
+
+#myLatestPhotos{
+    background: lightslategray;
+}
+
+#allLatestPhotos{
+    background: lightcoral;
+}
+
+#allLatestPhotos, #myLatestPhotos{
+    display: inline-block;
+    padding: 20px;
+    padding-top: 0px;
+    margin-top:50px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+#myLatestPhotos h2,#allLatestPhotos h2{
+    font-size: 24px;
+    color:#eee;
+    font-weight: bold;
+}
+
+#userMenu{
+    display: none;
+}
+
+#numberOfImages{
+    line-height: 30px;
+    max-width: 80px;
+}
+
+#logout{
+}
+
+#userForm{
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+}
+
+.success{
+    width: 100%;
+    color: #333;
+    background: greenyellow;
+}
+
+.failure{
+    width: 100%;
+    color: #fff;
+    background: red;
+}
+
+.tab-content{
+    padding: 20px;
+    background: #fff;
+}
+
+table{
+    width: 100%;
+}
+
+td{
+    padding: 20px;
+    border: 1px solid white;
+    border-top: 2px dotted #aaa;
+    border-bottom: 2px dotted #aaa;
+}
+
+input, select{
+    padding: 15px;
+    width: 100%;
+}
+
+input[type="text"]:disabled {
+    cursor: not-allowed;
+}
+
+input[type="radio"] {
+    width: 30px;
+}
+
+#userMenu{
+    background: #ddd;
+}
+
+input[type="button"]{
+    width: auto;
+}
+
+#allusers tr{
+    border: 1px solid black;
+}
+
+
+/*each photo with the caption*/
+.tile{
+     transition: all 1s ease;
+     max-width:140px; 
+     max-height:140px;
+     margin:2px;
+    display: flex;
+     border:1px solid black;
+     float:left;
+     color:rgba(0,0,0,0);
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+/*hides caption*/
+.tile div{
+      z-index:-1;
+}
+
+.caption{
+     margin-top:50px;
+     text-align:center;
+     width:140px;
+    height: 90px;
+    overflow: hidden;
+     font-weight:400;
+     position:absolute;
+}
+
+.tile:hover{
+     color:#fff;
+     text-shadow:1px 1px black;
+    cursor: pointer;
+}
+
+
+/*effect*/
+.tile:hover img{
+      opacity:0.5;
+}
+
+
+/*displays the caption*/
+.tile:hover div{
+      z-index:1;
+      opacity:1;
+}
+
+.tile img{
+    width: 140px;
+    height:140px;
+    object-fit: cover;
+}
+
+/*main screen - path selector*/
+#pathexplorer{
+    width: 20%;
+    border: 10px solid rgba(255,255,255,0.1);
+    text-align: center;
+    margin: 0 40%;
+    align-self: center;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+     text-shadow:1px 1px black;
+     transition: all 1s ease;
+}
+
+#pathexplorer img{
+    width: 100%;
+    max-width: 100px;
+}
+
+#pathexplorer:hover{
+    background: rgba(255,255,255,0.2);
+}
+
+/*style for enlarged image*/
+#fullsize{
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+#fullsize img{
+   float: left;
+    width: 70%;
+}
+
+#title{
+    float: left;
+    min-width: 70%;
+    max-width: 95%;
+    background: rgba(255,122,11,0.8);
+    color:rgba(255,255,255,0.8);
+    text-align: center;
+    padding: 20px 2.5%;
+}
+
+#exif{
+    white-space: pre-wrap;
+}
+
+/*exif info and map container*/
+aside{
+    float: right;
+    width: 30%;
+    background: rgba(0,0,0,0.5);
+    color:rgba(255,255,255,0.8);
+    height: 100%;
+    min-height: 400px;
+    font-size: 16px;
+    text-align: justify;
+    padding: 20px 2.5%;
+}
+
+#map {
+    margin: 20px 0;
+    height: 300px;
+    width: 100%;
+}
+
+footer{
+       float:left;
+       padding:30px 10%;
+       margin-bottom:30px;
+       background:rgba(0,0,0,0.5);
+}
+
+/*go back button style*/
+button{
+    width: 50%;
+    line-height: 40px;
+    font-size: 16px;
+}
+
+#uploadButton{
+    color:#000;
+}
+
+
+/*screen sizes narrower than 1000px*/
+@media only screen and (max-width:1000px){
+       header{
+              width:100%;
+       }
+       
+       body{
+           width: 100%;
+       }
+
+       #pathexplorer{
+           width:40%;
+           margin: 0 30%;
+       }
+       
+       nav{
+           width:100%;
+           float:left;
+           margin-top:20px;
+       }
+    
+    #title, aside{
+        max-width: 100%;
+        width: 100%;
+        padding: 20px 2.5%;
+    }
+    
+    #fullsize, #fullsize img{
+        width: 100%;
+        max-width: none;
+    }
+}
+
+
+/*screen sizes narrower than 400px*/
+@media only screen and (max-width:400px){
+       h3{
+          display:none;
+       }
+ }
