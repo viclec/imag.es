@@ -87,11 +87,11 @@ public class PhotosDB {
 
                 // If we have set a limit then 
                 if (number != 0) {
-                // Order by timestamp and limit to number
-                insQuery.append("SELECT photoID FROM photos ")
-                        .append("WHERE userName='").append(user).append("' ")
-                        .append("ORDER BY date DESC ")
-                        .append("LIMIT ").append(number).append(";");
+                    // Order by timestamp and limit to number
+                    insQuery.append("SELECT photoID FROM photos ")
+                            .append("WHERE userName='").append(user).append("' ")
+                            .append("ORDER BY date DESC ")
+                            .append("LIMIT ").append(number).append(";");
                 } else { // Else return all images
                     // Order by timestamp and limit to number
                     insQuery.append("SELECT photoID FROM photos ")
@@ -153,7 +153,6 @@ public class PhotosDB {
                     os.write(imgData);
                     os.flush();
                     os.close(); */
-
                 }
 
                 // Close connection
@@ -259,6 +258,7 @@ public class PhotosDB {
             throws ClassNotFoundException, Exception {
         return uploadPhoto(input, userName, contentType, "Untitled");
     }
+
     /**
      * Upload photo
      *
@@ -290,7 +290,6 @@ public class PhotosDB {
                     maxID = res.getInt("maxid");
                 }
                 maxID++;    // Increment maxID
-
 
                 StringBuilder insQuery = new StringBuilder();
 
