@@ -46,7 +46,7 @@ function register_login() {
     'use strict';
 
     loadAllLatestPhotos();
-    document.getElementById('list').innerHTML = "<div id='allLatestPhotos'><h2>All Latest Photos</h2></div>\n<ul class=\"nav nav-tabs\">\n"
+    document.getElementById('list').innerHTML = "<ul class=\"nav nav-tabs\">\n"
             + "            <li class=\"active\"><a data-toggle=\"tab\" href=\"#login\">login</a></li>\n"
             + "            <li><a data-toggle=\"tab\" href=\"#register\">register</a></li>\n"
             + "        </ul>\n"
@@ -330,7 +330,7 @@ function register_login() {
             + "                <input type='submit' value='Register' onclick='register();'><br>\n"
             + "                </form>\n"
             + "            </div>\n"
-            + "        </div>";
+            + "        </div>\n<div id='allLatestPhotos'><h2>All Latest Photos</h2></div>";
 }
 
 function login() {
@@ -433,9 +433,9 @@ function allUsers() {
             members = JSON.parse(xhr.responseText);
             printLine = "<div class='tab-content'><table id='allusers'>";
             for (i = 0; i < members.length; i++) {
-                printLine += "<tr><td><a  onclick=\"showAllImagesOfUser("+ members[i] +");\">" + members[i] + "</a></td><td class=\"memberStatus\">" + members[i] + "</td></tr>";
+                printLine += "<tr><td>" + members[i] + "<a onclick=\"showAllImagesOfUser("+ members[i] +");\">show images</a></td><td class=\"memberStatus\">" + members[i] + "</td></tr>";
             }
-            printLine += "</table></div>";
+            printLine += "</table></div>\n<div class=\"\" id=\"myLatestPhotos\"></div>";
             document.getElementById('list').innerHTML = printLine;
             document.getElementById('myAccount').selected = "selected";
         } else if (xhr.status !== 200) {
