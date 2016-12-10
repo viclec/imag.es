@@ -31,7 +31,7 @@ public class UploadImage extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        if (request.getParameter("action") != null && request.getParameter("action").equals("LogIn")) {
+        if (request.getParameter("action") != null && request.getParameter("action").equals("UploadImage")) {
 
             // gets values of text fields
             String username = request.getParameter("username");
