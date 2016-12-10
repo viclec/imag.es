@@ -59,7 +59,7 @@ function showAllImagesOfUser(user) {
     function ajax1() {
         return jQuery.ajax({
             url: 'GetImageCollection',
-            data: "username=" + user + "&number=" + number,
+            data: "action=GetImageCollection&username=" + user + "&number=" + number,
             cache: false,
             contentType: false,
             processData: false,
@@ -77,10 +77,83 @@ function setRating(photoID, rating) {
         data: "action=SetRating&username=" + getLoggedInUsername() + "&photoId=" + photoID + "&rating=" + rating,
         type: 'POST',
         success: function (data) {
-            document.getElementById('myRating').value = rating;
+            getRatings(photoID);
         },
         error: function () {
             alert("Image raiting failed.");
         }
     });
+}
+
+function getRatings(photoID) {
+    $.ajax({
+        url: 'GetRatings',
+        data: "action=GetRatings&photoId=" + photoID,
+        type: 'POST',
+        success: function (data) {
+            document.getElementById('myRating').value = data.userrating;
+            document.getElementById('avgRating').value = data.averagerating;
+        },
+        error: function () {
+            alert("Image raiting failed.");
+        }
+    });
+}
+
+function addComment(photoID) {
+    var comment = document.getElementById('newComment').value;
+    $.ajax({
+        url: 'AddComment',
+        data: "action=AddComment&username=" + getLoggedInUsername() + "&photoId=" + photoID + "&comment=" + comment,
+        type: 'POST',
+        success: function (data) {
+            document.getElementById('comments').insertBefore("<div class=\"comment-body\" id=\"comment-" + commentID + "\"><strong class=\"comment-author\">" + getLoggedInUsername() + "</strong><br><p class=\"comment-text\">" + comment + "</p></div>", null);
+            alert("Comment posted succesfully!");
+        },
+        error: function () {
+            alert("Comment failed to post.");
+        }
+    });
+}
+
+function editComment(photoID, commentID) {
+    var comment
+    $.ajax({
+        url: 'EditComment',
+        data: "action=EditComment&username=" + getLoggedInUsername() + "&photoId=" + photoID + "&commentID=" + commentID + "&comment" + comment,
+        type: 'POST',
+        success: function (data) {
+            document.getElementById('comments').insertBefore("<div class=\"comment-body\" id=\"comment-" + commentID + "\"><strong class=\"comment-author\">" + getLoggedInUsername() + "</strong><br><p class=\"comment-text\">" + comment + "</p></div>", null);
+            alert("Comment edited succesfully!");
+        },
+        error: function () {
+            alert("Modification of comment failed.");
+        }
+    });
+}
+
+function deleteComment(photoID, commentID) {
+    $.ajax({
+        url: 'DeleteComment',
+        data: "action=DeleteComment&username=" + getLoggedInUsername() + "&photoId=" + photoID + "&commentID=" + commentID,
+        type: 'POST',
+        success: function (data) {
+            document.getElementById("comment-"+commentID).remove();
+            alert("Comment removed succesfully!");
+        },
+        error: function () {
+            alert("Comment deletion failed.");
+        }
+    });
+}
+
+Element.prototype.remove = function () {
+    this.parentElement.removeChild(this);
+}
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function () {
+    for (var i = this.length - 1; i >= 0; i--) {
+        if (this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
 }
