@@ -76,6 +76,7 @@ function TIV3449() {
                 file;
 
         file = images[index];
+        formData.append("action", "UploadImage");
         formData.append("photo", file);
         formData.append("title", file.name);
         formData.append("contentType", file.type);
