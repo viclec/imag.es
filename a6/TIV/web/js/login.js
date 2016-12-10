@@ -426,14 +426,21 @@ function allUsers() {
             params = "action=ShowRegisteredMembers",
             members,
             i,
-            printLine = "";
+            printLine = "",
+            memberStatus;
     xhr.open('POST', 'ShowRegisteredMembers');
     xhr.onload = function () {
         if (this.readyState === 4 && xhr.status === 200) {
-            members = JSON.parse(xhr.responseText);
+            alert(xhr.responseText);
+            members = JSON.parse(xhr.responseText).users;
             printLine = "<div class='tab-content'><table id='allusers'>";
             for (i = 0; i < members.length; i++) {
-                printLine += "<tr><td>" + members[i] + "<a class=\"showImagesOfUser\" onclick=\"showAllImagesOfUser('"+ members[i] + "');\">show images</a></td><td class=\"memberStatus\">" + members[i] + "</td></tr>";
+                if(members[i].logged === "true"){
+                    memberStatus = "Logged In";
+                }else{
+                    memberStatus = "Last login: "+members[i].date;
+                }
+                printLine += "<tr><td>" + members[i].username + "<a class=\"showImagesOfUser\" onclick=\"showAllImagesOfUser('"+ members[i].logged + "');\">show images</a></td><td class=\"memberStatus\">" + memberStatus + "</td></tr>";
             }
             printLine += "</table></div>\n<div class=\"transparent\" id=\"myLatestPhotos\"></div>";
             document.getElementById('list').innerHTML = printLine;
