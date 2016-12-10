@@ -1,63 +1,63 @@
 body {
-     margin:auto;
-     font-family: 'Abel', sans-serif;
-     font-size:20px;
-     background:#333;
+    margin:auto;
+    font-family: 'Abel', sans-serif;
+    font-size:20px;
+    background:#333;
     background-repeat: repeat;
     background-image: url(../images/bg.png);
-     color:#aaa;
-     text-align:justify;
-       width:80%;
-       padding:30px 10%;
+    color:#aaa;
+    text-align:justify;
+    width:80%;
+    padding:30px 10%;
 }
 
 h1{
-       font-family: 'Lobster', cursive;
-       color:rgba(255,122,11,1);;
-       margin:5px;
+    font-family: 'Lobster', cursive;
+    color:rgba(255,122,11,1);;
+    margin:5px;
 }
 
 h2{
-   text-shadow:1px 1px black;
-   margin-bottom:0;
-   color:lightblue;
+    text-shadow:1px 1px black;
+    margin-bottom:0;
+    color:lightblue;
 }
 
 p{
-  padding:10px;
+    padding:10px;
 }
 
 h3{
-   font-size:16px;
-   margin:0;
+    font-size:16px;
+    margin:0;
 }
 
 a,a:visited{
-            color:#aaa;
-            text-decoration:none;
-            transition: all 0.8s ease;
+    color:#aaa;
+    text-decoration:none;
+    transition: all 0.8s ease;
 }
 
 a:hover{
-        color:lightgreen;
+    color:lightgreen;
 }
 
 header{
-       line-height:100px;
-       float:left;
-       width:40%;
-       height:50px;
-       text-shadow:2px 2px #000;
+    line-height:100px;
+    float:left;
+    width:40%;
+    height:50px;
+    text-shadow:2px 2px #000;
 }
 
 
 /*menu of website*/
 nav{
-       font-family: 'Lobster', cursive;
-       float:right;
-       width:60%;
-       line-height:50px;
-       font-size:22px;
+    font-family: 'Lobster', cursive;
+    float:right;
+    width:60%;
+    line-height:50px;
+    font-size:22px;
 }
 
 nav ul{
@@ -71,13 +71,58 @@ nav li{
 }
 
 article{
-        width:100%;
-       float:left;
+    width:100%;
+    float:left;
 }
 
 em{
-     font-family: 'Lobster', cursive;
-     font-size:20px;
+    font-family: 'Lobster', cursive;
+    font-size:20px;
+}
+
+#imageBody{
+    float: left;
+    width: 70%;
+    background: #fff;
+    height: 200px;
+}
+
+.transparent{
+    background: none !important;
+}
+
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    float:right;
+}
+
+.rating > span {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+    cursor:pointer;
+    color: #FFCA00;
+}
+
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+    content: "\2605";
+    position: absolute;
+}
+
+#infoRaiting{
+    font-size: 16px;
+    text-align: center;
+    height: 30px;
+    width: 100%;
+}
+
+#infoRaiting input{
+    width:20px;
+    margin: 5px;
+    padding: 0;
+    text-align: center;
 }
 
 #deleteUser{
@@ -193,50 +238,50 @@ input[type="button"]{
 
 /*each photo with the caption*/
 .tile{
-     transition: all 1s ease;
-     max-width:140px; 
-     max-height:140px;
-     margin:2px;
+    transition: all 1s ease;
+    max-width:140px; 
+    max-height:140px;
+    margin:2px;
     display: flex;
-     border:1px solid black;
-     float:left;
-     color:rgba(0,0,0,0);
-     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border:1px solid black;
+    float:left;
+    color:rgba(0,0,0,0);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 
 /*hides caption*/
 .tile div{
-      z-index:-1;
+    z-index:-1;
 }
 
 .caption{
-     margin-top:50px;
-     text-align:center;
-     width:140px;
+    margin-top:50px;
+    text-align:center;
+    width:140px;
     height: 90px;
     overflow: hidden;
-     font-weight:400;
-     position:absolute;
+    font-weight:400;
+    position:absolute;
 }
 
 .tile:hover{
-     color:#fff;
-     text-shadow:1px 1px black;
+    color:#fff;
+    text-shadow:1px 1px black;
     cursor: pointer;
 }
 
 
 /*effect*/
 .tile:hover img{
-      opacity:0.5;
+    opacity:0.5;
 }
 
 
 /*displays the caption*/
 .tile:hover div{
-      z-index:1;
-      opacity:1;
+    z-index:1;
+    opacity:1;
 }
 
 .tile img{
@@ -254,8 +299,8 @@ input[type="button"]{
     align-self: center;
     border-radius: 10px;
     background: rgba(255,255,255,0.1);
-     text-shadow:1px 1px black;
-     transition: all 1s ease;
+    text-shadow:1px 1px black;
+    transition: all 1s ease;
 }
 
 #pathexplorer img{
@@ -274,7 +319,7 @@ input[type="button"]{
 }
 
 #fullsize img{
-   float: left;
+    float: left;
     width: 70%;
 }
 
@@ -312,10 +357,10 @@ aside{
 }
 
 footer{
-       float:left;
-       padding:30px 10%;
-       margin-bottom:30px;
-       background:rgba(0,0,0,0.5);
+    float:left;
+    padding:30px 10%;
+    margin-bottom:30px;
+    background:rgba(0,0,0,0.5);
 }
 
 /*go back button style*/
@@ -332,31 +377,31 @@ button{
 
 /*screen sizes narrower than 1000px*/
 @media only screen and (max-width:1000px){
-       header{
-              width:100%;
-       }
-       
-       body{
-           width: 100%;
-       }
+    header{
+        width:100%;
+    }
 
-       #pathexplorer{
-           width:40%;
-           margin: 0 30%;
-       }
-       
-       nav{
-           width:100%;
-           float:left;
-           margin-top:20px;
-       }
-    
+    body{
+        width: 100%;
+    }
+
+    #pathexplorer{
+        width:40%;
+        margin: 0 30%;
+    }
+
+    nav{
+        width:100%;
+        float:left;
+        margin-top:20px;
+    }
+
     #title, aside{
         max-width: 100%;
         width: 100%;
         padding: 20px 2.5%;
     }
-    
+
     #fullsize, #fullsize img{
         width: 100%;
         max-width: none;
@@ -366,7 +411,7 @@ button{
 
 /*screen sizes narrower than 400px*/
 @media only screen and (max-width:400px){
-       h3{
-          display:none;
-       }
- }
+    h3{
+        display:none;
+    }
+}
