@@ -61,11 +61,18 @@ public class LogIn extends HttpServlet {
                 } else {
                     users = (List<LoggedUser>) getServletContext().getAttribute("users");
                 }
-                if (!users.contains(user)) {
+                Boolean flag = false;
+                for (LoggedUser key : users) {
+                    if (key.getUser() == loggedUser) {
+                        int i = users.indexOf(key);
+                        users.get(i).setLogged(true);
+                        users.get(i).setDate(new Date());
+                        flag = true;
+                    }
+                }
+
+                if (!flag) {
                     users.add(user);
-                } else {
-                    users.get(users.indexOf(user)).setDate(new Date());
-                    users.get(users.indexOf(user)).setLogged(true);
                 }
                 getServletContext().setAttribute("users", users);
 
@@ -87,6 +94,22 @@ public class LogIn extends HttpServlet {
 
             if (loggedUser != null && !UserDB.checkValidUserName(loggedUser.getUserName())) {
                 response.setStatus(200);
+
+                //Keep in an arraylist the logged in users.
+                LoggedUser user = new LoggedUser(loggedUser, true, new Date());
+                List<LoggedUser> users;
+                if (getServletContext().getAttribute("users") == null) {
+                    users = new ArrayList<>();
+                } else {
+                    users = (List<LoggedUser>) getServletContext().getAttribute("users");
+                }
+                if (!users.contains(user)) {
+                    users.add(user);
+                } else {
+                    users.get(users.indexOf(user)).setDate(new Date());
+                    users.get(users.indexOf(user)).setLogged(true);
+                }
+                getServletContext().setAttribute("users", users);
 
                 response.setContentType("application/json");
                 try (PrintWriter out = response.getWriter()) {
