@@ -41,6 +41,9 @@ public class LogIn extends HttpServlet {
             String password = request.getParameter("password");
             User loggedUser = null;
             HttpSession session = request.getSession(true);
+            
+            int numberOfImages = (Integer) session.getAttribute("numberΟfΙmages");
+            
             if (UserDB.getUser(username).getPassword().equals(password)) {
                 loggedUser = UserDB.getUser(username);
                 session.setAttribute("loggedUser", loggedUser);
@@ -50,7 +53,8 @@ public class LogIn extends HttpServlet {
                 response.setStatus(201);
                 response.setContentType("application/json");
                 try (PrintWriter out = response.getWriter()) {
-                    out.println("{\"username\":\"" + loggedUser.getUserName() + "\"}");
+                    out.println("{\"username\":\"" + loggedUser.getUserName() + "\",");
+                    out.println("\"numberΟfΙmages\":\"" + numberOfImages + "\"}");
                 }
             } else {
                 //username and/or password incorrect.
@@ -59,13 +63,17 @@ public class LogIn extends HttpServlet {
         } else if (request.getParameter("action") != null && request.getParameter("action").equals("AutomaticLogIn")) {
             HttpSession session = request.getSession(true);
             User loggedUser = (User) session.getAttribute("loggedUser");
+            
+            int numberOfImages = (Integer) session.getAttribute("numberΟfΙmages");
 
             if (loggedUser != null && !UserDB.checkValidUserName(loggedUser.getUserName())) {
                 response.setStatus(200);
 
                 response.setContentType("application/json");
                 try (PrintWriter out = response.getWriter()) {
-                    out.println("{\"username\":\"" + loggedUser.getUserName() + "\"}");
+                    out.println("{\"username\":\"" + loggedUser.getUserName() + "\",");
+                    out.println("\"numberΟfΙmages\":\"" + numberOfImages + "\"}");
+                    
                 }
             } else {
                 //no user logged in currently.

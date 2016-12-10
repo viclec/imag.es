@@ -34,21 +34,24 @@ public class GetImageCollection extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
-
+        
+        HttpSession session = request.getSession(true);
         String username = request.getParameter("username");
-        int number;
+        int numberOfImages;
         List<Integer> photos;
-
+        
         if (request.getParameter("number") == null) {
-            number = 10;
+            numberOfImages = 10;
         } else {
-            number = Integer.parseInt(request.getParameter("number"));
+            numberOfImages = Integer.parseInt(request.getParameter("number"));
         }
 
+        session.setAttribute("numberΟfΙmages", numberOfImages);
+        
         if (username != null) {
-            photos = PhotosDB.getPhotoIDs(number, username);
+            photos = PhotosDB.getPhotoIDs(numberOfImages, username);
         } else {
-            photos = PhotosDB.getPhotoIDs(number);
+            photos = PhotosDB.getPhotoIDs(numberOfImages);
         }
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
