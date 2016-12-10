@@ -3,22 +3,22 @@ function deleteUser() {
     "use strict";
     var r = confirm("You will lose all your photos. Are you sure? This cannot be reverted.");
     if (r === true) {
-        deleteImage(getLoggedInUsername(), -1, true)
-        logout();
+        deleteImage(getLoggedInUsername(), -1, true);
         $.ajax({
             url: 'DeleteUser',
             data: "action=DeleteUser&username=" + getLoggedInUsername(),
             type: 'POST',
             success: function (xhr) {
-                console.log("Complete"+xhr.status);
+                console.log("Success" + xhr.status);
                 alert("User deleted succesfully");
+                logout();
             },
             error: function (xhr) {
-                console.log("Complete"+xhr.status);
+                console.log("Error" + xhr.status);
                 alert("User deletion failed.");
             },
             complete: function (xhr) {
-                console.log("Complete"+xhr.status);
+                console.log("Complete" + xhr.status);
             }
         });
     }
