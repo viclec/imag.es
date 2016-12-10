@@ -44,7 +44,7 @@ public class LogIn extends HttpServlet {
         if (request.getParameter("action") != null && request.getParameter("action").equals("LogIn")) {
             String username = request.getParameter("username");
             String encryptedpassword = MD5Encrypt.cryptWithMD5(request.getParameter("password"));
-            User loggedUser = null;
+            User loggedUser;
             HttpSession session = request.getSession(true);
 
             int numberOfImages = (Integer) session.getAttribute("numberΟfΙmages");
@@ -103,11 +103,18 @@ public class LogIn extends HttpServlet {
                 } else {
                     users = (List<LoggedUser>) getServletContext().getAttribute("users");
                 }
-                if (!users.contains(user)) {
+                Boolean flag = false;
+                for (LoggedUser key : users) {
+                    if (key.getUser() == loggedUser) {
+                        int i = users.indexOf(key);
+                        users.get(i).setLogged(true);
+                        users.get(i).setDate(new Date());
+                        flag = true;
+                    }
+                }
+
+                if (!flag) {
                     users.add(user);
-                } else {
-                    users.get(users.indexOf(user)).setDate(new Date());
-                    users.get(users.indexOf(user)).setLogged(true);
                 }
                 getServletContext().setAttribute("users", users);
 
