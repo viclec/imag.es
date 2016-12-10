@@ -43,22 +43,6 @@ function deleteImage(artist, photoID, allPhotos) {
     }
 }
 
-function numOfImagesPreference() {
-    "use strict";
-    var numOfImages = document.getElementById('numberOfImages').value;
-    $.ajax({
-        url: 'NumberOfImages',
-        data: "action=NumberOfImages&username=" + getLoggedInUsername() + "&number=" + numOfImages,
-        type: 'POST',
-        success: function (data) {
-            console.log("Number of images updated succesfully.");
-        },
-        error: function () {
-            console.log("Number of images update failed.");
-        }
-    });
-}
-
 function showAllImagesOfUser(user) {
     "use strict";
     var number = document.getElementById('numberOfImages').value,
