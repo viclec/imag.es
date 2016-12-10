@@ -343,7 +343,7 @@ function login() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 201) {
             loggedInUsername = JSON.parse(xhr.responseText).username;
-            document.getElementById('numberOfImages').value = JSON.parse(xhr.responseText).numberOfImages;
+            document.getElementById('numberOfImages').value = JSON.parse(xhr.responseText).numberofimages;
             document.getElementById('myAccount').innerHTML = loggedInUsername;
             document.getElementById('userMenu').style.display = "inherit";
             document.getElementById('numberOfImages').style.display = "inherit";
@@ -433,7 +433,7 @@ function allUsers() {
             members = JSON.parse(xhr.responseText);
             printLine = "<div class='tab-content'><table id='allusers'>";
             for (i = 0; i < members.length; i++) {
-                printLine += "<tr><td>" + members[i] + "<a onclick=\"showAllImagesOfUser("+ members[i] +");\">show images</a></td><td class=\"memberStatus\">" + members[i] + "</td></tr>";
+                printLine += "<tr><td>" + members[i] + "<a class=\"showImagesOfUser\" onclick=\"showAllImagesOfUser('"+ members[i] + "');\">show images</a></td><td class=\"memberStatus\">" + members[i] + "</td></tr>";
             }
             printLine += "</table></div>\n<div class=\"\" id=\"myLatestPhotos\"></div>";
             document.getElementById('list').innerHTML = printLine;
@@ -767,7 +767,6 @@ function loadPhotos() {
             "            </form>" +
             "            <div id='myLatestPhotos'><h2>My Latest Photos</h2></div>" +
             "            <div id='allLatestPhotos'><h2>All Latest Photos</h2></div>";
-    numOfImagesPreference();
     loadMyLatestPhotos();
     loadAllLatestPhotos();
     document.getElementById('myAccount').selected = "selected";
@@ -1008,7 +1007,8 @@ function checkCookies() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             loggedInUsername = JSON.parse(xhr.responseText).username;
-            document.getElementById('numberOfImages').value = JSON.parse(xhr.responseText).numberOfImages;
+            alert(xhr.responseText);
+            document.getElementById('numberOfImages').value = JSON.parse(xhr.responseText).numberofimages;
             document.getElementById('myAccount').innerHTML = loggedInUsername;
             document.getElementById('userMenu').style.display = "inherit";
             document.getElementById('numberOfImages').style.display = "inherit";
