@@ -5,7 +5,12 @@
  */
 package servlets;
 
+import data.LoggedUser;
+import data.User;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,6 +40,23 @@ public class LogOut extends HttpServlet {
         if (request.getParameter("action") != null && request.getParameter("action").equals("LogOut")) {
 
             HttpSession session = request.getSession();
+            User loggedUser = (User) session.getAttribute("loggedUser");
+
+            //Keep in an arraylist the logged in users.
+            List<LoggedUser> users;
+            if (getServletContext().getAttribute("users") == null) {
+                users = new ArrayList<>();
+            } else {
+                users = (List<LoggedUser>) getServletContext().getAttribute("users");
+            }
+            for (LoggedUser key : users) {
+                if (key.getUser() == loggedUser) {
+                    int i = users.indexOf(key);
+                    users.get(i).setLogged(false);
+                    users.get(i).setDate(new Date());
+                }
+            }
+            getServletContext().setAttribute("users", users);
 
             session.removeAttribute("loggedUser");
             session.invalidate();
