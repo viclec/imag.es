@@ -88,7 +88,7 @@ function setRating(photoID, rating) {
 function getRatings(photoID) {
     $.ajax({
         url: 'GetRatings',
-        data: "action=GetRatings&photoId=" + photoID,
+        data: "action=GetRatings&photoId=" + photoID + "&username=" + getLoggedInUsername(),
         type: 'POST',
         success: function (data) {
             document.getElementById('myRating').value = data.userrating;
