@@ -10,7 +10,6 @@ import data.MD5Encrypt;
 import data.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -56,7 +55,7 @@ public class LogIn extends HttpServlet {
                 response.setContentType("application/json");
                 try (PrintWriter out = response.getWriter()) {
                     out.println("{\"username\":\"" + loggedUser.getUserName() + "\",");
-                    out.println("\"numberΟfΙmages\":\"" + numberOfImages + "\"}");
+                    out.println("\"numberofimages\":\"" + numberOfImages + "\"}");
                 }
             } else {
                 //username and/or password incorrect.
@@ -74,7 +73,7 @@ public class LogIn extends HttpServlet {
                 response.setContentType("application/json");
                 try (PrintWriter out = response.getWriter()) {
                     out.println("{\"username\":\"" + loggedUser.getUserName() + "\",");
-                    out.println("\"numberΟfΙmages\":\"" + numberOfImages + "\"}");
+                    out.println("\"numberofimages\":\"" + numberOfImages + "\"}");
                     
                 }
             } else {
