@@ -976,6 +976,8 @@ function showEnlargedImage(photoID, allUsers, index) {
             reader,
             title,
             artist;
+    
+            getRatings(photoID);
     title = document.getElementById('title-' + allUsers + '-' + index).innerHTML;
     artist = document.getElementById('artist-' + allUsers + '-' + index).innerHTML;
     document.getElementById('list').innerHTML = [];
