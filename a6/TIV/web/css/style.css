@@ -84,6 +84,10 @@ em{
     color:red;
 }
 
+.memberStatus{
+    text-align: right;  
+}
+
 #myLatestPhotos{
     background: lightslategray;
 }
