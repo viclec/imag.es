@@ -435,7 +435,7 @@ function allUsers() {
             for (i = 0; i < members.length; i++) {
                 printLine += "<tr><td>" + members[i] + "<a class=\"showImagesOfUser\" onclick=\"showAllImagesOfUser('"+ members[i] + "');\">show images</a></td><td class=\"memberStatus\">" + members[i] + "</td></tr>";
             }
-            printLine += "</table></div>\n<div class=\"\" id=\"myLatestPhotos\"></div>";
+            printLine += "</table></div>\n<div class=\"transparent\" id=\"myLatestPhotos\"></div>";
             document.getElementById('list').innerHTML = printLine;
             document.getElementById('myAccount').selected = "selected";
         } else if (xhr.status !== 200) {
@@ -972,7 +972,7 @@ function showEnlargedImage(photoID, allUsers, index) {
     document.getElementById('list').insertBefore(button, null);
     span = document.createElement('span');
     span.id = "fullsize";
-    span.innerHTML = ['<img src="', image, '" title="', title, '"><div id="title">', title, ' by ', artist, '</div><aside><div id="map"></div><div id="exif"></div></aside>'].join('');
+    span.innerHTML = ['<img src="', image, '" title="', title, '"><div id="title">', title, ' by ', artist, '<br><div class="rating"><span onclick="setRating('+ photoID +',5)">☆</span><span onclick="setRating('+ photoID +',4)">☆</span><span onclick="setRating('+ photoID +',3)">☆</span><span onclick="setRating('+ photoID +',2)">☆</span><span onclick="setRating('+ photoID +',1)">☆</span></div></div><div id="imageBody"><div id="infoRaiting"><label for="avgRating">Average Rating</label><input name="avgRating" id="avgRating" type="text" disabled><label for="myRating">My Rating</label><input name="myRating" id="myRating" type "text" disabled></div></div><aside><div id="map"></div><div id="exif"></div></aside>'].join('');
     document.getElementById('list').insertBefore(span, null);
     showImageDetailedExifInfo(image, 'exif');
 }
@@ -1007,7 +1007,6 @@ function checkCookies() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             loggedInUsername = JSON.parse(xhr.responseText).username;
-            alert(xhr.responseText);
             document.getElementById('numberOfImages').value = JSON.parse(xhr.responseText).numberofimages;
             document.getElementById('myAccount').innerHTML = loggedInUsername;
             document.getElementById('userMenu').style.display = "inherit";
