@@ -72,6 +72,7 @@ function showAllImagesOfUser(user) {
 }
 
 function setRating(photoID, rating) {
+    "use strict";
     $.ajax({
         url: 'SetRating',
         data: "action=SetRating&username=" + getLoggedInUsername() + "&photoId=" + photoID + "&rating=" + rating,
@@ -86,6 +87,7 @@ function setRating(photoID, rating) {
 }
 
 function getRatings(photoID) {
+    "use strict";
     $.ajax({
         url: 'GetRatings',
         data: "action=GetRatings&photoId=" + photoID + "&username=" + getLoggedInUsername(),
@@ -98,6 +100,28 @@ function getRatings(photoID) {
             alert("Image raiting failed.");
         }
     });
+}
+
+function getRatingsReturn(photoID, id) {
+    "use strict";
+    var retValue;
+    $.when(ajax1()).done(function (data) {
+        document.getElementById(id).innerHTML = "Avg:" +data.averagerating;
+    });
+    function ajax1() {
+        return $.ajax({
+            url: 'GetRatings',
+            data: "action=GetRatings&photoId=" + photoID + "&username=" + getLoggedInUsername(),
+            type: 'POST',
+            success: function (data) {
+                retValue = data.averagerating;
+                console.log(retValue);
+            },
+            error: function () {
+                alert("Image raiting failed.");
+            }
+        });
+    }
 }
 
 function addComment(photoID) {
@@ -138,7 +162,7 @@ function deleteComment(photoID, commentID) {
         data: "action=DeleteComment&username=" + getLoggedInUsername() + "&photoId=" + photoID + "&commentID=" + commentID,
         type: 'POST',
         success: function (data) {
-            document.getElementById("comment-"+commentID).remove();
+            document.getElementById("comment-" + commentID).remove();
             alert("Comment removed succesfully!");
         },
         error: function () {
