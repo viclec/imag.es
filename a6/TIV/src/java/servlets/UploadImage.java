@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cs359db.servlets;
+package servlets;
 
-import cs359db.db.PhotosDB;
+import cs359db.PhotosDB;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;

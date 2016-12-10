@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cs359db.model;
+package data;
 
 import java.io.Serializable;
 
@@ -149,6 +149,27 @@ public class User implements Serializable {
         setGender(gender);
     }
 
+    public void changeFields(String email,
+            String password,
+            String firstName,
+            String lastName,
+            String birthDate,
+            String country,
+            String town,
+            String info,
+            String gender) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.country = country;
+        this.town = town;
+        // Not obligatory fields
+        this.info = info;
+        setGender(gender);
+    }
+    
     /**
      * Method that checks that all mandatory fields are set
      *

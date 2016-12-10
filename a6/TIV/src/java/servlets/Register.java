@@ -5,7 +5,7 @@
  */
 package servlets;
 
-import cs359db.db.UserDB;
+import cs359db.UserDB;
 import data.User;
 import java.io.IOException;
 import java.io.PrintWriter;

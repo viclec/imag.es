@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cs359db.db;
+package cs359db;
 
-import cs359db.model.User;
+import data.User;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -5,7 +5,7 @@
  */
 package servlets;
 
-import cs359db.db.PhotosDB;
+import cs359db.PhotosDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;

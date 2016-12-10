@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cs359db.db;
+package cs359db;
 
-import cs359db.model.Rating;
+import data.Comment;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,17 +21,16 @@ import java.util.logging.Logger;
  *
  * @author papadako
  */
-public class RatingDB {
+public class CommentDB {
 
     /**
-     * Get all ratings
+     * Get all photos
      *
-     * @param
      * @return
      * @throws ClassNotFoundException
      */
-    public static List<Rating> getRatings() throws ClassNotFoundException {
-        List<Rating> ratings = new ArrayList<>();
+    public static List<Comment> getComments() throws ClassNotFoundException {
+        List<Comment> comments = new ArrayList<>();
 
         try {
             try (Connection con = CS359DB.getConnection();
@@ -39,20 +38,20 @@ public class RatingDB {
 
                 StringBuilder insQuery = new StringBuilder();
 
-                insQuery.append("SELECT * FROM ratings;");
+                insQuery.append("SELECT * FROM comment;");
 
                 stmt.execute(insQuery.toString());
 
                 ResultSet res = stmt.getResultSet();
 
                 while (res.next() == true) {
-                    Rating rating = new Rating();
-                    rating.setID(res.getInt("ratingID"));
-                    rating.setUserName(res.getString("userID"));
-                    rating.setPhotoID(res.getInt("photoID"));
-                    rating.setTimestamp(res.getString("date"));
-                    rating.setRate(res.getInt("rate"));
-                    ratings.add(rating);
+                    Comment comment = new Comment();
+                    comment.setID(res.getInt("commentID"));
+                    comment.setUserName(res.getString("userID"));
+                    comment.setPhotoID(res.getInt("photoID"));
+                    comment.setTimestamp(res.getString("date"));
+                    comment.setComment(res.getString("comment"));
+                    comments.add(comment);
                 }
 
                 // Close connection
@@ -62,21 +61,21 @@ public class RatingDB {
 
         } catch (SQLException ex) {
             // Log exception
-            Logger.getLogger(RatingDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CommentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return ratings;
+        return comments;
     }
 
     /**
-     * Get ratings for specific photo
+     * Get comment for specific photo
      *
      * @param photoID
      * @return
      * @throws ClassNotFoundException
      */
-    public static List<Rating> getRatings(int photoID) throws ClassNotFoundException {
-        List<Rating> ratings = new ArrayList<>();
+    public static List<Comment> getComments(int photoID) throws ClassNotFoundException {
+        List<Comment> comments = new ArrayList<>();
 
         try {
             try (Connection con = CS359DB.getConnection();
@@ -84,7 +83,7 @@ public class RatingDB {
 
                 StringBuilder insQuery = new StringBuilder();
 
-                insQuery.append("SELECT * FROM ratings WHERE ")
+                insQuery.append("SELECT * FROM comment WHERE ")
                         .append(" photoID = ").append("'").append(photoID).append("';");;
 
                 stmt.execute(insQuery.toString());
@@ -92,13 +91,13 @@ public class RatingDB {
                 ResultSet res = stmt.getResultSet();
 
                 while (res.next() == true) {
-                    Rating rating = new Rating();
-                    rating.setID(res.getInt("ratingID"));
-                    rating.setUserName(res.getString("userID"));
-                    rating.setPhotoID(res.getInt("photoID"));
-                    rating.setTimestamp(res.getString("date"));
-                    rating.setRate(res.getInt("rate"));
-                    ratings.add(rating);
+                    Comment comment = new Comment();
+                    comment.setID(res.getInt("commentID"));
+                    comment.setUserName(res.getString("userID"));
+                    comment.setPhotoID(res.getInt("photoID"));
+                    comment.setTimestamp(res.getString("date"));
+                    comment.setComment(res.getString("comment"));
+                    comments.add(comment);
                 }
 
                 // Close connection
@@ -108,21 +107,21 @@ public class RatingDB {
 
         } catch (SQLException ex) {
             // Log exception
-            Logger.getLogger(RatingDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CommentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return ratings;
+        return comments;
     }
 
     /**
-     * Get Rating
+     * Get comment
      *
-     * @param id
+     * @param commentID
      * @return
      * @throws ClassNotFoundException
      */
-    public static Rating getRating(int id) throws ClassNotFoundException {
-        Rating rating = new Rating();
+    public static Comment getComment(int commentID) throws ClassNotFoundException {
+        Comment comment = new Comment();
         try {
             try (Connection con = CS359DB.getConnection();
                     Statement stmt = con.createStatement()) {
@@ -131,18 +130,18 @@ public class RatingDB {
 
                 insQuery.append("SELECT * FROM comment ")
                         .append(" WHERE ")
-                        .append(" ratingID = ").append("'").append(id).append("';");
+                        .append(" commentID = ").append("'").append(commentID).append("';");
 
                 stmt.execute(insQuery.toString());
 
                 ResultSet res = stmt.getResultSet();
 
                 if (res.next() == true) {
-                    rating.setID(res.getInt("ratingID"));
-                    rating.setUserName(res.getString("userID"));
-                    rating.setPhotoID(res.getInt("photoID"));
-                    rating.setTimestamp(res.getString("date"));
-                    rating.setRate(res.getInt("rate"));
+                    comment.setID(res.getInt("commentID"));
+                    comment.setUserName(res.getString("userID"));
+                    comment.setPhotoID(res.getInt("photoID"));
+                    comment.setTimestamp(res.getString("date"));
+                    comment.setComment(res.getString("comment"));
                 }
 
                 // Close connection
@@ -152,26 +151,26 @@ public class RatingDB {
 
         } catch (SQLException ex) {
             // Log exception
-            Logger.getLogger(RatingDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CommentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return rating;
+        return comment;
     }
 
     /**
-     * Establish a database connection and add the rating into the database.
+     * Establish a database connection and add the comment into the database.
      *
-     * @param rating
+     * @param comment
      * @throws ClassNotFoundException
      */
-    public static void addRating(Rating rating) throws ClassNotFoundException {
+    public static void addComment(Comment comment) throws ClassNotFoundException {
         // Check that we have all we need
         try {
-            rating.checkFields();
+            comment.checkFields();
 
         } catch (Exception ex) {
             // Log exception
-            Logger.getLogger(RatingDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CommentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             try (Connection con = CS359DB.getConnection();
@@ -183,16 +182,16 @@ public class RatingDB {
                 StringBuilder insQuery = new StringBuilder();
 
                 insQuery.append("INSERT INTO ")
-                        .append(" ratings (photoID, userID, rate, date) ")
+                        .append(" comment (userID, photoID, date, comment) ")
                         .append(" VALUES (")
-                        //.append("'").append(rating.getID()).append("',")
-                        .append("'").append(rating.getPhotoID()).append("',")
-                        .append("'").append(rating.getUserName()).append("',")
-                        .append("'").append(rating.getRate()).append("',")
-                        .append("'").append(timestamp).append("');");
+                        //.append("'").append(comment.getID()).append("',")
+                        .append("'").append(comment.getUserName()).append("',")
+                        .append("'").append(comment.getPhotoID()).append("',")
+                        .append("'").append(timestamp).append("',")
+                        .append("'").append(comment.getComment()).append("');");
 
                 stmt.executeUpdate(insQuery.toString());
-                System.out.println("#DB: The rate was successfully added in the database.");
+                System.out.println("#DB: The comment was successfully added in the database.");
 
                 // Close connection
                 stmt.close();
@@ -202,24 +201,24 @@ public class RatingDB {
 
         } catch (SQLException ex) {
             // Log exception
-            Logger.getLogger(RatingDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CommentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     /**
-     * Updates information for specific rating
+     * Updates information for specific comment
      *
-     * @param rating
+     * @param comment
      * @throws ClassNotFoundException
      */
-    public static void updateRating(Rating rating) throws ClassNotFoundException {
+    public static void updateComment(Comment comment) throws ClassNotFoundException {
         // Check that we have all we need
         try {
-            rating.checkFields();
+            comment.checkFields();
 
         } catch (Exception ex) {
             // Log exception
-            Logger.getLogger(RatingDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CommentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             try (Connection con = CS359DB.getConnection();
@@ -227,13 +226,13 @@ public class RatingDB {
 
                 StringBuilder insQuery = new StringBuilder();
 
-                insQuery.append("UPDATE ratings ")
+                insQuery.append("UPDATE comment ")
                         .append(" SET ")
-                        .append(" RATE = ").append("'").append(rating.getRate()).append("'")
-                        .append(" WHERE ratingID = ").append("'").append(rating.getID()).append("';");
+                        .append(" COMMENT = ").append("'").append(comment.getComment()).append("'")
+                        .append(" WHERE commentID = ").append("'").append(comment.getID()).append("';");
 
                 stmt.executeUpdate(insQuery.toString());
-                System.out.println("#DB: The rating was successfully updated in the database.");
+                System.out.println("#DB: The comment was successfully updated in the database.");
 
                 // Close connection
                 stmt.close();
@@ -242,17 +241,17 @@ public class RatingDB {
 
         } catch (SQLException ex) {
             // Log exception
-            Logger.getLogger(RatingDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CommentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     /**
      * Delete specific comment
      *
-     * @param rating
+     * @param comment
      * @throws ClassNotFoundException
      */
-    public static void deleteRating(Rating rating) throws ClassNotFoundException {
+    public static void deleteComment(Comment comment) throws ClassNotFoundException {
 
         try {
             try (Connection con = CS359DB.getConnection();
@@ -260,12 +259,12 @@ public class RatingDB {
 
                 StringBuilder insQuery = new StringBuilder();
 
-                insQuery.append("DELETE FROM ratings ")
+                insQuery.append("DELETE FROM comment ")
                         .append(" WHERE ")
-                        .append(" ratingID = ").append("'").append(rating.getID()).append("';");
+                        .append(" COMMENTID = ").append("'").append(comment.getID()).append("';");
 
                 stmt.executeUpdate(insQuery.toString());
-                System.out.println("#DB: The rating was successfully deleted from the database.");
+                System.out.println("#DB: The comment was successfully deleted from the database.");
 
                 // Close connection
                 stmt.close();
@@ -274,7 +273,7 @@ public class RatingDB {
 
         } catch (SQLException ex) {
             // Log exception
-            Logger.getLogger(RatingDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CommentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -284,7 +283,7 @@ public class RatingDB {
      * @param id
      * @throws ClassNotFoundException
      */
-    public static void deleteRating(int id) throws ClassNotFoundException {
+    public static void deleteComment(int id) throws ClassNotFoundException {
 
         try {
             try (Connection con = CS359DB.getConnection();
@@ -292,12 +291,12 @@ public class RatingDB {
 
                 StringBuilder insQuery = new StringBuilder();
 
-                insQuery.append("DELETE FROM ratings ")
+                insQuery.append("DELETE FROM comment ")
                         .append(" WHERE ")
-                        .append(" ratingID = ").append("'").append(id).append("';");
+                        .append(" commentID = ").append("'").append(id).append("';");
 
                 stmt.executeUpdate(insQuery.toString());
-                System.out.println("#DB: The rating was successfully deleted from the database.");
+                System.out.println("#DB: The comment was successfully deleted from the database.");
 
                 // Close connection
                 stmt.close();
@@ -306,7 +305,7 @@ public class RatingDB {
 
         } catch (SQLException ex) {
             // Log exception
-            Logger.getLogger(RatingDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CommentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
