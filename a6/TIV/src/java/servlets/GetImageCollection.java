@@ -34,42 +34,45 @@ public class GetImageCollection extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
-        
-        HttpSession session = request.getSession(true);
-        String username = request.getParameter("username");
-        int numberOfImages;
-        List<Integer> photos;
-        
-        if (request.getParameter("number") == null) {
-            numberOfImages = 10;
-        } else {
-            numberOfImages = Integer.parseInt(request.getParameter("number"));
-        }
 
-        session.setAttribute("numberΟfΙmages", numberOfImages);
-        
-        if (username != null) {
-            photos = PhotosDB.getPhotoIDs(numberOfImages, username);
-        } else {
-            photos = PhotosDB.getPhotoIDs(numberOfImages);
-        }
-        response.setContentType("application/json");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("[");
-            for (int k = 0; k < photos.size(); k++) {
-                
-                out.println("\"" + photos.get(k) + "\"");
-                if (k != photos.size() - 1) {
-                    out.println(",");
+        if (request.getParameter("action") != null && request.getParameter("action").equals("GetImageCollection")) {
 
-                }
+            HttpSession session = request.getSession(true);
+            String username = request.getParameter("username");
+            int numberOfImages;
+            List<Integer> photos;
+
+            if (request.getParameter("number") == null) {
+                numberOfImages = 10;
+            } else {
+                numberOfImages = Integer.parseInt(request.getParameter("number"));
             }
-            out.println("]");
 
+            session.setAttribute("numberΟfΙmages", numberOfImages);
+
+            if (username != null) {
+                photos = PhotosDB.getPhotoIDs(numberOfImages, username);
+            } else {
+                photos = PhotosDB.getPhotoIDs(numberOfImages);
+            }
+            response.setContentType("application/json");
+            try (PrintWriter out = response.getWriter()) {
+                out.println("[");
+                for (int k = 0; k < photos.size(); k++) {
+
+                    out.println("\"" + photos.get(k) + "\"");
+                    if (k != photos.size() - 1) {
+                        out.println(",");
+
+                    }
+                }
+                out.println("]");
+
+            }
         }
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *

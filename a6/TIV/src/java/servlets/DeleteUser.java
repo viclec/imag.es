@@ -36,17 +36,19 @@ public class DeleteUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
 
-        HttpSession session = request.getSession(true);
-        User user = (User) session.getAttribute("loggedUser");
+        if (request.getParameter("action") != null && request.getParameter("action").equals("DeleteUser")) {
 
-        String username = request.getParameter("username");
+            HttpSession session = request.getSession(true);
+            User user = (User) session.getAttribute("loggedUser");
 
-        if (user != null && user.getUserName().equals(username)) {
-            UserDB.deleteUser(username);
-        } else {
-            response.setStatus(204);
+            String username = request.getParameter("username");
+
+            if (user != null && user.getUserName().equals(username)) {
+                UserDB.deleteUser(username);
+            } else {
+                response.setStatus(204);
+            }
         }
-
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

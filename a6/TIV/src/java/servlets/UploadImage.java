@@ -27,41 +27,46 @@ import javax.servlet.http.Part;
 @MultipartConfig(maxFileSize = 1011074)    // upload file's size up to 1MB
 public class UploadImage extends HttpServlet {
 
-    protected void doPost(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
-        // gets values of text fields
-        String username = request.getParameter("username");
-        String contentType = request.getParameter("contentType");
-        String title = request.getParameter("title");
-        int photoId;
-        InputStream inputStream = null; // input stream of the upload file
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        // obtains the upload file part in this multipart request
-        Part filePart = request.getPart("photo");
-        if (filePart != null) {
-            // prints out some information for debugging
-            System.out.println(filePart.getName());
-            System.out.println(filePart.getSize());
-            System.out.println(filePart.getContentType());
+        if (request.getParameter("action") != null && request.getParameter("action").equals("LogIn")) {
 
-            // obtains input stream of the upload file
-            inputStream = filePart.getInputStream();
-        }
-        try {
-            // uploadPhoto returns the id of the photo
-            if (title != null) {
-                photoId = PhotosDB.uploadPhoto(inputStream, username, contentType, title);
-            } else {
-                photoId = PhotosDB.uploadPhoto(inputStream, username, contentType);
+            // gets values of text fields
+            String username = request.getParameter("username");
+            String contentType = request.getParameter("contentType");
+            String title = request.getParameter("title");
+            int photoId;
+            InputStream inputStream = null; // input stream of the upload file
+
+            // obtains the upload file part in this multipart request
+            Part filePart = request.getPart("photo");
+            if (filePart != null) {
+                // prints out some information for debugging
+                System.out.println(filePart.getName());
+                System.out.println(filePart.getSize());
+                System.out.println(filePart.getContentType());
+
+                // obtains input stream of the upload file
+                inputStream = filePart.getInputStream();
             }
+            try {
+                // uploadPhoto returns the id of the photo
+                if (title != null) {
+                    photoId = PhotosDB.uploadPhoto(inputStream, username, contentType, title);
+                } else {
+                    photoId = PhotosDB.uploadPhoto(inputStream, username, contentType);
+                }
 
-            response.setContentType("application/json");
-            try (PrintWriter out = response.getWriter()) {
-                out.println("{\"photoId\":\"" + photoId + "\"}");
-                
+                response.setContentType("application/json");
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("{\"photoId\":\"" + photoId + "\"}");
+
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
