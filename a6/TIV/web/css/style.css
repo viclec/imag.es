@@ -88,6 +88,13 @@ em{
     text-align: right;  
 }
 
+.showImagesOfUser{
+    padding: 0 10px;
+    color: lightblue;
+    cursor: pointer;
+    font-size:14px;
+}
+
 #myLatestPhotos{
     background: lightslategray;
 }
