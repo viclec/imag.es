@@ -8,8 +8,12 @@ package servlets;
 import cs359db.UserDB;
 import data.MD5Encrypt;
 import data.User;
+import data.LoggedUser;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,21 +40,35 @@ public class LogIn extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
-        
+
         if (request.getParameter("action") != null && request.getParameter("action").equals("LogIn")) {
             String username = request.getParameter("username");
-            String encryptedpassword = MD5Encrypt.cryptWithMD5(request.getParameter("password"));            
+            String encryptedpassword = MD5Encrypt.cryptWithMD5(request.getParameter("password"));
             User loggedUser = null;
             HttpSession session = request.getSession(true);
-            
+
             int numberOfImages = (Integer) session.getAttribute("numberΟfΙmages");
-            
+
             if (UserDB.getUser(username).getPassword().equals(encryptedpassword)) {
                 loggedUser = UserDB.getUser(username);
                 session.setAttribute("loggedUser", loggedUser);
-            }
 
-            if (loggedUser != null) {
+                //Keep in an arraylist the logged in users.
+                LoggedUser user = new LoggedUser(loggedUser, true, new Date());
+                List<LoggedUser> users;
+                if (getServletContext().getAttribute("users") == null) {
+                    users = new ArrayList<>();
+                } else {
+                    users = (List<LoggedUser>) getServletContext().getAttribute("users");
+                }
+                if (!users.contains(user)) {
+                    users.add(user);
+                } else {
+                    users.get(users.indexOf(user)).setDate(new Date());
+                    users.get(users.indexOf(user)).setLogged(true);
+                }
+                getServletContext().setAttribute("users", users);
+
                 response.setStatus(201);
                 response.setContentType("application/json");
                 try (PrintWriter out = response.getWriter()) {
@@ -64,7 +82,7 @@ public class LogIn extends HttpServlet {
         } else if (request.getParameter("action") != null && request.getParameter("action").equals("AutomaticLogIn")) {
             HttpSession session = request.getSession(true);
             User loggedUser = (User) session.getAttribute("loggedUser");
-            
+
             int numberOfImages = (Integer) session.getAttribute("numberΟfΙmages");
 
             if (loggedUser != null && !UserDB.checkValidUserName(loggedUser.getUserName())) {
@@ -74,7 +92,7 @@ public class LogIn extends HttpServlet {
                 try (PrintWriter out = response.getWriter()) {
                     out.println("{\"username\":\"" + loggedUser.getUserName() + "\",");
                     out.println("\"numberofimages\":\"" + numberOfImages + "\"}");
-                    
+
                 }
             } else {
                 //no user logged in currently.
