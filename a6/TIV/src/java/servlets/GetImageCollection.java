@@ -59,10 +59,8 @@ public class GetImageCollection extends HttpServlet {
             for (int k = 0; k < photos.size(); k++) {
                 
                 out.println("\"" + photos.get(k) + "\"");
-                System.out.println("\"" + photos.get(k) + "\"");
                 if (k != photos.size() - 1) {
                     out.println(",");
-                    System.out.println(",");
 
                 }
             }
