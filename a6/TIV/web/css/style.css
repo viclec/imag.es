@@ -85,6 +85,7 @@ em{
     width: 70%;
     background: #fff;
     height: 200px;
+    
 }
 
 .transparent{
@@ -94,7 +95,6 @@ em{
 .rating {
     unicode-bidi: bidi-override;
     direction: rtl;
-    float:right;
 }
 
 .rating > span {
@@ -374,10 +374,26 @@ button{
     color:#000;
 }
 
+#comments{
+    padding: 20px;
+}
+
+#newComment{
+    width:100%;
+}
+
+#newCommentButton{
+    width: 100%;
+}
+
 
 /*screen sizes narrower than 1000px*/
 @media only screen and (max-width:1000px){
     header{
+        width:100%;
+    }
+    
+    #imageBody{
         width:100%;
     }
 
