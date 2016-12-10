@@ -5,10 +5,10 @@
  */
 package servlets;
 
-import cs359db.PhotosDB;
+import cs359db.UserDB;
+import data.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,10 +18,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author antwnis4
+ * @author Antwnis
  */
-@WebServlet(name = "GetImageCollection", urlPatterns = {"/GetImageCollection"})
-public class GetImageCollection extends HttpServlet {
+@WebServlet(name = "DeleteUser", urlPatterns = {"/DeleteUser"})
+public class DeleteUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,44 +31,25 @@ public class GetImageCollection extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.lang.ClassNotFoundException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
 
+        HttpSession session = request.getSession(true);
+        User user = (User) session.getAttribute("loggedUser");
+
         String username = request.getParameter("username");
-        int number;
-        List<Integer> photos;
 
-        if (request.getParameter("number") == null) {
-            number = 10;
+        if (user != null && user.getUserName().equals(username)) {
+            UserDB.deleteUser(username);
         } else {
-            number = Integer.parseInt(request.getParameter("number"));
+            response.setStatus(204);
         }
 
-        if (username != null) {
-            photos = PhotosDB.getPhotoIDs(number, username);
-        } else {
-            photos = PhotosDB.getPhotoIDs(number);
-        }
-        response.setContentType("application/json");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("[");
-            for (int k = 0; k < photos.size(); k++) {
-                
-                out.println("\"" + photos.get(k) + "\"");
-                System.out.println("\"" + photos.get(k) + "\"");
-                if (k != photos.size() - 1) {
-                    out.println(",");
-                    System.out.println(",");
-
-                }
-            }
-            out.println("]");
-
-        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
