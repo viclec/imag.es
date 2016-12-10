@@ -6,6 +6,7 @@
 package servlets;
 
 import cs359db.UserDB;
+import data.MD5Encrypt;
 import data.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,19 +33,27 @@ public class LogIn extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.lang.ClassNotFoundException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
-
+        
+        
+        UserDB.deleteUser("123456@d.");
+        UserDB.deleteUser("John");
+        UserDB.deleteUser("testing");
+        
+        
+        
         if (request.getParameter("action") != null && request.getParameter("action").equals("LogIn")) {
             String username = request.getParameter("username");
-            String password = request.getParameter("password");
+            String encryptedpassword = MD5Encrypt.cryptWithMD5(request.getParameter("password"));            
             User loggedUser = null;
             HttpSession session = request.getSession(true);
             
             int numberOfImages = (Integer) session.getAttribute("numberΟfΙmages");
             
-            if (UserDB.getUser(username).getPassword().equals(password)) {
+            if (UserDB.getUser(username).getPassword().equals(encryptedpassword)) {
                 loggedUser = UserDB.getUser(username);
                 session.setAttribute("loggedUser", loggedUser);
             }
