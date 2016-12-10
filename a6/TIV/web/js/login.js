@@ -431,7 +431,6 @@ function allUsers() {
     xhr.open('POST', 'ShowRegisteredMembers');
     xhr.onload = function () {
         if (this.readyState === 4 && xhr.status === 200) {
-            alert(xhr.responseText);
             members = JSON.parse(xhr.responseText).users;
             printLine = "<div class='tab-content'><table id='allusers'>";
             for (i = 0; i < members.length; i++) {
@@ -440,7 +439,7 @@ function allUsers() {
                 }else{
                     memberStatus = "Last login: "+members[i].date;
                 }
-                printLine += "<tr><td>" + members[i].username + "<a class=\"showImagesOfUser\" onclick=\"showAllImagesOfUser('"+ members[i].logged + "');\">show images</a></td><td class=\"memberStatus\">" + memberStatus + "</td></tr>";
+                printLine += "<tr><td>" + members[i].username + "<a class=\"showImagesOfUser\" onclick=\"showAllImagesOfUser('"+ members[i].username + "');\">show images</a></td><td class=\"memberStatus\">" + memberStatus + "</td></tr>";
             }
             printLine += "</table></div>\n<div class=\"transparent\" id=\"myLatestPhotos\"></div>";
             document.getElementById('list').innerHTML = printLine;
@@ -885,7 +884,8 @@ function showImageInfo(photoID, allUsers, i) {
     "use strict";
     var xhr = new XMLHttpRequest(),
             params = 'action=GetImage&image=' + photoID + '&metadata=true',
-            info;
+            info,
+            ratings;
     xhr.open('POST', 'GetImage');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -894,8 +894,9 @@ function showImageInfo(photoID, allUsers, i) {
                 document.getElementById('title-' + allUsers + '-' + i).innerHTML = info.title;
             if (info.username !== null && info.username !== undefined)
                 document.getElementById('artist-' + allUsers + '-' + i).innerHTML = info.username;
-            if (info.username !== null && info.username !== undefined)
-                document.getElementById('rating-' + allUsers + '-' + i).innerHTML = numOfStars(info.rating) + " (" + info.numberOfRatings + ")";
+            ratings = getRatingsReturn(photoID);
+            console.log(ratings);
+             getRatingsReturn(photoID, "rating-"+allUsers+"-"+i);
         } else if (xhr.status !== 200) {
             console.log("Error while loading info for image with ID:" + photoID);
         }
@@ -906,6 +907,7 @@ function showImageInfo(photoID, allUsers, i) {
 }
 
 function numOfStars(rating){
+    "use strict";
     var i,
             ret="";
     rating = Math.round(rating);
