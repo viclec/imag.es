@@ -6,6 +6,7 @@
 package servlets;
 
 import cs359db.UserDB;
+import data.MD5Encrypt;
 import data.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,8 +39,10 @@ public class Register extends HttpServlet {
 
         if (request.getParameter("action") != null && request.getParameter("action").equals("Register")) {
 
+            String encryptedpassword = MD5Encrypt.cryptWithMD5(request.getParameter("password"));
+
             User user = new User(request.getParameter("username"), request.getParameter("email"),
-                    request.getParameter("password"), request.getParameter("fname"),
+                    encryptedpassword, request.getParameter("fname"),
                     request.getParameter("lname"), request.getParameter("birthdate"),
                     request.getParameter("country"), request.getParameter("town"),
                     request.getParameter("info"), request.getParameter("gender"));
