@@ -999,7 +999,7 @@ function logout() {
     xhr.send(params);
 }
 
-function checkCookies() {
+function checkCookies() {       //TODO return NumberOfImagesPreference from LogIn of user
     "use strict";
     var xhr = new XMLHttpRequest(),
             params = 'action=AutomaticLogIn';
