@@ -739,7 +739,8 @@ function myProfile() {
                     + "</select><br>\n"
                     + "                <label for='city'>city</label>\n<input placeholder='city' pattern=\".{2,50}\" value='" + profileInfo.town + "' id='city' type=\"text\" name='city' required=\"required\"><br>\n"
                     + "                <label for='other'>other info</label>\n<input placeholder='other info' value='" + profileInfo.info + "' id='other' type=\"text\" name='other'><br>\n"
-                    + "                <input type='submit' value='Update Info' onclick='changeInfo();'><br>\n</div>\n</form>";
+                    + "                <input type='submit' value='Update Info' onclick='changeInfo();'>\n"
+                    + " <a id=\"deleteUser\" onclick=\"deleteUser();\">Delete User</a>\n</div>\n</form>";
 
             countries = document.getElementById('country').options;
             for (i = 0; i < countries.length; i++) {
@@ -765,6 +766,7 @@ function loadPhotos() {
             "            </form>" +
             "            <div id='myLatestPhotos'><h2>My Latest Photos</h2></div>" +
             "            <div id='allLatestPhotos'><h2>All Latest Photos</h2></div>";
+    numOfImagesPreference();
     loadMyLatestPhotos();
     loadAllLatestPhotos();
     document.getElementById('myAccount').selected = "selected";
@@ -964,7 +966,7 @@ function showEnlargedImage(photoID, allUsers, index) {
     document.getElementById('list').insertBefore(button, null);
     button = document.createElement('span');
     button.onclick = function () {
-        deleteImage(artist, photoID);
+        deleteImage(artist, photoID, false);
     };
     button.innerHTML = ['<button>Delete Image</button>'];
     document.getElementById('list').insertBefore(button, null);
