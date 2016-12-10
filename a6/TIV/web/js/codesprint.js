@@ -35,6 +35,7 @@ function deleteImage(artist, photoID, allPhotos) {
             type: 'POST',
             success: function (data) {
                 alert("Image deleted succesfully");
+                checkCookies();
             },
             error: function () {
                 alert("Image deletion failed.");
@@ -49,6 +50,7 @@ function showAllImagesOfUser(user) {
             i,
             images;
     $.when(ajax1()).done(function (data) {
+        document.getElementById('myLatestPhotos').innerHTML = [];
         images = data;
         for (i = 0; i < images.length; i++) {
             showImage(images[i], false, i);
@@ -67,4 +69,18 @@ function showAllImagesOfUser(user) {
             }
         });
     }
+}
+
+function setRating(photoID, rating) {
+    $.ajax({
+        url: 'SetRating',
+        data: "action=SetRating&username=" + getLoggedInUsername() + "&photoId=" + photoID + "&rating=" + rating,
+        type: 'POST',
+        success: function (data) {
+            document.getElementById('myRating').value = rating;
+        },
+        error: function () {
+            alert("Image raiting failed.");
+        }
+    });
 }
