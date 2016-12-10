@@ -80,6 +80,10 @@ em{
      font-size:20px;
 }
 
+#deleteUser{
+    color:red;
+}
+
 #myLatestPhotos{
     background: lightslategray;
 }
